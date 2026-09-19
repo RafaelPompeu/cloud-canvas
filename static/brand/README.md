@@ -1,11 +1,11 @@
 # Identidade Cloud Canvas
 
-Identidade vetorial criada para o projeto: nuvem aberta e dois blocos ligados por uma conexão ortogonal, representando a edição de arquiteturas.
+Marca adaptada em SVG a partir da referência enviada pelo proprietário: nuvem fechada verde-petróleo, dois blocos ligados e nome em negrito.
 
-- `cloud-canvas-logo.svg`: assinatura para fundo claro, grafite e verde-petróleo.
-- `cloud-canvas-logo-dark.svg`: assinatura para fundo escuro, branco e verde-água.
-- `cloud-canvas-icon.svg`: símbolo compacto sobre fundo grafite; também usado em `../favicon.svg`.
+- `cloud-canvas-logo.svg`: versão para fundo claro, com texto grafite.
+- `cloud-canvas-logo-dark.svg`: versão para o cabeçalho escuro, com texto branco para contraste.
+- `cloud-canvas-icon.svg`: símbolo sobre fundo branco, também usado no favicon.
 
-A tipografia foi desenhada a partir de Segoe UI Semibold e convertida em curvas. Os SVGs não dependem de fontes instaladas, imagens externas ou scripts. Preserve a proporção e o espaço entre símbolo e nome. No cabeçalho, use a versão escura sem caixa branca.
+A versão vetorial reproduz o conceito da referência; a tipografia usa Segoe UI Bold convertida em curvas. Preserve cores e proporções. Não há dependência de fontes externas.
 
-O PNG anterior permanece como arquivo histórico e não é usado pela interface. O GIF em `docs/images/cloud-canvas-demo.gif` é uma gravação real da aplicação com esta revisão da marca.
+O PNG antigo é histórico. O GIF de demonstração foi gravado antes desta adaptação da logo enviada pelo proprietário.
