@@ -8,7 +8,7 @@ Editor visual de arquiteturas cloud e fluxos de dados, com **Flask, JavaScript n
 
 ## Exemplo da aplicação
 
-![Cloud Canvas com exemplo de arquitetura multicloud](docs/images/cloud-canvas-example.png)
+![Demonstracao do Cloud Canvas](docs/images/cloud-canvas-demo.gif)
 
 ## Recursos
 
