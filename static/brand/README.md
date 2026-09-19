@@ -1,5 +1,13 @@
 # Identidade Cloud Canvas
 
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="cloud-canvas-logo-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="cloud-canvas-logo.svg">
+    <img src="cloud-canvas-logo.svg" alt="Cloud Canvas" width="420">
+  </picture>
+</p>
+
 Marca adaptada em SVG a partir da referência enviada pelo proprietário: nuvem fechada verde-petróleo, dois blocos ligados e nome em negrito.
 
 - `cloud-canvas-logo.svg`: versão para fundo claro, com texto grafite.
