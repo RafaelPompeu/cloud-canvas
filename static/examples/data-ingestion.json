@@ -1,0 +1,346 @@
+{
+  "version": 1,
+  "name": "Arquitetura de ingestão de dados",
+  "notes": "A chegada de arquivos no S3 gera um evento no EventBridge, que aciona o Cloud Run. O Cloud Run envia o nome do arquivo à ingestão.\nA ingestão lê arquivos Parquet, CSV e outros no Cloud Storage e escreve em uma nova tabela da Stage do BigQuery. Parâmetro de destino: nome da tabela.\nOs nomes das DAGs são definidos na configuração. Na sequência, LKS dispara BKF.",
+  "nodes": [
+    {
+      "id": "sources",
+      "type": "group",
+      "label": "FONTES DE DADOS",
+      "detail": "",
+      "parent": null,
+      "x": 0,
+      "y": 0,
+      "w": 210,
+      "h": 780
+    },
+    {
+      "id": "aws",
+      "type": "aws-cloud",
+      "label": "AWS",
+      "detail": "",
+      "parent": null,
+      "x": 220,
+      "y": 0,
+      "w": 460,
+      "h": 780
+    },
+    {
+      "id": "gcp",
+      "type": "gcp-cloud",
+      "label": "GCP",
+      "detail": "",
+      "parent": null,
+      "x": 720,
+      "y": 0,
+      "w": 1230,
+      "h": 780
+    },
+    {
+      "id": "airflow-env",
+      "type": "airflow-group",
+      "label": "Airflow",
+      "detail": "http://airflow-prod-de-gcp.dados.rd.com.br/",
+      "parent": "gcp",
+      "x": 320,
+      "y": 90,
+      "w": 890,
+      "h": 340
+    },
+    {
+      "id": "kognita",
+      "type": "shared-source",
+      "label": "Kognita",
+      "detail": "",
+      "parent": "sources",
+      "x": 16,
+      "y": 104,
+      "w": 148,
+      "h": 104
+    },
+    {
+      "id": "iqvia",
+      "type": "shared-source",
+      "label": "IQVIA",
+      "detail": "",
+      "parent": "sources",
+      "x": 16,
+      "y": 350,
+      "w": 148,
+      "h": 104
+    },
+    {
+      "id": "dunnhumby",
+      "type": "shared-source",
+      "label": "dunnhumby",
+      "detail": "",
+      "parent": "sources",
+      "x": 16,
+      "y": 600,
+      "w": 148,
+      "h": 104
+    },
+    {
+      "id": "s3",
+      "type": "aws-s3",
+      "label": "Amazon S3",
+      "detail": "raiadrogasil-datalake-prod-us-east-1-924513689889-external-base",
+      "parent": "aws",
+      "x": 20,
+      "y": 188,
+      "w": 200,
+      "h": 128
+    },
+    {
+      "id": "eventbridge",
+      "type": "aws-eventbridge",
+      "label": "Amazon EventBridge",
+      "detail": "",
+      "parent": "aws",
+      "x": 265,
+      "y": 200,
+      "w": 178,
+      "h": 104
+    },
+    {
+      "id": "cloud-run",
+      "type": "gcp-run",
+      "label": "Cloud Run",
+      "detail": "",
+      "parent": "gcp",
+      "x": 24,
+      "y": 200,
+      "w": 170,
+      "h": 104
+    },
+    {
+      "id": "transfer",
+      "type": "gcp-transfer",
+      "label": "Storage Transfer Service",
+      "detail": "",
+      "parent": "gcp",
+      "x": 24,
+      "y": 600,
+      "w": 190,
+      "h": 120
+    },
+    {
+      "id": "raw",
+      "type": "gcp-storage",
+      "label": "Cloud Storage · Raw",
+      "detail": "rd-gcp-prod-dp-lake-raw",
+      "parent": "gcp",
+      "x": 350,
+      "y": 600,
+      "w": 174,
+      "h": 120
+    },
+    {
+      "id": "stage",
+      "type": "gcp-bigquery",
+      "label": "BigQuery",
+      "detail": "Stage · {nome_tabela}",
+      "parent": "gcp",
+      "x": 648,
+      "y": 600,
+      "w": 174,
+      "h": 120
+    },
+    {
+      "id": "analytics",
+      "type": "gcp-bigquery",
+      "label": "BigQuery",
+      "detail": "Analytics",
+      "parent": "gcp",
+      "x": 946,
+      "y": 600,
+      "w": 174,
+      "h": 120
+    },
+    {
+      "id": "ing",
+      "type": "airflow",
+      "label": "ING",
+      "detail": "DAG",
+      "parent": "airflow-env",
+      "x": 30,
+      "y": 110,
+      "w": 174,
+      "h": 104
+    },
+    {
+      "id": "lks",
+      "type": "airflow",
+      "label": "LKS",
+      "detail": "DAG",
+      "parent": "airflow-env",
+      "x": 328,
+      "y": 110,
+      "w": 174,
+      "h": 104
+    },
+    {
+      "id": "bkf",
+      "type": "airflow",
+      "label": "BKF",
+      "detail": "DAG",
+      "parent": "airflow-env",
+      "x": 626,
+      "y": 110,
+      "w": 174,
+      "h": 104
+    }
+  ],
+  "edges": [
+    {
+      "id": "kognita-s3",
+      "source": "kognita",
+      "target": "s3",
+      "label": "Envia arquivos",
+      "kind": "data",
+      "style": "orthogonal",
+      "sourcePort": "right",
+      "targetPort": "left"
+    },
+    {
+      "id": "iqvia-s3",
+      "source": "iqvia",
+      "target": "s3",
+      "label": "Envia arquivos",
+      "kind": "data",
+      "style": "orthogonal",
+      "sourcePort": "right",
+      "targetPort": "left"
+    },
+    {
+      "id": "dunnhumby-s3",
+      "source": "dunnhumby",
+      "target": "s3",
+      "label": "Envia arquivos",
+      "kind": "data",
+      "style": "orthogonal",
+      "sourcePort": "right",
+      "targetPort": "left"
+    },
+    {
+      "id": "s3-transfer",
+      "source": "s3",
+      "target": "transfer",
+      "label": "Arquivos",
+      "kind": "data",
+      "style": "orthogonal",
+      "sourcePort": "bottom",
+      "targetPort": "left"
+    },
+    {
+      "id": "transfer-raw",
+      "source": "transfer",
+      "target": "raw",
+      "label": "Copia para Raw",
+      "kind": "data",
+      "style": "orthogonal",
+      "sourcePort": "right",
+      "targetPort": "left"
+    },
+    {
+      "id": "raw-ing",
+      "source": "raw",
+      "target": "ing",
+      "label": "Lê arquivos da Raw",
+      "kind": "data",
+      "style": "orthogonal",
+      "sourcePort": "top",
+      "targetPort": "bottom"
+    },
+    {
+      "id": "ing-stage",
+      "source": "ing",
+      "target": "stage",
+      "label": "Escreve nova tabela",
+      "kind": "data",
+      "style": "orthogonal",
+      "sourcePort": "right",
+      "targetPort": "left"
+    },
+    {
+      "id": "stage-lks",
+      "source": "stage",
+      "target": "lks",
+      "label": "Lê Stage",
+      "kind": "data",
+      "style": "orthogonal",
+      "sourcePort": "top",
+      "targetPort": "bottom"
+    },
+    {
+      "id": "lks-analytics",
+      "source": "lks",
+      "target": "analytics",
+      "label": "Escreve Analytics",
+      "kind": "data",
+      "style": "orthogonal",
+      "sourcePort": "right",
+      "targetPort": "left"
+    },
+    {
+      "id": "s3-eventbridge",
+      "source": "s3",
+      "target": "eventbridge",
+      "label": "Arquivo recebido",
+      "kind": "trigger",
+      "style": "orthogonal",
+      "sourcePort": "right",
+      "targetPort": "left"
+    },
+    {
+      "id": "eventbridge-cloud-run",
+      "source": "eventbridge",
+      "target": "cloud-run",
+      "label": "Evento de criação",
+      "kind": "trigger",
+      "style": "orthogonal",
+      "sourcePort": "right",
+      "targetPort": "left"
+    },
+    {
+      "id": "cloud-run-ing",
+      "source": "cloud-run",
+      "target": "ing",
+      "label": "Nome do arquivo / Dispara ingestão",
+      "kind": "trigger",
+      "style": "orthogonal",
+      "sourcePort": "right",
+      "targetPort": "left"
+    },
+    {
+      "id": "cloud-run-transfer",
+      "source": "cloud-run",
+      "target": "transfer",
+      "label": "Aciona transferência",
+      "kind": "trigger",
+      "style": "orthogonal",
+      "sourcePort": "bottom",
+      "targetPort": "top"
+    },
+    {
+      "id": "ing-lks",
+      "source": "ing",
+      "target": "lks",
+      "label": "Próxima etapa",
+      "kind": "trigger",
+      "style": "orthogonal",
+      "sourcePort": "right",
+      "targetPort": "left"
+    },
+    {
+      "id": "lks-bkf",
+      "source": "lks",
+      "target": "bkf",
+      "label": "Dispara BKF",
+      "kind": "trigger",
+      "style": "orthogonal",
+      "sourcePort": "right",
+      "targetPort": "left"
+    }
+  ]
+}

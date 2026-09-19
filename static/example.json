@@ -1,0 +1,222 @@
+{
+  "version": 1,
+  "name": "Plataforma multicloud",
+  "nodes": [
+    {
+      "id": "users",
+      "type": "users",
+      "label": "Usuários",
+      "x": 540,
+      "y": -110,
+      "w": 148,
+      "h": 76,
+      "parent": null,
+      "detail": ""
+    },
+    {
+      "id": "aws",
+      "type": "aws-region",
+      "label": "AWS · us-east-1",
+      "x": 50,
+      "y": 30,
+      "w": 730,
+      "h": 540,
+      "parent": null,
+      "detail": "Região"
+    },
+    {
+      "id": "vpc",
+      "type": "aws-vpc",
+      "label": "VPC de produção",
+      "x": 20,
+      "y": 60,
+      "w": 690,
+      "h": 460,
+      "parent": "aws",
+      "detail": "10.0.0.0/16"
+    },
+    {
+      "id": "zone-a",
+      "type": "aws-zone",
+      "label": "us-east-1a",
+      "x": 20,
+      "y": 66,
+      "w": 310,
+      "h": 374,
+      "parent": "vpc",
+      "detail": "Zona de disponibilidade"
+    },
+    {
+      "id": "zone-b",
+      "type": "aws-zone",
+      "label": "us-east-1b",
+      "x": 350,
+      "y": 66,
+      "w": 320,
+      "h": 374,
+      "parent": "vpc",
+      "detail": "Zona de disponibilidade"
+    },
+    {
+      "id": "alb",
+      "type": "aws-alb",
+      "label": "Load Balancer",
+      "x": 82,
+      "y": 78,
+      "w": 148,
+      "h": 76,
+      "parent": "zone-a",
+      "detail": "HTTPS · 443"
+    },
+    {
+      "id": "ecs-a",
+      "type": "aws-ecs",
+      "label": "API principal",
+      "x": 82,
+      "y": 238,
+      "w": 148,
+      "h": 76,
+      "parent": "zone-a",
+      "detail": "ECS / Fargate"
+    },
+    {
+      "id": "ecs-b",
+      "type": "aws-ecs",
+      "label": "Workers",
+      "x": 86,
+      "y": 78,
+      "w": 148,
+      "h": 76,
+      "parent": "zone-b",
+      "detail": "ECS / Fargate"
+    },
+    {
+      "id": "rds",
+      "type": "aws-rds",
+      "label": "Banco de dados",
+      "x": 86,
+      "y": 238,
+      "w": 148,
+      "h": 76,
+      "parent": "zone-b",
+      "detail": "PostgreSQL · RDS"
+    },
+    {
+      "id": "gcp",
+      "type": "gcp-project",
+      "label": "Google Cloud",
+      "x": 840,
+      "y": 30,
+      "w": 360,
+      "h": 540,
+      "parent": null,
+      "detail": "analytics-prod"
+    },
+    {
+      "id": "gcp-region",
+      "type": "gcp-region",
+      "label": "us-central1",
+      "x": 18,
+      "y": 60,
+      "w": 324,
+      "h": 462,
+      "parent": "gcp",
+      "detail": "Região"
+    },
+    {
+      "id": "run",
+      "type": "gcp-run",
+      "label": "Processamento",
+      "x": 88,
+      "y": 100,
+      "w": 148,
+      "h": 76,
+      "parent": "gcp-region",
+      "detail": "Cloud Run"
+    },
+    {
+      "id": "bq",
+      "type": "gcp-bigquery",
+      "label": "Analytics",
+      "x": 88,
+      "y": 292,
+      "w": 148,
+      "h": 76,
+      "parent": "gcp-region",
+      "detail": "BigQuery"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-users-alb",
+      "source": "users",
+      "target": "alb",
+      "label": "HTTPS",
+      "style": "curve",
+      "kind": "data",
+      "sourcePort": "auto",
+      "targetPort": "auto"
+    },
+    {
+      "id": "e-alb-ecs-a",
+      "source": "alb",
+      "target": "ecs-a",
+      "label": "HTTP",
+      "style": "curve",
+      "kind": "data",
+      "sourcePort": "auto",
+      "targetPort": "auto"
+    },
+    {
+      "id": "e-ecs-a-ecs-b",
+      "source": "ecs-a",
+      "target": "ecs-b",
+      "label": "Eventos",
+      "style": "curve",
+      "kind": "data",
+      "sourcePort": "auto",
+      "targetPort": "auto"
+    },
+    {
+      "id": "e-ecs-a-rds",
+      "source": "ecs-a",
+      "target": "rds",
+      "label": "SQL",
+      "style": "curve",
+      "kind": "data",
+      "sourcePort": "auto",
+      "targetPort": "auto"
+    },
+    {
+      "id": "e-ecs-b-rds",
+      "source": "ecs-b",
+      "target": "rds",
+      "label": "SQL",
+      "style": "curve",
+      "kind": "data",
+      "sourcePort": "auto",
+      "targetPort": "auto"
+    },
+    {
+      "id": "e-ecs-b-run",
+      "source": "ecs-b",
+      "target": "run",
+      "label": "HTTPS",
+      "style": "curve",
+      "kind": "data",
+      "sourcePort": "auto",
+      "targetPort": "auto"
+    },
+    {
+      "id": "e-run-bq",
+      "source": "run",
+      "target": "bq",
+      "label": "Ingestão",
+      "style": "curve",
+      "kind": "data",
+      "sourcePort": "auto",
+      "targetPort": "auto"
+    }
+  ],
+  "notes": ""
+}

@@ -1,0 +1,1056 @@
+{
+  "provider": "gcp",
+  "libraryURL": "https://cloud.google.com/icons",
+  "guide": {
+    "sourceURL": "https://services.google.com/fh/files/misc/google-cloud-product-icons.pdf",
+    "updated": "2026-05",
+    "systemIntroduced": "2025",
+    "note": "O guia usa ícones próprios para produtos core e ícones compartilhados por categoria para os demais. Os ícones legacy não foram incluídos; a página 33 orienta não usá-los a partir de 2026."
+  },
+  "retrievedAtUTC": "2026-09-13T23:17:48+00:00",
+  "attribution": "Google Cloud product icons — Google LLC. SVGs originais distribuídos pela biblioteca oficial do Google Cloud, preservados sem alterações.",
+  "terms": {
+    "licenseFilesInPackages": false,
+    "note": "Os pacotes não incluem um arquivo de licença independente. A biblioteca oficial disponibiliza os recursos para diagramas e documentação técnica; preserve a identificação dos produtos e consulte o guia e as orientações de marca do Google. Esta coleção não declara uma licença de software ou cessão das marcas.",
+    "libraryURL": "https://cloud.google.com/icons",
+    "productGuideURL": "https://services.google.com/fh/files/misc/google-cloud-product-icons.pdf",
+    "brandGuidanceURL": "https://about.google/brand-resource-center/guidance/",
+    "productIconGuidanceURL": "https://partnermarketinghub.withgoogle.com/brands/google/branding-guidelines/how-to-show-googles-brand/"
+  },
+  "versionNote": "Os ZIPs oficiais não declaram número de versão; os timestamps internos são 1980-01-01 e não representam a data de publicação. A versão do sistema e a atualização do guia são registradas separadamente.",
+  "mappingNote": "gcp-vpc, gcp-lb e gcp-cdn compartilham Networking conforme o guia oficial. Cloud Run functions usa a categoria Serverless Computing da entrada Cloud Functions; Firestore, Pub/Sub e Storage Transfer Service usam suas categorias oficiais.",
+  "packages": [
+    {
+      "id": "core",
+      "filename": "core-products-icons.zip",
+      "sourceURL": "https://services.google.com/fh/files/misc/core-products-icons.zip",
+      "sha256": "6531a10f58bc599c24d9a455d81dd757c1a03c3c43da9cddf639b859c1c1eece",
+      "version": null,
+      "retrievedAtUTC": "2026-09-13T23:17:48+00:00",
+      "licenseFilesInArchive": []
+    },
+    {
+      "id": "category",
+      "filename": "category-icons.zip",
+      "sourceURL": "https://services.google.com/fh/files/misc/category-icons.zip",
+      "sha256": "e5bc3abd3527dc2500e9bff7f15870783e2c764129c49b7cd4c1b4e105345002",
+      "version": null,
+      "retrievedAtUTC": "2026-09-13T23:17:48+00:00",
+      "licenseFilesInArchive": []
+    }
+  ],
+  "icons": [
+    {
+      "type": "gcp-compute",
+      "path": "/static/icons/gcp/gcp-compute.svg",
+      "sourceURL": "https://services.google.com/fh/files/misc/core-products-icons.zip",
+      "originalFilename": "Unique Icons/Compute Engine/SVG/ComputeEngine-512-color-rgb.svg",
+      "package": "core",
+      "iconSystemVersion": "2025",
+      "guideUpdated": "2026-05",
+      "retrievedAtUTC": "2026-09-13T23:17:48+00:00",
+      "mapping": "core",
+      "officialProductOrCategory": "Compute Engine",
+      "mappingGuidePage": 4,
+      "sha256": "5cf9e57e4f99e125e45f9db269f3d5d1fa0dfd187aebfe00f3f97b9caf488af2",
+      "modified": false,
+      "validation": {
+        "xmlValid": true,
+        "activeContent": false,
+        "externalReferences": false,
+        "viewBox": "0 0 512 512",
+        "elements": [
+          "defs",
+          "g",
+          "path",
+          "rect",
+          "style",
+          "svg"
+        ]
+      }
+    },
+    {
+      "type": "gcp-run",
+      "path": "/static/icons/gcp/gcp-run.svg",
+      "sourceURL": "https://services.google.com/fh/files/misc/core-products-icons.zip",
+      "originalFilename": "Unique Icons/Cloud Run/SVG/CloudRun-512-color-rgb.svg",
+      "package": "core",
+      "iconSystemVersion": "2025",
+      "guideUpdated": "2026-05",
+      "retrievedAtUTC": "2026-09-13T23:17:48+00:00",
+      "mapping": "core",
+      "officialProductOrCategory": "Cloud Run",
+      "mappingGuidePage": 4,
+      "sha256": "42a910e5d9f5a8685227f91623bf50c8c9259c556a41eb9a97157fd1e78b0cea",
+      "modified": false,
+      "validation": {
+        "xmlValid": true,
+        "activeContent": false,
+        "externalReferences": false,
+        "viewBox": "0 0 512 512",
+        "elements": [
+          "defs",
+          "g",
+          "path",
+          "rect",
+          "style",
+          "svg"
+        ]
+      }
+    },
+    {
+      "type": "gcp-gke",
+      "path": "/static/icons/gcp/gcp-gke.svg",
+      "sourceURL": "https://services.google.com/fh/files/misc/core-products-icons.zip",
+      "originalFilename": "Unique Icons/GKE/SVG/GKE-512-color.svg",
+      "package": "core",
+      "iconSystemVersion": "2025",
+      "guideUpdated": "2026-05",
+      "retrievedAtUTC": "2026-09-13T23:17:48+00:00",
+      "mapping": "core",
+      "officialProductOrCategory": "GKE",
+      "mappingGuidePage": 4,
+      "sha256": "6a33654c499bc4c38012661875a1a8c1bf2cdf01be8fdcc90d1c6504657878ec",
+      "modified": false,
+      "validation": {
+        "xmlValid": true,
+        "activeContent": false,
+        "externalReferences": false,
+        "viewBox": "0 0 512 512",
+        "elements": [
+          "defs",
+          "g",
+          "path",
+          "rect",
+          "style",
+          "svg"
+        ]
+      }
+    },
+    {
+      "type": "gcp-sql",
+      "path": "/static/icons/gcp/gcp-sql.svg",
+      "sourceURL": "https://services.google.com/fh/files/misc/core-products-icons.zip",
+      "originalFilename": "Unique Icons/Cloud SQL/SVG/CloudSQL-512-color.svg",
+      "package": "core",
+      "iconSystemVersion": "2025",
+      "guideUpdated": "2026-05",
+      "retrievedAtUTC": "2026-09-13T23:17:48+00:00",
+      "mapping": "core",
+      "officialProductOrCategory": "Cloud SQL",
+      "mappingGuidePage": 4,
+      "sha256": "4e0d3d2049a67f64e5a2c88f836bf2d1786f809a72d82279b18906ec9d6b35c9",
+      "modified": false,
+      "validation": {
+        "xmlValid": true,
+        "activeContent": false,
+        "externalReferences": false,
+        "viewBox": "0 0 512 512",
+        "elements": [
+          "defs",
+          "g",
+          "path",
+          "rect",
+          "style",
+          "svg"
+        ]
+      }
+    },
+    {
+      "type": "gcp-storage",
+      "path": "/static/icons/gcp/gcp-storage.svg",
+      "sourceURL": "https://services.google.com/fh/files/misc/core-products-icons.zip",
+      "originalFilename": "Unique Icons/Cloud Storage/SVG/Cloud_Storage-512-color.svg",
+      "package": "core",
+      "iconSystemVersion": "2025",
+      "guideUpdated": "2026-05",
+      "retrievedAtUTC": "2026-09-13T23:17:48+00:00",
+      "mapping": "core",
+      "officialProductOrCategory": "Cloud Storage",
+      "mappingGuidePage": 4,
+      "sha256": "df42fc4b652cb133a4150bea7988aa965651d2c52fdfd141b6e8a359552eec8e",
+      "modified": false,
+      "validation": {
+        "xmlValid": true,
+        "activeContent": false,
+        "externalReferences": false,
+        "viewBox": "0 0 512 512",
+        "elements": [
+          "circle",
+          "defs",
+          "g",
+          "path",
+          "rect",
+          "style",
+          "svg"
+        ]
+      }
+    },
+    {
+      "type": "gcp-bigquery",
+      "path": "/static/icons/gcp/gcp-bigquery.svg",
+      "sourceURL": "https://services.google.com/fh/files/misc/core-products-icons.zip",
+      "originalFilename": "Unique Icons/BigQuery/SVG/BigQuery-512-color.svg",
+      "package": "core",
+      "iconSystemVersion": "2025",
+      "guideUpdated": "2026-05",
+      "retrievedAtUTC": "2026-09-13T23:17:48+00:00",
+      "mapping": "core",
+      "officialProductOrCategory": "BigQuery",
+      "mappingGuidePage": 4,
+      "sha256": "6c088a2a7afbfcab01918c959aad90d76835093cfc2ec8314bf7ba25b85aaae8",
+      "modified": false,
+      "validation": {
+        "xmlValid": true,
+        "activeContent": false,
+        "externalReferences": false,
+        "viewBox": "0 0 512 512",
+        "elements": [
+          "defs",
+          "g",
+          "path",
+          "rect",
+          "style",
+          "svg"
+        ]
+      }
+    },
+    {
+      "type": "gcp-vpc",
+      "path": "/static/icons/gcp/gcp-vpc.svg",
+      "sourceURL": "https://services.google.com/fh/files/misc/category-icons.zip",
+      "originalFilename": "Category Icons/Networking/SVG/Networking-512-color-rgb.svg",
+      "package": "category",
+      "iconSystemVersion": "2025",
+      "guideUpdated": "2026-05",
+      "retrievedAtUTC": "2026-09-13T23:17:48+00:00",
+      "mapping": "category",
+      "officialProductOrCategory": "Networking",
+      "mappingGuidePage": 25,
+      "sha256": "c88d1b7d3bcba21ba984d92a7762e1f940b70d922f83449370870f76caaf5787",
+      "modified": false,
+      "validation": {
+        "xmlValid": true,
+        "activeContent": false,
+        "externalReferences": false,
+        "viewBox": "0 0 512 512",
+        "elements": [
+          "g",
+          "path",
+          "rect",
+          "svg"
+        ]
+      }
+    },
+    {
+      "type": "gcp-lb",
+      "path": "/static/icons/gcp/gcp-lb.svg",
+      "sourceURL": "https://services.google.com/fh/files/misc/category-icons.zip",
+      "originalFilename": "Category Icons/Networking/SVG/Networking-512-color-rgb.svg",
+      "package": "category",
+      "iconSystemVersion": "2025",
+      "guideUpdated": "2026-05",
+      "retrievedAtUTC": "2026-09-13T23:17:48+00:00",
+      "mapping": "category",
+      "officialProductOrCategory": "Networking",
+      "mappingGuidePage": 25,
+      "sha256": "c88d1b7d3bcba21ba984d92a7762e1f940b70d922f83449370870f76caaf5787",
+      "modified": false,
+      "validation": {
+        "xmlValid": true,
+        "activeContent": false,
+        "externalReferences": false,
+        "viewBox": "0 0 512 512",
+        "elements": [
+          "g",
+          "path",
+          "rect",
+          "svg"
+        ]
+      }
+    },
+    {
+      "type": "gcp-cdn",
+      "path": "/static/icons/gcp/gcp-cdn.svg",
+      "sourceURL": "https://services.google.com/fh/files/misc/category-icons.zip",
+      "originalFilename": "Category Icons/Networking/SVG/Networking-512-color-rgb.svg",
+      "package": "category",
+      "iconSystemVersion": "2025",
+      "guideUpdated": "2026-05",
+      "retrievedAtUTC": "2026-09-13T23:17:48+00:00",
+      "mapping": "category",
+      "officialProductOrCategory": "Networking",
+      "mappingGuidePage": 25,
+      "sha256": "c88d1b7d3bcba21ba984d92a7762e1f940b70d922f83449370870f76caaf5787",
+      "modified": false,
+      "validation": {
+        "xmlValid": true,
+        "activeContent": false,
+        "externalReferences": false,
+        "viewBox": "0 0 512 512",
+        "elements": [
+          "g",
+          "path",
+          "rect",
+          "svg"
+        ]
+      }
+    },
+    {
+      "type": "gcp-functions",
+      "path": "/static/icons/gcp/gcp-functions.svg",
+      "sourceURL": "https://services.google.com/fh/files/misc/category-icons.zip",
+      "originalFilename": "Category Icons/Serverless Computing/SVG/ServerlessComputing-512-color.svg",
+      "package": "category",
+      "iconSystemVersion": "2025",
+      "guideUpdated": "2026-05",
+      "retrievedAtUTC": "2026-09-13T23:17:48+00:00",
+      "mapping": "category",
+      "officialProductOrCategory": "Serverless Computing",
+      "mappingGuidePage": 29,
+      "sha256": "971fec343a13520b4f1edb49f34d33f5611ca427a9b09e36c4537b07e9d62721",
+      "modified": false,
+      "validation": {
+        "xmlValid": true,
+        "activeContent": false,
+        "externalReferences": false,
+        "viewBox": "0 0 512 512",
+        "elements": [
+          "g",
+          "path",
+          "rect",
+          "svg"
+        ]
+      }
+    },
+    {
+      "type": "gcp-firestore",
+      "path": "/static/icons/gcp/gcp-firestore.svg",
+      "sourceURL": "https://services.google.com/fh/files/misc/category-icons.zip",
+      "originalFilename": "Category Icons/Databases/SVG/Databases-512-color.svg",
+      "package": "category",
+      "iconSystemVersion": "2025",
+      "guideUpdated": "2026-05",
+      "retrievedAtUTC": "2026-09-13T23:17:48+00:00",
+      "mapping": "category",
+      "officialProductOrCategory": "Databases",
+      "mappingGuidePage": 14,
+      "sha256": "f9ecdabe95c8c30cd6adabcb3e521f7fe462eacd63ce19021222a2a1b41a7266",
+      "modified": false,
+      "validation": {
+        "xmlValid": true,
+        "activeContent": false,
+        "externalReferences": false,
+        "viewBox": "0 0 512 512",
+        "elements": [
+          "defs",
+          "g",
+          "path",
+          "rect",
+          "style",
+          "svg"
+        ]
+      }
+    },
+    {
+      "type": "gcp-pubsub",
+      "path": "/static/icons/gcp/gcp-pubsub.svg",
+      "sourceURL": "https://services.google.com/fh/files/misc/category-icons.zip",
+      "originalFilename": "Category Icons/Data Analytics/SVG/DataAnalytics-512-color.svg",
+      "package": "category",
+      "iconSystemVersion": "2025",
+      "guideUpdated": "2026-05",
+      "retrievedAtUTC": "2026-09-13T23:17:48+00:00",
+      "mapping": "category",
+      "officialProductOrCategory": "Data Analytics",
+      "mappingGuidePage": 13,
+      "sha256": "b32c8b4702fb90e9669e841e0410687471b7ca97ad236527f6dad8e3d90c87d9",
+      "modified": false,
+      "validation": {
+        "xmlValid": true,
+        "activeContent": false,
+        "externalReferences": false,
+        "viewBox": "0 0 512 512",
+        "elements": [
+          "g",
+          "path",
+          "rect",
+          "svg"
+        ]
+      }
+    },
+    {
+      "type": "gcp-transfer",
+      "path": "/static/icons/gcp/gcp-transfer.svg",
+      "sourceURL": "https://services.google.com/fh/files/misc/category-icons.zip",
+      "originalFilename": "Category Icons/Storage/SVG/Storage-512-color.svg",
+      "package": "category",
+      "iconSystemVersion": "2025",
+      "guideUpdated": "2026-05",
+      "retrievedAtUTC": "2026-09-13T23:17:48+00:00",
+      "mapping": "category",
+      "officialProductOrCategory": "Storage",
+      "mappingGuidePage": 30,
+      "sha256": "d99325d1f951ec5ddff47e1d787a90acd819449ee38c6ce20a981e803f5d7ed1",
+      "modified": false,
+      "validation": {
+        "xmlValid": true,
+        "activeContent": false,
+        "externalReferences": false,
+        "viewBox": "0 0 512 512",
+        "elements": [
+          "g",
+          "path",
+          "rect",
+          "svg"
+        ]
+      }
+    },
+    {
+      "type": "gcp-dataflow",
+      "path": "/static/icons/gcp/gcp-dataflow.svg",
+      "sourceURL": "https://services.google.com/fh/files/misc/category-icons.zip",
+      "originalFilename": "Category Icons/Data Analytics/SVG/DataAnalytics-512-color.svg",
+      "package": "category",
+      "iconSystemVersion": "2025",
+      "guideUpdated": "2026-05",
+      "retrievedAtUTC": "2026-09-13T23:17:48+00:00",
+      "addedAtUTC": "2026-09-14T01:05:01+00:00",
+      "mapping": "category",
+      "officialProductOrCategory": "Data Analytics",
+      "mappingGuidePage": 13,
+      "mappingGuideProduct": "Dataflow",
+      "mappingBasis": "official-guide",
+      "mappingNote": "O guia oficial de maio de 2026 lista Dataflow na página 13; usa o ícone compartilhado da categoria Data Analytics.",
+      "productName": "Dataflow",
+      "productSourceURL": "https://cloud.google.com/products/dataflow",
+      "formerNames": [],
+      "productCheckedAtUTC": "2026-09-14T01:05:01+00:00",
+      "sha256": "b32c8b4702fb90e9669e841e0410687471b7ca97ad236527f6dad8e3d90c87d9",
+      "modified": false,
+      "validation": {
+        "xmlValid": true,
+        "activeContent": false,
+        "externalReferences": false,
+        "viewBox": "0 0 512 512",
+        "elements": [
+          "g",
+          "path",
+          "rect",
+          "svg"
+        ]
+      }
+    },
+    {
+      "type": "gcp-dataproc",
+      "path": "/static/icons/gcp/gcp-dataproc.svg",
+      "sourceURL": "https://services.google.com/fh/files/misc/category-icons.zip",
+      "originalFilename": "Category Icons/Data Analytics/SVG/DataAnalytics-512-color.svg",
+      "package": "category",
+      "iconSystemVersion": "2025",
+      "guideUpdated": "2026-05",
+      "retrievedAtUTC": "2026-09-13T23:17:48+00:00",
+      "addedAtUTC": "2026-09-14T01:05:01+00:00",
+      "mapping": "category",
+      "officialProductOrCategory": "Data Analytics",
+      "mappingGuidePage": 13,
+      "mappingGuideProduct": "Dataproc",
+      "mappingBasis": "official-guide",
+      "mappingNote": "O guia oficial de maio de 2026 lista Dataproc na página 13; usa o ícone compartilhado da categoria Data Analytics. Nome atual verificado na página oficial: Managed Service for Apache Spark; nomes anteriores preservados nos termos de busca.",
+      "productName": "Managed Service for Apache Spark",
+      "productSourceURL": "https://cloud.google.com/products/managed-service-for-apache-spark",
+      "formerNames": [
+        "Dataproc"
+      ],
+      "productCheckedAtUTC": "2026-09-14T01:05:01+00:00",
+      "sha256": "b32c8b4702fb90e9669e841e0410687471b7ca97ad236527f6dad8e3d90c87d9",
+      "modified": false,
+      "validation": {
+        "xmlValid": true,
+        "activeContent": false,
+        "externalReferences": false,
+        "viewBox": "0 0 512 512",
+        "elements": [
+          "g",
+          "path",
+          "rect",
+          "svg"
+        ]
+      }
+    },
+    {
+      "type": "gcp-composer",
+      "path": "/static/icons/gcp/gcp-composer.svg",
+      "sourceURL": "https://services.google.com/fh/files/misc/category-icons.zip",
+      "originalFilename": "Category Icons/Data Analytics/SVG/DataAnalytics-512-color.svg",
+      "package": "category",
+      "iconSystemVersion": "2025",
+      "guideUpdated": "2026-05",
+      "retrievedAtUTC": "2026-09-13T23:17:48+00:00",
+      "addedAtUTC": "2026-09-14T01:05:01+00:00",
+      "mapping": "category",
+      "officialProductOrCategory": "Data Analytics",
+      "mappingGuidePage": 13,
+      "mappingGuideProduct": "Cloud Composer",
+      "mappingBasis": "official-guide",
+      "mappingNote": "O guia oficial de maio de 2026 lista Cloud Composer na página 13; usa o ícone compartilhado da categoria Data Analytics. Nome atual verificado na página oficial: Managed Service for Apache Airflow; nomes anteriores preservados nos termos de busca.",
+      "productName": "Managed Service for Apache Airflow",
+      "productSourceURL": "https://cloud.google.com/products/managed-service-for-apache-airflow",
+      "formerNames": [
+        "Cloud Composer"
+      ],
+      "productCheckedAtUTC": "2026-09-14T01:05:01+00:00",
+      "sha256": "b32c8b4702fb90e9669e841e0410687471b7ca97ad236527f6dad8e3d90c87d9",
+      "modified": false,
+      "validation": {
+        "xmlValid": true,
+        "activeContent": false,
+        "externalReferences": false,
+        "viewBox": "0 0 512 512",
+        "elements": [
+          "g",
+          "path",
+          "rect",
+          "svg"
+        ]
+      }
+    },
+    {
+      "type": "gcp-datastream",
+      "path": "/static/icons/gcp/gcp-datastream.svg",
+      "sourceURL": "https://services.google.com/fh/files/misc/category-icons.zip",
+      "originalFilename": "Category Icons/Data Analytics/SVG/DataAnalytics-512-color.svg",
+      "package": "category",
+      "iconSystemVersion": "2025",
+      "guideUpdated": "2026-05",
+      "retrievedAtUTC": "2026-09-13T23:17:48+00:00",
+      "addedAtUTC": "2026-09-14T01:05:01+00:00",
+      "mapping": "category",
+      "officialProductOrCategory": "Data Analytics",
+      "mappingGuidePage": 13,
+      "mappingGuideProduct": "Datastream",
+      "mappingBasis": "official-guide",
+      "mappingNote": "O guia oficial de maio de 2026 lista Datastream na página 13; usa o ícone compartilhado da categoria Data Analytics.",
+      "productName": "Datastream",
+      "productSourceURL": "https://cloud.google.com/datastream",
+      "formerNames": [],
+      "productCheckedAtUTC": "2026-09-14T01:05:01+00:00",
+      "sha256": "b32c8b4702fb90e9669e841e0410687471b7ca97ad236527f6dad8e3d90c87d9",
+      "modified": false,
+      "validation": {
+        "xmlValid": true,
+        "activeContent": false,
+        "externalReferences": false,
+        "viewBox": "0 0 512 512",
+        "elements": [
+          "g",
+          "path",
+          "rect",
+          "svg"
+        ]
+      }
+    },
+    {
+      "type": "gcp-bigtable",
+      "path": "/static/icons/gcp/gcp-bigtable.svg",
+      "sourceURL": "https://services.google.com/fh/files/misc/category-icons.zip",
+      "originalFilename": "Category Icons/Databases/SVG/Databases-512-color.svg",
+      "package": "category",
+      "iconSystemVersion": "2025",
+      "guideUpdated": "2026-05",
+      "retrievedAtUTC": "2026-09-13T23:17:48+00:00",
+      "addedAtUTC": "2026-09-14T01:05:01+00:00",
+      "mapping": "category",
+      "officialProductOrCategory": "Databases",
+      "mappingGuidePage": 14,
+      "mappingGuideProduct": "Bigtable",
+      "mappingBasis": "official-guide",
+      "mappingNote": "O guia oficial de maio de 2026 lista Bigtable na página 14; usa o ícone compartilhado da categoria Databases.",
+      "productName": "Bigtable",
+      "productSourceURL": "https://cloud.google.com/bigtable",
+      "formerNames": [],
+      "productCheckedAtUTC": "2026-09-14T01:05:01+00:00",
+      "sha256": "f9ecdabe95c8c30cd6adabcb3e521f7fe462eacd63ce19021222a2a1b41a7266",
+      "modified": false,
+      "validation": {
+        "xmlValid": true,
+        "activeContent": false,
+        "externalReferences": false,
+        "viewBox": "0 0 512 512",
+        "elements": [
+          "defs",
+          "g",
+          "path",
+          "rect",
+          "style",
+          "svg"
+        ]
+      }
+    },
+    {
+      "type": "gcp-spanner",
+      "path": "/static/icons/gcp/gcp-spanner.svg",
+      "sourceURL": "https://services.google.com/fh/files/misc/core-products-icons.zip",
+      "originalFilename": "Unique Icons/Cloud Spanner/SVG/CloudSpanner-512-color.svg",
+      "package": "core",
+      "iconSystemVersion": "2025",
+      "guideUpdated": "2026-05",
+      "retrievedAtUTC": "2026-09-13T23:17:48+00:00",
+      "addedAtUTC": "2026-09-14T01:05:01+00:00",
+      "mapping": "core",
+      "officialProductOrCategory": "Spanner",
+      "mappingGuidePage": 4,
+      "mappingGuideProduct": "Spanner",
+      "mappingBasis": "official-guide",
+      "mappingNote": "O guia oficial de maio de 2026 lista Spanner na página 4; usa o ícone próprio.",
+      "productName": "Spanner",
+      "productSourceURL": "https://cloud.google.com/spanner",
+      "formerNames": [],
+      "productCheckedAtUTC": "2026-09-14T01:05:01+00:00",
+      "sha256": "8e6e5bd76d4f41afbd0f0056b5efa2335963f0dcfe7a0def3fa0bb393a02c700",
+      "modified": false,
+      "validation": {
+        "xmlValid": true,
+        "activeContent": false,
+        "externalReferences": false,
+        "viewBox": "0 0 512 512",
+        "elements": [
+          "defs",
+          "g",
+          "path",
+          "rect",
+          "style",
+          "svg"
+        ]
+      }
+    },
+    {
+      "type": "gcp-alloydb",
+      "path": "/static/icons/gcp/gcp-alloydb.svg",
+      "sourceURL": "https://services.google.com/fh/files/misc/core-products-icons.zip",
+      "originalFilename": "Unique Icons/AlloyDB/SVG/AlloyDB-512-color.svg",
+      "package": "core",
+      "iconSystemVersion": "2025",
+      "guideUpdated": "2026-05",
+      "retrievedAtUTC": "2026-09-13T23:17:48+00:00",
+      "addedAtUTC": "2026-09-14T01:05:01+00:00",
+      "mapping": "core",
+      "officialProductOrCategory": "AlloyDB",
+      "mappingGuidePage": 4,
+      "mappingGuideProduct": "AlloyDB",
+      "mappingBasis": "official-guide",
+      "mappingNote": "O guia oficial de maio de 2026 lista AlloyDB na página 4; usa o ícone próprio.",
+      "productName": "AlloyDB for PostgreSQL",
+      "productSourceURL": "https://cloud.google.com/products/alloydb",
+      "formerNames": [],
+      "productCheckedAtUTC": "2026-09-14T01:05:01+00:00",
+      "sha256": "6bbb783296fb9d7426c2247ebf1453a3f89842040e46d1d2588676fc6115aeee",
+      "modified": false,
+      "validation": {
+        "xmlValid": true,
+        "activeContent": false,
+        "externalReferences": false,
+        "viewBox": "0 0 512 512",
+        "elements": [
+          "defs",
+          "g",
+          "path",
+          "polygon",
+          "rect",
+          "style",
+          "svg"
+        ]
+      }
+    },
+    {
+      "type": "gcp-memorystore",
+      "path": "/static/icons/gcp/gcp-memorystore.svg",
+      "sourceURL": "https://services.google.com/fh/files/misc/category-icons.zip",
+      "originalFilename": "Category Icons/Databases/SVG/Databases-512-color.svg",
+      "package": "category",
+      "iconSystemVersion": "2025",
+      "guideUpdated": "2026-05",
+      "retrievedAtUTC": "2026-09-13T23:17:48+00:00",
+      "addedAtUTC": "2026-09-14T01:05:01+00:00",
+      "mapping": "category",
+      "officialProductOrCategory": "Databases",
+      "mappingGuidePage": 14,
+      "mappingGuideProduct": "Memorystore",
+      "mappingBasis": "official-guide",
+      "mappingNote": "O guia oficial de maio de 2026 lista Memorystore na página 14; usa o ícone compartilhado da categoria Databases.",
+      "productName": "Memorystore",
+      "productSourceURL": "https://cloud.google.com/memorystore",
+      "formerNames": [],
+      "productCheckedAtUTC": "2026-09-14T01:05:01+00:00",
+      "sha256": "f9ecdabe95c8c30cd6adabcb3e521f7fe462eacd63ce19021222a2a1b41a7266",
+      "modified": false,
+      "validation": {
+        "xmlValid": true,
+        "activeContent": false,
+        "externalReferences": false,
+        "viewBox": "0 0 512 512",
+        "elements": [
+          "defs",
+          "g",
+          "path",
+          "rect",
+          "style",
+          "svg"
+        ]
+      }
+    },
+    {
+      "type": "gcp-workflows",
+      "path": "/static/icons/gcp/gcp-workflows.svg",
+      "sourceURL": "https://services.google.com/fh/files/misc/category-icons.zip",
+      "originalFilename": "Category Icons/Integration Services/SVG/IntegrationServices-512-color.svg",
+      "package": "category",
+      "iconSystemVersion": "2025",
+      "guideUpdated": "2026-05",
+      "retrievedAtUTC": "2026-09-13T23:17:48+00:00",
+      "addedAtUTC": "2026-09-14T01:05:01+00:00",
+      "mapping": "category",
+      "officialProductOrCategory": "Integration Services",
+      "mappingGuidePage": 18,
+      "mappingGuideProduct": "Workflows",
+      "mappingBasis": "official-guide",
+      "mappingNote": "O guia oficial de maio de 2026 lista Workflows na página 18; usa o ícone compartilhado da categoria Integration Services.",
+      "productName": "Workflows",
+      "productSourceURL": "https://cloud.google.com/workflows",
+      "formerNames": [],
+      "productCheckedAtUTC": "2026-09-14T01:05:01+00:00",
+      "sha256": "f4a14bb1f46b6b8ec2dd8bd69d8e37e9fac8f161801b781cf6e1f41772fc2101",
+      "modified": false,
+      "validation": {
+        "xmlValid": true,
+        "activeContent": false,
+        "externalReferences": false,
+        "viewBox": "0 0 512 512",
+        "elements": [
+          "g",
+          "path",
+          "rect",
+          "svg"
+        ]
+      }
+    },
+    {
+      "type": "gcp-scheduler",
+      "path": "/static/icons/gcp/gcp-scheduler.svg",
+      "sourceURL": "https://services.google.com/fh/files/misc/category-icons.zip",
+      "originalFilename": "Category Icons/Developer Tools/SVG/Developer_Tools-512-color.svg",
+      "package": "category",
+      "iconSystemVersion": "2025",
+      "guideUpdated": "2026-05",
+      "retrievedAtUTC": "2026-09-13T23:17:48+00:00",
+      "addedAtUTC": "2026-09-14T01:05:01+00:00",
+      "mapping": "category",
+      "officialProductOrCategory": "Developer Tools",
+      "mappingGuidePage": 15,
+      "mappingGuideProduct": "Cloud Scheduler",
+      "mappingBasis": "official-guide",
+      "mappingNote": "O guia oficial de maio de 2026 lista Cloud Scheduler na página 15; usa o ícone compartilhado da categoria Developer Tools.",
+      "productName": "Cloud Scheduler",
+      "productSourceURL": "https://docs.cloud.google.com/scheduler/docs/schedule-run-cron-job",
+      "formerNames": [],
+      "productCheckedAtUTC": "2026-09-14T01:05:01+00:00",
+      "sha256": "6a9103e9a77460f9608490e42ff4b27ec17dc77884cbd6a36ae2613d4a6ce44e",
+      "modified": false,
+      "validation": {
+        "xmlValid": true,
+        "activeContent": false,
+        "externalReferences": false,
+        "viewBox": "0 0 512 512",
+        "elements": [
+          "g",
+          "path",
+          "rect",
+          "svg"
+        ]
+      }
+    },
+    {
+      "type": "gcp-dataplex",
+      "path": "/static/icons/gcp/gcp-dataplex.svg",
+      "sourceURL": "https://services.google.com/fh/files/misc/category-icons.zip",
+      "originalFilename": "Category Icons/Data Analytics/SVG/DataAnalytics-512-color.svg",
+      "package": "category",
+      "iconSystemVersion": "2025",
+      "guideUpdated": "2026-05",
+      "retrievedAtUTC": "2026-09-13T23:17:48+00:00",
+      "addedAtUTC": "2026-09-14T01:05:01+00:00",
+      "mapping": "category",
+      "officialProductOrCategory": "Data Analytics",
+      "mappingGuidePage": 13,
+      "mappingGuideProduct": "Dataplex",
+      "mappingBasis": "official-guide",
+      "mappingNote": "O guia oficial de maio de 2026 lista Dataplex na página 13; usa o ícone compartilhado da categoria Data Analytics. Nome atual verificado na página oficial: Knowledge Catalog; nomes anteriores preservados nos termos de busca.",
+      "productName": "Knowledge Catalog",
+      "productSourceURL": "https://cloud.google.com/products/knowledge-catalog",
+      "formerNames": [
+        "Dataplex",
+        "Dataplex Universal Catalog"
+      ],
+      "productCheckedAtUTC": "2026-09-14T01:05:01+00:00",
+      "sha256": "b32c8b4702fb90e9669e841e0410687471b7ca97ad236527f6dad8e3d90c87d9",
+      "modified": false,
+      "validation": {
+        "xmlValid": true,
+        "activeContent": false,
+        "externalReferences": false,
+        "viewBox": "0 0 512 512",
+        "elements": [
+          "g",
+          "path",
+          "rect",
+          "svg"
+        ]
+      }
+    },
+    {
+      "type": "gcp-dataform",
+      "path": "/static/icons/gcp/gcp-dataform.svg",
+      "sourceURL": "https://services.google.com/fh/files/misc/category-icons.zip",
+      "originalFilename": "Category Icons/Data Analytics/SVG/DataAnalytics-512-color.svg",
+      "package": "category",
+      "iconSystemVersion": "2025",
+      "guideUpdated": "2026-05",
+      "retrievedAtUTC": "2026-09-13T23:17:48+00:00",
+      "addedAtUTC": "2026-09-14T01:05:01+00:00",
+      "mapping": "category",
+      "officialProductOrCategory": "Data Analytics",
+      "mappingGuidePage": null,
+      "mappingGuideProduct": null,
+      "mappingBasis": "category-inferred-from-official-product-description",
+      "mappingNote": "Dataform não aparece nominalmente no guia de maio de 2026. A escolha do símbolo oficial compartilhado Data Analytics (categoria da página 13) é uma inferência pela função de dados descrita na página oficial do produto; não é um logotipo próprio do serviço.",
+      "productName": "Dataform",
+      "productSourceURL": "https://cloud.google.com/dataform",
+      "formerNames": [],
+      "productCheckedAtUTC": "2026-09-14T01:05:01+00:00",
+      "sha256": "b32c8b4702fb90e9669e841e0410687471b7ca97ad236527f6dad8e3d90c87d9",
+      "modified": false,
+      "validation": {
+        "xmlValid": true,
+        "activeContent": false,
+        "externalReferences": false,
+        "viewBox": "0 0 512 512",
+        "elements": [
+          "g",
+          "path",
+          "rect",
+          "svg"
+        ]
+      }
+    },
+    {
+      "type": "gcp-biglake",
+      "path": "/static/icons/gcp/gcp-biglake.svg",
+      "sourceURL": "https://services.google.com/fh/files/misc/category-icons.zip",
+      "originalFilename": "Category Icons/Data Analytics/SVG/DataAnalytics-512-color.svg",
+      "package": "category",
+      "iconSystemVersion": "2025",
+      "guideUpdated": "2026-05",
+      "retrievedAtUTC": "2026-09-13T23:17:48+00:00",
+      "addedAtUTC": "2026-09-14T01:05:01+00:00",
+      "mapping": "category",
+      "officialProductOrCategory": "Data Analytics",
+      "mappingGuidePage": 13,
+      "mappingGuideProduct": "BigLake",
+      "mappingBasis": "official-guide",
+      "mappingNote": "O guia oficial de maio de 2026 lista BigLake na página 13; usa o ícone compartilhado da categoria Data Analytics. Nome atual verificado na página oficial: Lakehouse for Apache Iceberg; nomes anteriores preservados nos termos de busca.",
+      "productName": "Lakehouse for Apache Iceberg",
+      "productSourceURL": "https://cloud.google.com/products/lakehouse",
+      "formerNames": [
+        "BigLake"
+      ],
+      "productCheckedAtUTC": "2026-09-14T01:05:01+00:00",
+      "sha256": "b32c8b4702fb90e9669e841e0410687471b7ca97ad236527f6dad8e3d90c87d9",
+      "modified": false,
+      "validation": {
+        "xmlValid": true,
+        "activeContent": false,
+        "externalReferences": false,
+        "viewBox": "0 0 512 512",
+        "elements": [
+          "g",
+          "path",
+          "rect",
+          "svg"
+        ]
+      }
+    },
+    {
+      "type": "gcp-looker",
+      "path": "/static/icons/gcp/gcp-looker.svg",
+      "sourceURL": "https://services.google.com/fh/files/misc/core-products-icons.zip",
+      "originalFilename": "Unique Icons/Looker/SVG/Looker-512-color.svg",
+      "package": "core",
+      "iconSystemVersion": "2025",
+      "guideUpdated": "2026-05",
+      "retrievedAtUTC": "2026-09-13T23:17:48+00:00",
+      "addedAtUTC": "2026-09-14T01:05:01+00:00",
+      "mapping": "core",
+      "officialProductOrCategory": "Looker",
+      "mappingGuidePage": 4,
+      "mappingGuideProduct": "Looker",
+      "mappingBasis": "official-guide",
+      "mappingNote": "O guia oficial de maio de 2026 lista Looker na página 4; usa o ícone próprio.",
+      "productName": "Looker",
+      "productSourceURL": "https://cloud.google.com/looker",
+      "formerNames": [],
+      "productCheckedAtUTC": "2026-09-14T01:05:01+00:00",
+      "sha256": "e35fa3f9751713cde3e78f3604c1cbc9106396be89a88b313abae7195feccb0a",
+      "modified": false,
+      "validation": {
+        "xmlValid": true,
+        "activeContent": false,
+        "externalReferences": false,
+        "viewBox": "0 0 512 512",
+        "elements": [
+          "defs",
+          "g",
+          "path",
+          "rect",
+          "style",
+          "svg"
+        ]
+      }
+    },
+    {
+      "type": "gcp-vertex-ai",
+      "path": "/static/icons/gcp/gcp-vertex-ai.svg",
+      "sourceURL": "https://services.google.com/fh/files/misc/core-products-icons.zip",
+      "originalFilename": "Unique Icons/Vertex AI/SVG/VertexAI-512-color.svg",
+      "package": "core",
+      "iconSystemVersion": "2025",
+      "guideUpdated": "2026-05",
+      "retrievedAtUTC": "2026-09-13T23:17:48+00:00",
+      "addedAtUTC": "2026-09-14T01:05:01+00:00",
+      "mapping": "core",
+      "officialProductOrCategory": "Vertex AI",
+      "mappingGuidePage": null,
+      "mappingGuideProduct": null,
+      "mappingBasis": "official-core-package-and-product-rename",
+      "mappingNote": "O ZIP oficial core atual fornece este SVG sob o nome Vertex AI. A página oficial identifica Gemini Enterprise Agent Platform como o nome atual; o arquivo original foi preservado. O guia PDF de maio de 2026 não lista Vertex AI pelo nome anterior.",
+      "productName": "Gemini Enterprise Agent Platform",
+      "productSourceURL": "https://cloud.google.com/products/gemini-enterprise-agent-platform",
+      "formerNames": [
+        "Vertex AI"
+      ],
+      "productCheckedAtUTC": "2026-09-14T01:05:01+00:00",
+      "sha256": "17922247f3110026fd637c531d0604c67a00c9a58a6e152030f2242b9fd48a8e",
+      "modified": false,
+      "validation": {
+        "xmlValid": true,
+        "activeContent": false,
+        "externalReferences": false,
+        "viewBox": "0 0 512 512",
+        "elements": [
+          "circle",
+          "g",
+          "path",
+          "rect",
+          "svg"
+        ]
+      }
+    },
+    {
+      "type": "gcp-kafka",
+      "path": "/static/icons/gcp/gcp-kafka.svg",
+      "sourceURL": "https://services.google.com/fh/files/misc/category-icons.zip",
+      "originalFilename": "Category Icons/Data Analytics/SVG/DataAnalytics-512-color.svg",
+      "package": "category",
+      "iconSystemVersion": "2025",
+      "guideUpdated": "2026-05",
+      "retrievedAtUTC": "2026-09-13T23:17:48+00:00",
+      "addedAtUTC": "2026-09-14T01:05:01+00:00",
+      "mapping": "category",
+      "officialProductOrCategory": "Data Analytics",
+      "mappingGuidePage": null,
+      "mappingGuideProduct": null,
+      "mappingBasis": "category-inferred-from-official-product-description",
+      "mappingNote": "Managed Service for Apache Kafka não aparece nominalmente no guia de maio de 2026. A escolha do símbolo oficial compartilhado Data Analytics (categoria da página 13) é uma inferência pela função de dados descrita na página oficial do produto; não é um logotipo próprio do serviço.",
+      "productName": "Managed Service for Apache Kafka",
+      "productSourceURL": "https://cloud.google.com/products/managed-service-for-apache-kafka",
+      "formerNames": [],
+      "productCheckedAtUTC": "2026-09-14T01:05:01+00:00",
+      "sha256": "b32c8b4702fb90e9669e841e0410687471b7ca97ad236527f6dad8e3d90c87d9",
+      "modified": false,
+      "validation": {
+        "xmlValid": true,
+        "activeContent": false,
+        "externalReferences": false,
+        "viewBox": "0 0 512 512",
+        "elements": [
+          "g",
+          "path",
+          "rect",
+          "svg"
+        ]
+      }
+    },
+    {
+      "type": "gcp-tasks",
+      "path": "/static/icons/gcp/gcp-tasks.svg",
+      "sourceURL": "https://services.google.com/fh/files/misc/category-icons.zip",
+      "originalFilename": "Category Icons/Developer Tools/SVG/Developer_Tools-512-color.svg",
+      "package": "category",
+      "iconSystemVersion": "2025",
+      "guideUpdated": "2026-05",
+      "retrievedAtUTC": "2026-09-13T23:17:48+00:00",
+      "addedAtUTC": "2026-09-14T01:05:01+00:00",
+      "mapping": "category",
+      "officialProductOrCategory": "Developer Tools",
+      "mappingGuidePage": 15,
+      "mappingGuideProduct": "Cloud Tasks",
+      "mappingBasis": "official-guide",
+      "mappingNote": "O guia oficial de maio de 2026 lista Cloud Tasks na página 15; usa o ícone compartilhado da categoria Developer Tools.",
+      "productName": "Cloud Tasks",
+      "productSourceURL": "https://docs.cloud.google.com/tasks/docs",
+      "formerNames": [],
+      "productCheckedAtUTC": "2026-09-14T01:05:01+00:00",
+      "sha256": "6a9103e9a77460f9608490e42ff4b27ec17dc77884cbd6a36ae2613d4a6ce44e",
+      "modified": false,
+      "validation": {
+        "xmlValid": true,
+        "activeContent": false,
+        "externalReferences": false,
+        "viewBox": "0 0 512 512",
+        "elements": [
+          "g",
+          "path",
+          "rect",
+          "svg"
+        ]
+      }
+    }
+  ],
+  "unmapped": [
+    {
+      "type": "gcp-region",
+      "path": null,
+      "reason": "Nenhum marcador específico para este agrupamento foi encontrado nos pacotes oficiais core/category atuais. Mantido o símbolo genérico do editor, sem equivalência inventada."
+    },
+    {
+      "type": "gcp-zone",
+      "path": null,
+      "reason": "Nenhum marcador específico para este agrupamento foi encontrado nos pacotes oficiais core/category atuais. Mantido o símbolo genérico do editor, sem equivalência inventada."
+    },
+    {
+      "type": "gcp-subnet",
+      "path": null,
+      "reason": "Nenhum marcador específico para este agrupamento foi encontrado nos pacotes oficiais core/category atuais. Mantido o símbolo genérico do editor, sem equivalência inventada."
+    },
+    {
+      "type": "gcp-project",
+      "path": null,
+      "reason": "Nenhum marcador específico para este agrupamento foi encontrado nos pacotes oficiais core/category atuais. Mantido o símbolo genérico do editor, sem equivalência inventada."
+    },
+    {
+      "type": "gcp-cloud",
+      "path": null,
+      "reason": "Nenhum marcador específico para este agrupamento foi encontrado nos pacotes oficiais core/category atuais. Mantido o símbolo genérico do editor, sem equivalência inventada."
+    }
+  ],
+  "updatedAtUTC": "2026-09-14T01:05:01+00:00"
+}

@@ -1,0 +1,12 @@
+[
+  {
+    "type": "oracle",
+    "source": "https://raw.githubusercontent.com/devicons/devicon/master/icons/oracle/oracle-original.svg",
+    "file": "oracle.svg"
+  },
+  {
+    "type": "mariadb",
+    "source": "https://raw.githubusercontent.com/devicons/devicon/master/icons/mariadb/mariadb-original.svg",
+    "file": "mariadb.svg"
+  }
+]

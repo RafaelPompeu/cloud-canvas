@@ -1,0 +1,297 @@
+{
+  "description": "Official project assets used to identify editable data architecture components. Names and logos remain the trademarks of their respective owners. No affiliation or endorsement is implied.",
+  "retrieved_at": "2026-09-13",
+  "icons": [
+    {
+      "types": [
+        "kafka"
+      ],
+      "path": "/static/icons/shared/kafka.svg",
+      "source": "https://raw.githubusercontent.com/apache/kafka-site/markdown/assets/icons/logo.svg",
+      "source_page": "https://github.com/apache/kafka-site/blob/markdown/assets/icons/logo.svg",
+      "retrieved_url": "https://raw.githubusercontent.com/apache/kafka-site/markdown/assets/icons/logo.svg",
+      "original_filename": "logo.svg",
+      "owner": "The Apache Software Foundation",
+      "changes": "None; original SVG bytes preserved.",
+      "sha256": "76af24fd1768521d2fadac9317f64176d0c1892c520b118f20aa998bff31c023",
+      "bytes": 1857,
+      "viewBox": "0 0 256 416",
+      "original_dimensions": {
+        "width": "154",
+        "height": "250"
+      }
+    },
+    {
+      "types": [
+        "rabbitmq"
+      ],
+      "path": "/static/icons/shared/rabbitmq.svg",
+      "source": "https://www.rabbitmq.com/assets/files/rabbitmq-logo-e91cacd38fcef5219149bc5cfa10b384.svg",
+      "source_page": "https://www.rabbitmq.com/trademark-guidelines",
+      "retrieved_url": "https://www.rabbitmq.com/assets/files/rabbitmq-logo-e91cacd38fcef5219149bc5cfa10b384.svg",
+      "original_filename": "rabbitmq-logo-e91cacd38fcef5219149bc5cfa10b384.svg",
+      "owner": "Broadcom, Inc.",
+      "changes": "None; original SVG bytes preserved.",
+      "sha256": "5c83f8a9819ca280dd32eef7e79c567a071dddc6a66a120b5d1511f286766749",
+      "bytes": 2087,
+      "viewBox": "0 0 132.29167 132.29166",
+      "original_dimensions": {
+        "width": "500",
+        "height": "500"
+      }
+    },
+    {
+      "types": [
+        "spark"
+      ],
+      "path": "/static/icons/shared/spark.svg",
+      "source": "https://raw.githubusercontent.com/apache/spark/master/core/src/main/resources/org/apache/spark/ui/static/spark-logo.svg",
+      "source_page": "https://github.com/apache/spark/blob/master/core/src/main/resources/org/apache/spark/ui/static/spark-logo.svg",
+      "retrieved_url": "https://raw.githubusercontent.com/apache/spark/master/core/src/main/resources/org/apache/spark/ui/static/spark-logo.svg",
+      "original_filename": "spark-logo.svg",
+      "owner": "The Apache Software Foundation",
+      "changes": "None; original SVG bytes preserved.",
+      "sha256": "663eaf331c13d28408ec14397d1cc086d52218b0e0dcc173381c3f5590bf29e7",
+      "bytes": 5760,
+      "viewBox": "0 0 68 36",
+      "original_dimensions": {
+        "width": "68",
+        "height": "36"
+      },
+      "display_note": "Original complete project logo retained, including wordmark; text becomes small at catalog icon size."
+    },
+    {
+      "types": [
+        "flink"
+      ],
+      "path": "/static/icons/shared/flink.svg",
+      "source": "https://flink.apache.org/img/logo/svg/color_black.svg",
+      "source_page": "https://flink.apache.org/material/",
+      "retrieved_url": "https://flink.apache.org/img/logo/svg/color_black.svg",
+      "original_filename": "color_black.svg",
+      "owner": "The Apache Software Foundation",
+      "changes": "Isolated original colored squirrel symbol New_Symbol_3 from official logo sheet; paths, gradients and colors preserved. Removed other displayed variants and fitted viewport.",
+      "sha256": "1ca4d022890062da702e2445e8fb104b782c26b09bfce383c6e58d297c2b6249",
+      "bytes": 146018,
+      "viewBox": "-52 -52 104 104",
+      "original_dimensions": {
+        "width": "2000px",
+        "height": "1280px"
+      },
+      "display_note": "Compact squirrel symbol, no wordmark.",
+      "source_sha256": "99ed45bf23011d488798c7347d2265970746b995cf7a46d7c8b9b4f9e4b144bd"
+    },
+    {
+      "types": [
+        "dbt"
+      ],
+      "path": "/static/icons/shared/dbt.svg",
+      "source": "https://raw.githubusercontent.com/dbt-labs/docs.getdbt.com/current/website/static/img/favicon.svg",
+      "source_page": "https://github.com/dbt-labs/docs.getdbt.com/blob/current/website/static/img/favicon.svg",
+      "retrieved_url": "https://raw.githubusercontent.com/dbt-labs/docs.getdbt.com/current/website/static/img/favicon.svg",
+      "original_filename": "favicon.svg",
+      "owner": "dbt Labs, Inc.",
+      "changes": "None; original SVG bytes preserved.",
+      "sha256": "3f3583bed9a9e2cf6c4f1c7e38737334301acbbb1733cf69090e0b357cb0cf78",
+      "bytes": 4247,
+      "viewBox": "0 0 16 16",
+      "original_dimensions": {
+        "width": "16",
+        "height": "16"
+      }
+    },
+    {
+      "types": [
+        "postgresql"
+      ],
+      "path": "/static/icons/shared/postgresql.svg",
+      "source": "https://wiki.postgresql.org/images/a/a4/PostgreSQL_logo.3colors.svg",
+      "source_page": "https://wiki.postgresql.org/wiki/Logo",
+      "retrieved_url": "https://wiki.postgresql.org/images/a/a4/PostgreSQL_logo.3colors.svg",
+      "original_filename": "PostgreSQL_logo.3colors.svg",
+      "owner": "PostgreSQL Global Development Group",
+      "changes": "None; original SVG bytes preserved.",
+      "sha256": "51f93e19516081fc7d6fe6ab9bbab07abe5f7819e28016eefacea6dea691bc54",
+      "bytes": 4461,
+      "viewBox": "0 0 432.071 445.383",
+      "original_dimensions": {
+        "width": "432.071pt",
+        "height": "445.383pt"
+      }
+    },
+    {
+      "types": [
+        "mongodb"
+      ],
+      "path": "/static/icons/shared/mongodb.svg",
+      "source": "https://webimages.mongodb.com/_com_assets/cms/kuyjf3vea2hg34taa-horizontal_default_slate_blue.svg",
+      "source_page": "https://www.mongodb.com/company/newsroom/brand-resources",
+      "retrieved_url": "https://webimages.mongodb.com/_com_assets/cms/kuyjf3vea2hg34taa-horizontal_default_slate_blue.svg",
+      "original_filename": "kuyjf3vea2hg34taa-horizontal_default_slate_blue.svg",
+      "owner": "MongoDB, Inc.",
+      "changes": "None; original SVG bytes preserved.",
+      "sha256": "9f5435c8be18a834b2c2f8c4c03f117a997646c660fd6f28e3b6869a1bc2fcc1",
+      "bytes": 11428,
+      "viewBox": "0 0 1102 278",
+      "original_dimensions": {
+        "width": "1102",
+        "height": "278"
+      },
+      "display_note": "Original complete project logo retained, including wordmark; text becomes small at catalog icon size."
+    },
+    {
+      "types": [
+        "redis"
+      ],
+      "path": "/static/icons/shared/redis.svg",
+      "source": "https://raw.githubusercontent.com/redis/docs/main/static/images/icon-redis.svg",
+      "source_page": "https://github.com/redis/docs/blob/main/static/images/icon-redis.svg",
+      "retrieved_url": "https://raw.githubusercontent.com/redis/docs/main/static/images/icon-redis.svg",
+      "original_filename": "icon-redis.svg",
+      "owner": "Redis Ltd.",
+      "changes": "None; original SVG bytes preserved. Official compact database logomark, without wordmark.",
+      "sha256": "e61e4a0d35028a8ec5bae421597f23a4c439a5f7056cd5dd54a3de93defba1a1",
+      "bytes": 3460,
+      "viewBox": "0 0 26 23",
+      "original_dimensions": {
+        "width": "26",
+        "height": "23"
+      },
+      "retrieved_at": "2026-09-13"
+    },
+    {
+      "types": [
+        "clickhouse"
+      ],
+      "path": "/static/icons/shared/clickhouse.svg",
+      "source": "https://clickhouse.com/icon0.svg",
+      "source_page": "https://clickhouse.com/",
+      "retrieved_url": "https://clickhouse.com/icon0.svg",
+      "original_filename": "icon0.svg",
+      "owner": "ClickHouse, Inc.",
+      "changes": "None; original SVG bytes preserved.",
+      "sha256": "97e3c3f37814cf2cecd452d7d425f6d26dcedc7230a555327d797d370a01261c",
+      "bytes": 434,
+      "viewBox": "0 0 512 512",
+      "original_dimensions": {
+        "width": "512",
+        "height": "512"
+      }
+    },
+    {
+      "types": [
+        "trino"
+      ],
+      "path": "/static/icons/shared/trino.svg",
+      "source": "https://trino.io/assets/images/trino-logo/trino-ko_tiny-alt.svg",
+      "source_page": "https://trino.io/",
+      "retrieved_url": "https://trino.io/assets/images/trino-logo/trino-ko_tiny-alt.svg",
+      "original_filename": "trino-ko_tiny-alt.svg",
+      "owner": "Trino Software Foundation",
+      "changes": "None; original SVG bytes preserved.",
+      "sha256": "d1dd400467040aaa53d908d3ea743579874625d46d5223f6f1ea7568ae169caa",
+      "bytes": 4030,
+      "viewBox": "0 0 42.1 62.45",
+      "original_dimensions": {
+        "width": null,
+        "height": null
+      }
+    },
+    {
+      "types": [
+        "debezium"
+      ],
+      "path": "/static/icons/shared/debezium.svg",
+      "source": "https://debezium.io/assets/images/color_black_debezium_type_600px.svg",
+      "source_page": "https://github.com/debezium/debezium.github.io/blob/develop/assets/images/color_black_debezium_type_600px.svg",
+      "retrieved_url": "https://debezium.io/assets/images/color_black_debezium_type_600px.svg",
+      "original_filename": "color_black_debezium_type_600px.svg",
+      "owner": "Debezium project / Commonhaus Foundation",
+      "changes": "None; original SVG bytes preserved.",
+      "sha256": "c77a8be594441b31ebeb226cdb04c59f301485488e0d7f6d172b1bb9b821f358",
+      "bytes": 4462,
+      "viewBox": "0 0 600 130.93",
+      "original_dimensions": {
+        "width": null,
+        "height": null
+      },
+      "display_note": "Original complete project logo retained, including wordmark; text becomes small at catalog icon size."
+    },
+    {
+      "types": [
+        "nifi"
+      ],
+      "path": "/static/icons/shared/nifi.svg",
+      "source": "https://nifi.apache.org/images/apache-nifi-drop-logo.svg",
+      "source_page": "https://nifi.apache.org/",
+      "retrieved_url": "https://nifi.apache.org/images/apache-nifi-drop-logo.svg",
+      "original_filename": "apache-nifi-drop-logo.svg",
+      "owner": "The Apache Software Foundation",
+      "changes": "None; original SVG bytes preserved.",
+      "sha256": "efeaac6ffbb56d18a4e1e3c6ecf519003e2e7187fb34a2c7b2f9930015877bcc",
+      "bytes": 2554,
+      "viewBox": "0 0 90 118.78",
+      "original_dimensions": {
+        "width": null,
+        "height": null
+      }
+    },
+    {
+      "types": [
+        "superset"
+      ],
+      "path": "/static/icons/shared/superset.svg",
+      "source": "https://raw.githubusercontent.com/apache/superset/master/docs/static/img/logo.svg",
+      "source_page": "https://github.com/apache/superset/blob/master/docs/static/img/logo.svg",
+      "retrieved_url": "https://raw.githubusercontent.com/apache/superset/master/docs/static/img/logo.svg",
+      "original_filename": "logo.svg",
+      "owner": "The Apache Software Foundation",
+      "changes": "None; original SVG bytes preserved.",
+      "sha256": "11db095c01e686649daa511aa00cdf4779f10c0d54d922c0d23547dd46b78520",
+      "bytes": 7231,
+      "viewBox": "0 0 200 200",
+      "original_dimensions": {
+        "width": "200",
+        "height": "200"
+      }
+    },
+    {
+      "types": [
+        "jupyter"
+      ],
+      "path": "/static/icons/shared/jupyter.svg",
+      "source": "https://jupyter.org/assets/jupyter/logo/logomark-orangebody-greyplanets.svg",
+      "source_page": "https://jupyter.org/",
+      "retrieved_url": "https://jupyter.org/assets/jupyter/logo/logomark-orangebody-greyplanets.svg",
+      "original_filename": "logomark-orangebody-greyplanets.svg",
+      "owner": "Project Jupyter",
+      "changes": "None; original SVG bytes preserved.",
+      "sha256": "95e108062e4f98c78736cf18f3ca7945719bae2a299ef0adc598fb68b8ba8ecc",
+      "bytes": 4126,
+      "viewBox": "0 0 39 51",
+      "original_dimensions": {
+        "width": "39",
+        "height": "51"
+      }
+    },
+    {
+      "types": [
+        "duckdb"
+      ],
+      "path": "/static/icons/shared/duckdb.svg",
+      "source": "https://duckdb.org/images/designmanual/DuckDB_icon-lightmode.svg",
+      "source_page": "https://duckdb.org/design/manual/",
+      "retrieved_url": "https://duckdb.org/images/designmanual/DuckDB_icon-lightmode.svg",
+      "original_filename": "DuckDB_icon-lightmode.svg",
+      "owner": "DuckDB Foundation",
+      "changes": "None; original SVG bytes preserved.",
+      "sha256": "ef24502507bc02b670731722971aeeb999ee11456f2f91991ceb3775e138a26d",
+      "bytes": 883,
+      "viewBox": "0 0 500 500",
+      "original_dimensions": {
+        "width": null,
+        "height": null
+      }
+    }
+  ]
+}

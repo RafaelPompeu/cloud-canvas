@@ -1,0 +1,15 @@
+{
+  "provider": "Apache Software Foundation",
+  "retrieved_at": "2026-09-13",
+  "source_page": "https://airflow.apache.org/community/",
+  "attribution": "Apache Airflow and its logo are trademarks of The Apache Software Foundation.",
+  "icons": [
+    {
+      "types": ["airflow", "airflow-group"],
+      "path": "/static/icons/shared/airflow.svg",
+      "source": "https://airflow.apache.org/images/airflow-icon.svg",
+      "original_filename": "airflow-icon.svg",
+      "changes": "None; original SVG bytes preserved."
+    }
+  ]
+}
