@@ -1,6 +1,14 @@
 # Cloud Canvas
 
+<p align="center">
+  <img src="static/brand/cloud-canvas-logo.png" alt="Cloud Canvas - logo" width="580">
+</p>
+
 Editor visual de arquiteturas cloud e fluxos de dados, com **Flask, JavaScript nativo, SVG e SQLite**. Monte diagramas AWS, Google Cloud e de tecnologias como Oracle, MariaDB, Kafka e Airflow no navegador. Funciona localmente, sem provisionar infraestrutura.
+
+## Exemplo da aplicação
+
+![Cloud Canvas com exemplo de arquitetura multicloud](docs/images/cloud-canvas-example.png)
 
 ## Recursos
 
