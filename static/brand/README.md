@@ -1,12 +1,11 @@
-# Logo Cloud Canvas
+# Identidade Cloud Canvas
 
-Logo horizontal em PNG, com fundo transparente, gerada com a ferramenta integrada ImageGen.
+Identidade vetorial criada para o projeto: nuvem aberta e dois blocos ligados por uma conexão ortogonal, representando a edição de arquiteturas.
 
-Conceito: nuvem com tr?s n?s conectados, contornos escuros e detalhes em verde-?gua, rosa e amarelo pastel.
+- `cloud-canvas-logo.svg`: assinatura para fundo claro, grafite e verde-petróleo.
+- `cloud-canvas-logo-dark.svg`: assinatura para fundo escuro, branco e verde-água.
+- `cloud-canvas-icon.svg`: símbolo compacto sobre fundo grafite; também usado em `../favicon.svg`.
 
-Prompt utilizado:
-> Create a polished professional horizontal logo for an application named exactly 'Cloud Canvas'. It is a visual cloud architecture diagram editor. Transparent background, actual alpha transparency. A compact distinctive symbol on the left: a simple cloud outline with three connected diagram nodes integrated into it, precise near-black ink strokes with pastel teal, blush pink and soft yellow node fills. Wordmark on the right reading Cloud Canvas, dark charcoal, friendly clean slightly handwritten lettering, legible and refined, no other text or tagline. Flat vector-like brand design, no texture, no paper, no leaves, no gradient, no shadows, no mockup, no multiple variants. Wide horizontal composition, generous clear space, tight useful framing. Must work on white backgrounds in a GitHub README.
+A tipografia foi desenhada a partir de Segoe UI Semibold e convertida em curvas. Os SVGs não dependem de fontes instaladas, imagens externas ou scripts. Preserve a proporção e o espaço entre símbolo e nome. No cabeçalho, use a versão escura sem caixa branca.
 
-A captura em docs/images/cloud-canvas-example.png ? uma imagem real da aplica??o, n?o uma imagem gerada.
-
-O README principal usa docs/images/cloud-canvas-demo.gif, gravado na aplicacao real.
+O PNG anterior permanece como arquivo histórico e não é usado pela interface. O GIF em `docs/images/cloud-canvas-demo.gif` é uma gravação real da aplicação anterior a esta revisão da marca.

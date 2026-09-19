@@ -36,3 +36,10 @@ dialog{background:#ffffff;border:2px solid #292c32;border-radius:5px 9px 4px 7px
 #mode-hint{display:none}.canvas-bottom{justify-content:flex-end}
 
 .library-footer{display:none}
+
+/* Vector identity, with a dedicated high-contrast dark-background wordmark. */
+.topbar .brand{min-width:0;flex:0 0 216px;display:flex;align-items:center;justify-content:flex-start;background:transparent;border-radius:0;padding:0;height:48px}
+.brand-logo{display:block;width:100%;height:auto;max-height:48px;object-fit:contain}
+.topbar .brand:focus-visible{outline:2px solid #93ddd2;outline-offset:4px;border-radius:4px}
+@media(max-width:1200px){.topbar .brand{flex-basis:190px}}
+@media(max-width:680px){.topbar .brand{flex-basis:155px;height:38px}}
