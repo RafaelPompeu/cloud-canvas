@@ -86,6 +86,28 @@ Os diagramas ficam em `instance/diagrams.sqlite3`, criado automaticamente. Faça
 
 O editor foi projetado para uso local individual: escuta em `127.0.0.1`, sem autenticação ou edição colaborativa. Publicar o código no GitHub não hospeda a aplicação.
 
+## Publicar no Render
+
+O repositório inclui `render.yaml` para um Web Service no plano **Free**, servido por Gunicorn. No [painel do Render](https://dashboard.render.com), escolha **New > Blueprint**, conecte este repositório, selecione a branch com esse arquivo e confira o plano Free antes de criar o serviço.
+
+Para configurar por **New > Web Service**, use:
+
+| Campo | Valor |
+| --- | --- |
+| Language | Python 3 |
+| Build Command | `pip install -r requirements.txt` |
+| Start Command | `gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 4 --forwarded-allow-ips='*' --access-logfile - 'app:create_app()'` |
+| Instance Type | Free |
+| Health Check Path | `/api/health` |
+
+Após o deploy, `/api/health` deve responder `{"status":"ok"}`. O comando usa a fábrica `create_app()`; este projeto não expõe uma variável global `app`.
+
+O parâmetro `--forwarded-allow-ips='*'` permite que o Gunicorn reconheça o HTTPS informado pelo proxy do Render, mantendo a validação de origem ao salvar. Use esse comando somente atrás do proxy da plataforma; não exponha diretamente essa configuração de Gunicorn à internet.
+
+**Armazenamento:** no Render, Salvar diagrama grava no servidor. No plano gratuito, o SQLite é temporário e seus dados são perdidos em reinícios, novos deploys ou suspensão por inatividade. Use **Exportar > JSON** para guardar o arquivo no computador e a importação de JSON para restaurá-lo. Links de diagramas salvos deixam de funcionar quando o banco é recriado. O serviço gratuito suspende após 15 minutos sem tráfego e pode demorar a atender o próximo acesso. Consulte as [limitações oficiais](https://render.com/docs/free).
+
+**Acesso público:** o editor não tem autenticação nem isolamento entre usuários. Qualquer pessoa pode listar, consultar e alterar diagramas salvos pela API. Essa configuração serve para demonstrações com dados não confidenciais. Não envie o banco local `instance/diagrams.sqlite3` ao repositório ou ao Render. Uso privado com armazenamento permanente exige outra configuração.
+
 ## Estrutura
 
 | Arquivo | Responsabilidade |
