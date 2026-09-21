@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 512 512">
+  
+  <defs><filter id="pencil" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.0136719" numOctaves="1" seed="12" result="grain" /><feDisplacementMap in="SourceGraphic" in2="grain" scale="5.12" xChannelSelector="R" yChannelSelector="G" /></filter></defs><g filter="url(#pencil)"><g id="bounding_box">
+    <rect width="512" height="512" fill="none" />
+  </g>
+  <g id="art">
+    <path d="M128,244.99c-8.84,0-16-7.16-16-16v-95.97c0-8.84,7.16-16,16-16s16,7.16,16,16v95.97c0,8.84-7.16,16-16,16Z" fill="#fad0cc" stroke="#3b4048" stroke-width="6.656" stroke-linejoin="round" stroke-linecap="round" />
+    <path d="M256,458c-2.98,0-5.97-.83-8.59-2.5l-186-122c-7.46-4.74-9.65-14.63-4.91-22.09,4.75-7.46,14.64-9.65,22.09-4.91l177.41,116.53,177.41-116.53c7.45-4.74,17.34-2.55,22.09,4.91,4.74,7.46,2.55,17.34-4.91,22.09l-186,122c-2.62,1.67-5.61,2.5-8.59,2.5Z" fill="#feeec0" stroke="#3b4048" stroke-width="6.656" stroke-linejoin="round" stroke-linecap="round" />
+    <path d="M256,388.03c-8.84,0-16-7.16-16-16v-73.06c0-8.84,7.16-16,16-16s16,7.16,16,16v73.06c0,8.84-7.16,16-16,16Z" fill="#cce9d4" stroke="#3b4048" stroke-width="6.656" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="128" cy="70" r="16" fill="#fad0cc" stroke="#3b4048" stroke-width="6.656" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="128" cy="292" r="16" fill="#fad0cc" stroke="#3b4048" stroke-width="6.656" stroke-linejoin="round" stroke-linecap="round" />
+    <path d="M384.23,308.01c-8.82,0-15.98-7.14-16-15.97l-.23-94.01c-.02-8.84,7.13-16.02,15.97-16.03h.04c8.82,0,15.98,7.14,16,15.97l.23,94.01c.02,8.84-7.13,16.02-15.97,16.03h-.04Z" fill="#d0e0fc" stroke="#3b4048" stroke-width="6.656" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="384" cy="70" r="16" fill="#d0e0fc" stroke="#3b4048" stroke-width="6.656" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="384" cy="134" r="16" fill="#d0e0fc" stroke="#3b4048" stroke-width="6.656" stroke-linejoin="round" stroke-linecap="round" />
+    <path d="M320,220.36c-8.84,0-16-7.16-16-16v-103.02c0-8.84,7.16-16,16-16s16,7.16,16,16v103.02c0,8.84-7.16,16-16,16Z" fill="#feeec0" stroke="#3b4048" stroke-width="6.656" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="256" cy="171" r="16" fill="#cce9d4" stroke="#3b4048" stroke-width="6.656" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="256" cy="235" r="16" fill="#cce9d4" stroke="#3b4048" stroke-width="6.656" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="320" cy="265" r="16" fill="#feeec0" stroke="#3b4048" stroke-width="6.656" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="320" cy="329" r="16" fill="#feeec0" stroke="#3b4048" stroke-width="6.656" stroke-linejoin="round" stroke-linecap="round" />
+    <path d="M192,217.36c-8.84,0-16-7.16-16-16v-100.02c0-8.84,7.16-16,16-16s16,7.16,16,16v100.02c0,8.84-7.16,16-16,16Z" fill="#feeec0" stroke="#3b4048" stroke-width="6.656" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="192" cy="265" r="16" fill="#feeec0" stroke="#3b4048" stroke-width="6.656" stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="192" cy="329" r="16" fill="#feeec0" stroke="#3b4048" stroke-width="6.656" stroke-linejoin="round" stroke-linecap="round" />
+  </g>
+</g></svg>

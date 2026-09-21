@@ -29,18 +29,28 @@ const paths = {
   queue:'<rect x="3" y="8" width="7" height="16" rx="1"/><rect x="13" y="8" width="7" height="16" rx="1"/><path d="M24 16h6m-3-3 3 3-3 3"/>',
   users:'<circle cx="16" cy="10" r="5"/><path d="M6 28v-4a10 10 0 0 1 20 0v4M5 5a5 5 0 0 0 0 10m22-10a5 5 0 0 1 0 10M2 25v-4a7 7 0 0 1 4-6m24 10v-4a7 7 0 0 0-4-6"/>'
 };
+const sketchPaths = {
+  box:'<path d="M4 8Q14 6 28 8L27 27Q15 26 5 28Z" stroke-dasharray="4 3"/><path d="M10 13L22 12L23 22L10 23Z"/><path d="M7 29L19 28" opacity=".35"/>',
+  users:'<path d="M12 5C21 1 23 15 16 16C9 17 8 8 12 5ZM6 28L7 23C9 16 24 17 26 24L26 28M5 7C0 8 1 16 6 16M26 7C31 8 31 15 27 16M2 26L2 23Q2 19 5 19M30 26L30 23Q30 19 27 19"/><path d="M9 29L22 28" opacity=".35"/>',
+  globe:'<path d="M16 3C32 2 34 28 17 29C1 31-2 5 16 3ZM15 4C8 11 10 23 17 29M17 4C24 12 22 22 17 29M4 15Q16 17 28 15M7 8Q16 12 25 8M7 24Q16 20 25 24"/>',
+  source:'<path d="M5 5L23 4L24 13M5 5L4 28L17 27M9 10L19 9M9 15L17 15M9 21L14 20M18 22Q23 21 29 22L24 17M29 22L24 27"/><path d="M7 30L15 29" opacity=".35"/>',
+  api:'<path d="M10 8L3 16L10 23M22 8L29 15L22 24M19 4Q16 16 13 28"/><path d="M4 18L9 24M20 5L17 15" opacity=".35"/>',
+  text:'<path d="M5 10L5 5Q15 4 27 5L27 9M16 5Q15 17 16 28M10 28L22 27"/><path d="M8 7L24 6M18 10L17 24" opacity=".35"/>',
+  note:'<path d="M6 4L22 3L28 10L27 28L5 29ZM22 3L21 11L28 10M10 15L22 14M10 20L22 19M10 25L17 24"/><path d="M8 31L25 30" opacity=".35"/>'
+};
+const iconPaths = item => `<g stroke="#3b4048" stroke-width="1.35">${sketchPaths[item.icon] || paths[item.icon] || paths.box}</g>`;
 let officialIcons=new Map();
 function icon(item, extra='') {
   const asset=officialIcons.get(item.iconAsset);
   if(asset)return `<img class="service-icon ${extra}" src="${asset}" alt="" draggable="false">`;
-  return `<svg class="service-icon ${extra}" viewBox="0 0 32 32" fill="none" stroke="${item.color}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[item.icon] || paths.box}</svg>`;
+  return `<svg class="service-icon ${extra}" viewBox="0 0 32 32" fill="none" stroke="${item.color}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${iconPaths(item)}</svg>`;
 }
 function svgEl(tag, attrs={}, text) {const e=document.createElementNS(NS,tag);for(const [k,v]of Object.entries(attrs))e.setAttribute(k,v);if(text!==undefined)e.textContent=text;return e;}
 function canvasIcon(item,x,y,size){
   const asset=officialIcons.get(item.iconAsset);
   if(asset)return svgEl('image',{x,y,width:size,height:size,href:asset,preserveAspectRatio:'xMidYMid meet','aria-hidden':'true'});
   const inner=svgEl('svg',{x,y,width:size,height:size,viewBox:'0 0 32 32',fill:'none',stroke:item.color,'stroke-width':1.8,'stroke-linecap':'round','stroke-linejoin':'round'});
-  inner.innerHTML=paths[item.icon]||paths.box;return inner;
+  inner.innerHTML=iconPaths(item);return inner;
 }
 const short=(text,length=21)=>text.length>length?text.slice(0,length-1)+'…':text;
 function wrapText(value,limit,maxLines=3){let rest=String(value||'').trim();const lines=[];while(rest&&lines.length<maxLines){if(rest.length<=limit){lines.push(rest);rest='';break;}let cut=rest.lastIndexOf(' ',limit);if(cut<1)cut=limit;lines.push(rest.slice(0,cut));rest=rest.slice(cut).trimStart();}if(rest&&lines.length)lines[lines.length-1]=short(lines[lines.length-1]+' '+rest,limit);return lines;}
@@ -49,7 +59,7 @@ function documentUrl(id){const url=new URL(location.href);if(id)url.searchParams
 
 let graph, catalog=[], provider='all', selected=null, tool='select', connectionStart=null, drag=null;
 let selectedIds=new Set();
-let diagramId=null, dirty=false, revision=0, saving=false, lastSaved='Diagrama de exemplo · não salvo';
+let dirty=false, revision=0, lastSaved='Diagrama de exemplo · não salvo';
 let history=[], future=[], view={x:0,y:0,z:1}, spaceDown=false;
 let nodeElements=new Map(),edgeElements=new Map(),toastTimer;
 let documentSession=0;
@@ -90,7 +100,7 @@ function remember(){history.push(graph.serialize());if(history.length>60)history
 function updateHistory(){const group=graph?.byId.get(selected);$('arrange-btn').hidden=!(selectedIds.size===1&&group&&graph.isGroup(group));$('arrange-btn').disabled=!group||!graph.children(group.id).length;if($('selection-count'))$('selection-count').textContent=selectedIds.size?`${selectedIds.size} selecionado${selectedIds.size>1?'s':''}`:'';$('undo-btn').disabled=!history.length;$('redo-btn').disabled=!future.length;$('delete-btn').disabled=!selected;}
 function change(action,{rebuild=true}={}){const before=graph.serialize();try{action();history.push(before);if(history.length>60)history.shift();future=[];markDirty();if(rebuild)rebuildGraph();else{renderPositions();}updateHistory();}catch(e){graph.load(before);rebuildGraph();toast(e.message,true);}}
 function undo(redo=false){const source=redo?future:history,target=redo?history:future;if(!source.length)return;target.push(graph.serialize());graph.load(source.pop());$('diagram-name').value=graph.data.name;selected=null;selectedIds.clear();connectionStart=null;markDirty();rebuildGraph();}
-function loadDiagram(data,id=null){documentSession++;graph.load(data);diagramId=id;documentUrl(id);selected=null;selectedIds.clear();connectionStart=null;history=[];future=[];dirty=false;revision++;lastSaved=id?'Diagrama salvo neste computador':'Diagrama não salvo';$('diagram-name').value=data.name;$('save-state').textContent=lastSaved;setTool('select');rebuildGraph();fit();}
+function loadDiagram(data,id=null){documentSession++;graph.load(data);documentUrl(id);selected=null;selectedIds.clear();connectionStart=null;history=[];future=[];dirty=false;revision++;lastSaved=id?'Diagrama antigo · salve em arquivo JSON':'Diagrama não salvo';$('diagram-name').value=data.name;$('save-state').textContent=lastSaved;setTool('select');rebuildGraph();fit();}
 
 function renderCatalog(){
   const items=filterCatalog(catalog,provider,$('search').value);
@@ -123,7 +133,7 @@ function rebuildGraph(){
       if(node.detail)g.append(svgEl('text',{x:38,y:32,class:'group-detail'},short(node.detail,Math.floor((node.w-55)/5.3))));
       g.append(svgEl('rect',{class:'group-header-hit',width:node.w,height:40,rx:9}));
       g.append(svgEl('rect',{class:'resize-handle',x:node.w-9,y:node.h-9,width:9,height:9,rx:2,'data-resize':node.id}));
-      g.append(svgEl('circle',{class:'port',cx:node.w,cy:20,r:5,'data-port':node.id}));
+      for(const [side,cx,cy]of [['left',0,node.h/2],['right',node.w,node.h/2],['top',node.w/2,0],['bottom',node.w/2,node.h]])g.append(svgEl('circle',{class:'port',cx,cy,r:6,'data-port':node.id,'data-side':side}));
       $('groups').append(g);
     }else if(['text','note'].includes(node.type)){
       const note=node.type==='note';
@@ -146,7 +156,7 @@ function rebuildGraph(){
       const titleText=svgEl('text',{class:'node-label'});svgLines(titleText,wrapText(node.label,Math.max(10,Math.floor((node.w-62)/6.5)),2),53,38);g.append(titleText);
       const detailLines=wrapText(node.detail,Math.max(20,Math.floor((node.w-24)/4.8)),Math.max(1,Math.min(4,Math.floor((node.h-58)/12))));
       const detailText=svgEl('text',{class:'node-detail'});svgLines(detailText,detailLines,12,node.h-12-(detailLines.length-1)*12);g.append(detailText);
-      for(const [cx,cy]of [[0,node.h/2],[node.w,node.h/2],[node.w/2,0],[node.w/2,node.h]])g.append(svgEl('circle',{class:'port',cx,cy,r:4.5,'data-port':node.id}));
+      for(const [side,cx,cy]of [['left',0,node.h/2],['right',node.w,node.h/2],['top',node.w/2,0],['bottom',node.w/2,node.h]])g.append(svgEl('circle',{class:'port',cx,cy,r:6,'data-port':node.id,'data-side':side}));
       g.append(svgEl('rect',{class:'resize-handle',x:node.w-9,y:node.h-9,width:9,height:9,rx:2,'data-resize':node.id}));
       $('nodes').append(g);
     }
@@ -214,7 +224,7 @@ function renderSelection(){
   }
 }
 function setTool(value){if(drag)endDrag(true);tool=value;connectionStart=null;$('draft-edge').setAttribute('d','');for(const t of ['select','pan','connect']){$(`${t}-tool`).classList.toggle('active',t===value);$(`${t}-tool`).setAttribute('aria-pressed',t===value);}
-  canvas.classList.toggle('panning',value==='pan');canvas.classList.toggle('connecting',value==='connect');$('mode-hint').textContent=value==='connect'?'Clique na origem e depois no destino · Esc para cancelar':value==='pan'?'Arraste o canvas para navegar':'Clique e arraste uma área vazia para selecionar · Shift + clique para adicionar';renderSelectionClasses();}
+  canvas.classList.toggle('panning',value==='pan');canvas.classList.toggle('connecting',value==='connect');$('mode-hint').textContent=value==='connect'?'Clique na origem e depois no destino · Esc para cancelar':value==='pan'?'Arraste o canvas para navegar':'Arraste um ponto lateral para conectar · Shift + clique para selecionar vários';renderSelectionClasses();}
 function transform(){ $('viewport').setAttribute('transform',`translate(${view.x} ${view.y}) scale(${view.z})`);$('grid').setAttribute('patternTransform',`translate(${view.x} ${view.y}) scale(${view.z})`);$('zoom-value').textContent=`${Math.round(view.z*100)}%`; }
 function point(event){const r=canvas.getBoundingClientRect();return{x:(event.clientX-r.left-view.x)/view.z,y:(event.clientY-r.top-view.y)/view.z};}
 function fit(){const r=canvas.getBoundingClientRect(),b=graph.bounds();if(!r.width||!r.height)return;view.z=clamp(Math.min((r.width-100)/b.w,(r.height-170)/b.h),.15,1.35);view.x=(r.width-b.w*view.z)/2-b.x*view.z;view.y=(r.height-b.h*view.z)/2-b.y*view.z+15;transform();}
@@ -231,6 +241,29 @@ function addComponent(type,position=null){
 function connectTo(id){if(!connectionStart){connectionStart=id;selected=id;selectedIds=new Set([id]);renderSelectionClasses();$('mode-hint').textContent='Agora clique no destino · Esc para cancelar';return;}
   const from=connectionStart;change(()=>{selected=graph.connect(from,id).id;selectedIds.clear();});connectionStart=null;$('draft-edge').setAttribute('d','');$('mode-hint').textContent='Conexão criada. Clique na próxima origem ou pressione V.';}
 
+function previewConnection(event){
+  const d=drag,p=point(event);
+  for(const el of nodeElements.values()){el.classList.remove('connection-target');for(const port of el.querySelectorAll('.port'))port.classList.remove('port-target');}
+  const hit=document.elementFromPoint(event.clientX,event.clientY);
+  const target=graph.byId.get(hit?.closest('[data-node]')?.dataset.node);
+  d.target=null;
+  if(target&&target.id!==d.id){
+    const box=graph.world(target);
+    const sides=[['left',box.x,box.y+target.h/2],['right',box.x+target.w,box.y+target.h/2],['top',box.x+target.w/2,box.y],['bottom',box.x+target.w/2,box.y+target.h]];
+    d.target=target.id;
+    d.targetPort=hit.dataset.side||sides.sort((a,b)=>Math.hypot(p.x-a[1],p.y-a[2])-Math.hypot(p.x-b[1],p.y-b[2]))[0][0];
+    const el=nodeElements.get(target.id);el.classList.add('connection-target');el.querySelector(`[data-side="${d.targetPort}"]`)?.classList.add('port-target');
+  }
+  const floating={id:'__draft_target',x:p.x,y:p.y,w:0,h:0};
+  const previewGraph=d.target?graph:{byId:new Map([...graph.byId,[floating.id,floating]]),center:n=>n===floating?p:graph.center(n)};
+  const geometry=edgeGeometry(previewGraph,{source:d.id,target:d.target||floating.id,sourcePort:d.sourcePort,targetPort:d.target?d.targetPort:'auto',style:'curve'});
+  $('draft-edge').setAttribute('d',geometry.d);
+}
+function clearConnectionPreview(){
+  $('draft-edge').setAttribute('d','');canvas.classList.remove('connection-dragging');
+  for(const el of nodeElements.values()){el.classList.remove('connection-target');for(const port of el.querySelectorAll('.port'))port.classList.remove('port-target');}
+}
+
 canvas.addEventListener('pointerdown',event=>{
   if(!graph||event.button>1)return;
   canvas.focus({preventScroll:true});
@@ -238,7 +271,13 @@ canvas.addEventListener('pointerdown',event=>{
   const nodeId=event.target.closest('[data-node]')?.dataset.node,edgeId=event.target.closest('[data-edge]')?.dataset.edge;
   const hitNode=graph.byId.get(nodeId),node=event.target.classList.contains('group-outline')?null:hitNode,p=point(event);
   if(tool==='pan'||spaceDown||event.button===1){event.preventDefault();drag={kind:'pan',startX:event.clientX,startY:event.clientY,x:view.x,y:view.y};canvas.setPointerCapture(event.pointerId);return;}
-  if(node&&(tool==='connect'||event.target.hasAttribute('data-port'))){if(tool!=='connect')setTool('connect');connectTo(node.id);event.preventDefault();return;}
+  if(node&&event.target.hasAttribute('data-port')){
+    event.preventDefault();connectionStart=null;
+    drag={kind:'connection',id:node.id,sourcePort:event.target.dataset.side};
+    canvas.classList.add('connection-dragging');canvas.setPointerCapture(event.pointerId);
+    $('mode-hint').textContent='Arraste até o destino · Esc para cancelar';previewConnection(event);return;
+  }
+  if(node&&tool==='connect'){connectTo(node.id);event.preventDefault();return;}
   if(tool==='connect'){connectionStart=null;$('draft-edge').setAttribute('d','');renderSelectionClasses();return;}
   if(node){
     event.preventDefault();
@@ -257,6 +296,7 @@ canvas.addEventListener('pointerdown',event=>{
 });
 canvas.addEventListener('pointermove',event=>{
   if(!graph)return;const p=point(event);
+  if(drag?.kind==='connection'){previewConnection(event);return;}
   if(tool==='connect'&&connectionStart&&graph.byId.has(connectionStart)){const a=graph.center(graph.byId.get(connectionStart));$('draft-edge').setAttribute('d',`M${a.x} ${a.y} L${p.x} ${p.y}`);}
   if(!drag)return;
   if(drag.kind==='marquee'){const box={x:Math.min(p.x,drag.start.x),y:Math.min(p.y,drag.start.y),w:Math.abs(p.x-drag.start.x),h:Math.abs(p.y-drag.start.y)};for(const[k,v]of Object.entries({x:box.x,y:box.y,width:box.w,height:box.h,display:'block'}))marquee.setAttribute(k,v);selectMany([...drag.base,...nodesInBox(graph,box)]);return;}
@@ -286,6 +326,11 @@ function endDrag(cancel=false){
   guideLayer.replaceChildren();
   if(!drag)return;const d=drag;drag=null;
 
+  if(d.kind==='connection'){
+    clearConnectionPreview();
+    if(!cancel&&d.target)change(()=>{const edge=graph.connect(d.id,d.target);edge.sourcePort=d.sourcePort;edge.targetPort=d.targetPort;selected=edge.id;selectedIds.clear();});
+    setTool('select');return;
+  }
   if(d.kind==='marquee'){marquee.setAttribute('display','none');if(cancel)selectMany(d.before);return;}
   if(d.kind==='pan')return;
   if(cancel){graph.load(d.snapshot);selectedIds=new Set(d.selectionBefore);selected=d.selectedBefore;rebuildGraph();return;}
@@ -297,7 +342,7 @@ function endDrag(cancel=false){
   if(d.moved||d.reparent){history.push(d.snapshot);if(history.length>60)history.shift();future=[];markDirty();}
   rebuildGraph();
 }
-canvas.addEventListener('pointerup',()=>endDrag());canvas.addEventListener('pointercancel',()=>endDrag(true));canvas.addEventListener('lostpointercapture',()=>{if(drag)endDrag(true);});
+canvas.addEventListener('pointerup',event=>{if(drag?.kind==='connection')previewConnection(event);endDrag();});canvas.addEventListener('pointercancel',()=>endDrag(true));canvas.addEventListener('lostpointercapture',()=>{if(drag)endDrag(true);});
 canvas.addEventListener('dblclick',event=>{
   const id=event.target.closest('[data-node]')?.dataset.node;
   if(id&&!$('dialog').open)editNodeText(id);
@@ -359,10 +404,15 @@ function dialog(title,html){$('dialog-title').textContent=title;$('dialog-body')
 function confirmAction(title,message,action,label='Continuar'){dialog(title,`<p class="dialog-copy">${esc(message)}</p><div class="dialog-actions"><button class="outlined" id="cancel-action">Cancelar</button><button class="primary" id="confirm-action">${esc(label)}</button></div>`);$('cancel-action').onclick=()=>$('dialog').close();$('confirm-action').onclick=()=>{$('dialog').close();action();};}
 function guarded(action){if(dirty)confirmAction('Descartar alterações?','Existem alterações não salvas neste diagrama. Salve ou exporte antes de continuar se quiser mantê-las.',action,'Descartar e continuar');else action();}
 function deleteSelection(){if(selectedIds.size>1){if(drag)endDrag(true);const roots=selectionRoots(graph,selectedIds),extra=new Set(roots.flatMap(n=>graph.descendants(n.id)).filter(n=>!selectedIds.has(n.id)).map(n=>n.id));const action=()=>change(()=>{for(const n of roots)graph.remove(n.id);selectedIds.clear();selected=null;});if(extra.size)confirmAction('Excluir seleção?',`Os contêineres selecionados incluem mais ${extra.size} elemento(s). Eles e suas conexões também serão excluídos. Você pode desfazer depois.`,action,'Excluir seleção');else action();return;}if(drag)endDrag(true);if(!selected)return;const node=graph.byId.get(selected),count=node?graph.descendants(node.id).length:0;const id=selected;const action=()=>change(()=>{graph.remove(id);selected=null;selectedIds.clear();});if(count)confirmAction('Excluir contêiner?',`“${node.label}” contém ${count} componente(s). Eles e suas conexões também serão excluídos. Você pode desfazer depois.`,action,'Excluir grupo');else action();}
-async function save(){if(saving)return;const snapshot=graph.serialize(),saveRevision=revision,currentId=diagramId,saveSession=documentSession;saving=true;$('save-btn').disabled=true;$('save-btn').textContent='Salvando…';
-  try{const result=await api(currentId?`/api/diagrams/${currentId}`:'/api/diagrams',{method:currentId?'PUT':'POST',body:JSON.stringify(snapshot)});if(documentSession!==saveSession){toast('O diagrama anterior foi salvo.');return;}diagramId=result.id;documentUrl(diagramId);if(revision!==saveRevision){toast('Versão salva. Há alterações posteriores para salvar.');return;}dirty=false;lastSaved=`Salvo às ${new Date(result.updated_at).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}`;$('save-state').textContent=lastSaved;toast('Diagrama salvo neste computador.');}
-  catch(error){toast(`Não foi possível salvar: ${error.message}`,true);}finally{saving=false;$('save-btn').disabled=false;$('save-btn').textContent='Salvar diagrama';}}
-async function openSaved(){dialog('Abrir diagrama','<p class="dialog-copy">Carregando diagramas…</p>');try{const diagrams=await api('/api/diagrams');$('dialog-body').innerHTML=diagrams.length?diagrams.map(d=>`<button class="saved-row" data-open="${esc(d.id)}"><strong>${esc(d.name)}</strong><small>${new Date(d.updated_at).toLocaleString('pt-BR')}</small></button>`).join(''):'<p class="dialog-copy">Você ainda não salvou um diagrama. Use “Salvar diagrama” para guardar o primeiro.</p>';for(const btn of $('dialog-body').querySelectorAll('[data-open]'))btn.onclick=async()=>{try{const result=await api(`/api/diagrams/${btn.dataset.open}`);loadDiagram(result.diagram,result.id);$('dialog').close();}catch(e){toast(e.message,true);}};}catch(e){$('dialog-body').innerHTML=`<p class="dialog-copy">${esc(e.message)}</p>`;}}
+function save(){
+  try{
+    finishInlineEdit();
+    download(JSON.stringify(graph.serialize(),null,2),'application/json','.json');
+    documentUrl(null);dirty=false;
+    lastSaved='Download do JSON iniciado';$('save-state').textContent=lastSaved;
+    toast('Download iniciado. Guarde o arquivo JSON para abrir depois.');
+  }catch(error){toast(`Não foi possível salvar: ${error.message}`,true);}
+}
 function download(content,type,extension){const url=URL.createObjectURL(new Blob([content],{type})),a=document.createElement('a');a.href=url;a.download=(graph.data.name.replace(/[^\p{L}\p{N}_-]+/gu,'-')||'arquitetura')+extension;a.click();setTimeout(()=>URL.revokeObjectURL(url),5000);}
 function buildExportSvg(){
   const b=graph.bounds(),clone=canvas.cloneNode(true);clone.removeAttribute('id');clone.removeAttribute('tabindex');clone.removeAttribute('class');clone.setAttribute('xmlns',NS);clone.setAttribute('viewBox',`${b.x-40} ${b.y-40} ${b.w+80} ${b.h+80}`);clone.setAttribute('width',b.w+80);clone.setAttribute('height',b.h+80);
@@ -424,13 +474,13 @@ function bind(){
   $('arrange-btn').onclick=()=>{if(drag)endDrag(true);const node=graph.byId.get(selected);if(selectedIds.size===1&&node&&graph.isGroup(node))change(()=>graph.arrangeGroup(node));};
   $('undo-btn').onclick=()=>undo();$('redo-btn').onclick=()=>undo(true);$('delete-btn').onclick=deleteSelection;
   $('fit-btn').onclick=fit;$('zoom-in').onclick=()=>zoom(1.2);$('zoom-out').onclick=()=>zoom(1/1.2);
-  $('save-btn').onclick=save;$('open-btn').onclick=()=>guarded(openSaved);$('export-btn').onclick=exportDialog;$('help-btn').onclick=help;
-  $('new-btn').onclick=()=>guarded(()=>{dialog('Novo diagrama',`<button class="dialog-option" id="new-empty"><strong>Canvas em branco</strong><small>Comece com seus próprios recursos e contêineres.</small></button><button class="dialog-option" id="new-example"><strong>Exemplo multicloud</strong><small>AWS com duas zonas e integração com Google Cloud.</small></button><button class="dialog-option" id="new-ingestion"><strong>Arquitetura de ingestão de dados</strong><small>S3, EventBridge, Cloud Run, Airflow e BigQuery.</small></button>`);$('new-empty').onclick=()=>{loadDiagram({version:1,name:'Arquitetura sem título',nodes:[],edges:[]});$('dialog').close();};$('new-ingestion').onclick=async()=>{try{loadDiagram(await api('/static/examples/data-ingestion.json'));$('dialog').close();}catch(e){toast(e.message,true);}};$('new-example').onclick=async()=>{try{loadDiagram(await api('/static/example.json'));$('dialog').close();}catch(e){toast(e.message,true);}};});
+  $('save-btn').onclick=save;$('open-btn').onclick=()=>guarded(()=>$('file-input').click());$('export-btn').onclick=exportDialog;$('help-btn').onclick=help;
+  $('new-btn').onclick=()=>guarded(()=>{dialog('Novo diagrama',`<button class="dialog-option" id="new-empty"><strong>Canvas em branco</strong><small>Comece com seus próprios recursos e contêineres.</small></button><button class="dialog-option" id="new-example"><strong>Exemplo multicloud</strong><small>AWS com duas zonas e integração com Google Cloud.</small></button>`);$('new-empty').onclick=()=>{loadDiagram({version:1,name:'Arquitetura sem título',nodes:[],edges:[]});$('dialog').close();};$('new-example').onclick=async()=>{try{loadDiagram(await api('/static/example.json'));$('dialog').close();}catch(e){toast(e.message,true);}};});
   $('diagram-name').onchange=e=>change(()=>{graph.data.name=e.target.value.trim()||'Arquitetura sem título';e.target.value=graph.data.name;},{rebuild:false});
   $('dialog-close').onclick=()=>$('dialog').close();$('dialog').addEventListener('click',e=>{if(e.target===$('dialog')){const b=$('dialog').getBoundingClientRect();if(e.clientX<b.left||e.clientX>b.right||e.clientY<b.top||e.clientY>b.bottom)$('dialog').close();}});
   $('import-btn').onclick=()=>guarded(()=>$('file-input').click());
   if($('select-all-btn'))$('select-all-btn').onclick=()=>{endDrag(true);selectMany(graph.nodes.map(n=>n.id));canvas.focus();};
-  $('file-input').onchange=async e=>{const file=e.target.files[0];e.target.value='';if(!file)return;try{if(file.size>2*1024*1024)throw new Error('O arquivo deve ter até 2 MB.');const input=JSON.parse(await file.text());const clean=await api('/api/validate',{method:'POST',body:JSON.stringify(input)});loadDiagram(clean);markDirty();toast('Diagrama importado. Salve para guardar neste computador.');}catch(error){toast(`Não foi possível importar: ${error.message}`,true);}};
+  $('file-input').onchange=async e=>{const file=e.target.files[0];e.target.value='';if(!file)return;try{if(file.size>2*1024*1024)throw new Error('O arquivo deve ter até 2 MB.');const input=JSON.parse(await file.text());const clean=await api('/api/validate',{method:'POST',body:JSON.stringify(input)});loadDiagram(clean);lastSaved='Arquivo JSON aberto';$('save-state').textContent=lastSaved;toast('Diagrama aberto. Salvar baixa uma nova cópia em JSON.');}catch(error){toast(`Não foi possível importar: ${error.message}`,true);}};
   $('toggle-library').onclick=()=>togglePanel('library');$('toggle-inspector').onclick=()=>togglePanel('inspector');syncPanelButtons();
   document.addEventListener('keydown',e=>{
     const key=e.key.toLowerCase(),mod=e.ctrlKey||e.metaKey;
@@ -456,8 +506,7 @@ async function start(){try{
   officialIcons=await loadOfficialIcons(catalog);
   const requestedId=new URLSearchParams(location.search).get('diagram');
   const result=requestedId?await api('/api/diagrams/'+encodeURIComponent(requestedId)):null;
-  const sample=result?result.diagram:await api('/static/example.json');
+  const sample=result?result.diagram:{version:1,name:'Arquitetura sem título',notes:'',nodes:[],edges:[]};
   graph=new Graph(catalog,sample);bind();renderCatalog();loadDiagram(sample,result?.id);
-  if(!result)$('save-state').textContent='Exemplo multicloud · não salvo';
 }catch(error){$('catalog').innerHTML=`<p class="error-panel">Não foi possível iniciar o editor. ${esc(error.message)}</p>`;$('graph-stats').textContent='Falha ao carregar';toast(error.message,true);}}
 start();

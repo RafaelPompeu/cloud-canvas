@@ -14,7 +14,7 @@
 <body>
   <header class="topbar">
     <a class="brand" href="/" aria-label="Cloud Canvas início"><img class="brand-logo" src="/static/brand/cloud-canvas-logo-dark.svg" alt="Cloud Canvas" width="362" height="90"></a>
-    <div class="document-name"><input id="diagram-name" aria-label="Nome do diagrama" maxlength="120" value="Arquitetura de referência"><span id="save-state">Diagrama de exemplo · não salvo</span></div>
+    <div class="document-name"><input id="diagram-name" aria-label="Nome do diagrama" maxlength="120" value="Arquitetura sem título"><span id="save-state">Diagrama não salvo</span></div>
     <div class="header-actions"><button id="new-btn" class="quiet">Novo</button><button id="open-btn" class="quiet">Abrir</button><button id="export-btn" class="outlined">Exportar <span>↗</span></button><button id="save-btn" class="primary">Salvar diagrama</button></div>
   </header>
   <main class="workspace">
@@ -26,7 +26,7 @@
       <div class="library-footer"><span class="hint-icon">↖</span><p>Arraste para o canvas<br><small>ou clique para adicionar</small></p><button id="import-btn" class="icon-button" title="Importar diagrama JSON" aria-label="Importar diagrama JSON">↥</button></div>
     </aside>
     <section class="canvas-panel" aria-label="Editor de arquitetura">
-      <div class="canvas-topline"><button id="toggle-library" class="panel-toggle" aria-controls="library" aria-expanded="true" title="Ocultar componentes">◧ <span>Componentes</span></button><div><span class="breadcrumb">Workspace</span><span class="slash">/</span><span>Arquitetura cloud</span></div><span class="canvas-tag">AWS <span>+</span> GOOGLE CLOUD</span><button id="toggle-inspector" class="panel-toggle" aria-controls="inspector" aria-expanded="true" title="Ocultar propriedades">◨ <span>Propriedades</span></button></div>
+      <div class="canvas-topline"><button id="toggle-library" class="panel-toggle" aria-controls="library" aria-expanded="true" title="Ocultar componentes">◧ <span>Componentes</span></button><div><span class="breadcrumb">Workspace</span><span class="slash">/</span><span>Arquitetura cloud</span></div><button id="toggle-inspector" class="panel-toggle" aria-controls="inspector" aria-expanded="true" title="Ocultar propriedades">◨ <span>Propriedades</span></button></div>
       <div id="canvas-wrap" class="canvas-wrap">
         <div class="canvas-toolbar" role="toolbar" aria-label="Ferramentas do canvas">
           <button id="select-tool" class="tool active" title="Selecionar (V): arraste uma área vazia" aria-label="Selecionar" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 3 7.1 17 2.5-7.4 7.4-2.5L3 3Z"/><path d="m13 13 6 6"/></svg></button>
@@ -40,7 +40,7 @@
         </div>
         <svg id="canvas" xmlns="http://www.w3.org/2000/svg" aria-label="Canvas de arquitetura. Use os componentes ou a lista de camadas para editar." tabindex="0">
           <defs><pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#cad2dd"/></pattern><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#508be1" stroke-width="1.6"/></marker><marker id="arrow-trigger" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#9473aa" stroke-width="1.6"/></marker><marker id="arrow-selected" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#167c70" stroke-width="1.6"/></marker><marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#27845b" stroke-width="1.6"/></marker><marker id="arrow-orange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#d47b23" stroke-width="1.6"/></marker></defs>
-          <rect id="grid-bg" width="100%" height="100%" fill="url(#grid)"/><g id="viewport"><g id="groups"></g><g id="edges"></g><g id="nodes"></g><path id="draft-edge" class="draft-edge"/></g>
+          <rect id="grid-bg" width="100%" height="100%" fill="url(#grid)"/><g id="viewport"><g id="groups"></g><g id="edges"></g><g id="nodes"></g><path id="draft-edge" class="draft-edge" marker-end="url(#arrow-selected)"/></g>
         </svg>
         <div id="empty-state" class="empty-state" hidden><span>◇</span><h2>Sua arquitetura começa aqui</h2><p>Adicione uma região ou arraste um serviço da biblioteca.</p></div>
         <div class="canvas-bottom"><span id="mode-hint">Arraste os componentes para organizar a arquitetura</span><div class="zoom-controls"><button id="zoom-out" aria-label="Diminuir zoom">−</button><span id="zoom-value">100%</span><button id="zoom-in" aria-label="Aumentar zoom">+</button><span class="divider"></span><button id="fit-btn" title="Enquadrar diagrama (F)" aria-label="Enquadrar diagrama">⛶</button></div></div>
@@ -53,7 +53,7 @@
         <section id="selection-panel" class="property-section"></section>
         <section class="property-section layers-section"><div class="section-line"><h3>Camadas</h3><span id="layer-count" class="count">0</span></div><div id="layers"></div></section>
       </div>
-      <div class="inspector-footer"><span class="local-dot"></span> Armazenamento local <span>SQLite</span></div>
+      <div class="inspector-footer"><span class="local-dot"></span> Arquivo no computador <span>JSON</span></div>
     </aside>
   </main>
   <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>

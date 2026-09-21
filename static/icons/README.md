@@ -17,4 +17,12 @@ Os nomes, ícones e marcas pertencem aos respectivos titulares; a inclusão no e
 
 Para acrescentar um ícone, guarde o SVG original em uma subpasta, registre a fonte e associe `iconAsset: "/static/icons/provedor/arquivo.svg"` ao tipo em `static/catalog.json`. Mantenha imagens independentes e sem referências externas; não cole seus estilos no SVG principal do editor.
 
-O ícone do Apache Flink isola o esquilo colorido da prancha oficial de logos, mantendo os caminhos e as cores originais e ajustando apenas o enquadramento. O Redis usa o símbolo compacto oficial, sem o nome por extenso.
+O original do Apache Flink isola o esquilo da prancha oficial; o Redis usa o símbolo compacto oficial. Essas geometrias são a base das variantes abaixo.
+
+## Versões de rascunho
+
+O catálogo usa `aws-sketch/`, `gcp-sketch/` e `shared-sketch/`. Todas as variantes partem da geometria dos símbolos originais, com contornos em grafite, cores suaves e irregularidade sutil de lápis. São adaptações visuais, não os arquivos oficiais. Os SVGs originais e seus registros de origem ficam em `aws/`, `gcp/` e `shared/`.
+
+O mapa de cada variante para seu original está em `sketch-sources.json`. Para regenerar as 84 variantes, execute `.venv/Scripts/python.exe scripts/build_sketch_icons.py`. O gerador usa apenas a biblioteca padrão e SVGs locais. O MongoDB usa apenas a folha original, sem a palavra ao lado, para manter a leitura em tamanho pequeno.
+
+Biblioteca, canvas e exportações carregam os mesmos SVGs. Os ícones genéricos de Contêiner, Usuários, Internet, Fonte de dados, API, Texto e Notas continuam definidos em `static/app.js`.

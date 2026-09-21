@@ -1,5 +1,6 @@
 import copy
 import json
+import sqlite3
 import tempfile
 import unittest
 from pathlib import Path
@@ -21,16 +22,16 @@ class DiagramTests(unittest.TestCase):
         self.assertEqual(self.client.get("/api/health").json, {"status": "ok"})
         self.assertEqual(self.client.get("/").status_code, 200)
 
-    def test_connection_options_survive_save(self):
+    def test_connection_options_survive_json_roundtrip(self):
         for color in ("data", "trigger", "green", "orange"):
             for dash in ("solid", "dashed", "dotted"):
                 with self.subTest(color=color, dash=dash):
                     diagram = copy.deepcopy(self.diagram)
                     diagram["edges"][0].update(kind=color, dash=dash, sourceArrow=True,
                                               targetArrow=False, sourcePort="bottom", targetPort="left")
-                    saved = self.client.post("/api/diagrams", json=diagram)
-                    self.assertEqual(saved.status_code, 201)
-                    loaded = self.client.get("/api/diagrams/" + saved.json["id"]).json["diagram"]
+                    saved = self.client.post("/api/validate", json=diagram)
+                    self.assertEqual(saved.status_code, 200)
+                    loaded = json.loads(json.dumps(saved.json))
                     self.assertEqual(loaded["edges"][0], validate_diagram(diagram)["edges"][0])
 
     def test_annotations_and_catalog_types(self):
@@ -39,10 +40,31 @@ class DiagramTests(unittest.TestCase):
             if kind in ("text", "note"):
                 node.update(detail="Primeira linha\n<texto literal>\n" + "a" * 1000, textAlign="center")
             diagram = {"version": 1, "name": "Teste", "nodes": [node], "edges": []}
-            saved = self.client.post("/api/diagrams", json=diagram)
-            self.assertEqual(saved.status_code, 201)
-            loaded = self.client.get("/api/diagrams/" + saved.json["id"]).json["diagram"]
+            saved = self.client.post("/api/validate", json=diagram)
+            self.assertEqual(saved.status_code, 200)
+            loaded = json.loads(json.dumps(saved.json))
             self.assertEqual(loaded, validate_diagram(diagram))
+
+    def test_no_database_created_or_written(self):
+        self.assertEqual(self.client.get("/api/diagrams").json, [])
+        self.assertEqual(self.client.get("/api/diagrams/missing").status_code, 404)
+        self.assertEqual(self.client.post("/api/diagrams", json=self.diagram).status_code, 405)
+        self.assertEqual(self.client.put("/api/diagrams/old", json=self.diagram).status_code, 405)
+        self.assertFalse((Path(self.directory.name) / "test.sqlite3").exists())
+
+    def test_legacy_diagram_is_read_only(self):
+        path = Path(self.directory.name) / "test.sqlite3"
+        db = sqlite3.connect(path)
+        db.execute("CREATE TABLE diagrams (id TEXT PRIMARY KEY, name TEXT, data TEXT, updated_at TEXT)")
+        db.execute("INSERT INTO diagrams VALUES (?, ?, ?, ?)",
+                   ("old", self.diagram["name"], json.dumps(self.diagram), "2026-01-01"))
+        db.commit()
+        db.close()
+        original = path.read_bytes()
+        self.assertEqual(self.client.get("/api/diagrams/old").json["diagram"], validate_diagram(self.diagram))
+        self.assertEqual(len(self.client.get("/api/diagrams").json), 1)
+        self.assertEqual(self.client.put("/api/diagrams/old", json=self.diagram).status_code, 405)
+        self.assertEqual(path.read_bytes(), original)
 
     def test_legacy_defaults_and_invalid_values(self):
         clean = validate_diagram(self.diagram)

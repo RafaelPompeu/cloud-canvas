@@ -1,1 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><title>Cloud Canvas</title><rect width="120" height="120" rx="20" fill="white"/><g transform="translate(3 15)"><g fill="none" stroke="#008c89" stroke-linecap="round" stroke-linejoin="round"><path d="M29 76H83C115 76 117 34 88 31C82 2 43 4 40 34C7 31 2 76 29 76Z" stroke-width="8"/><path d="M57 42v17h20" stroke-width="6"/></g><g fill="#008c89"><rect x="48" y="29" width="19" height="19" rx="4"/><rect x="72" y="48" width="19" height="19" rx="4"/></g></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 94"><title>Cloud Canvas</title><rect width="104" height="94" rx="18" fill="#fff"/><g xmlns="http://www.w3.org/2000/svg" stroke="#3b4048" stroke-linecap="round" stroke-linejoin="round">
+<path d="M25 71C13 71 8 62 11 52C13 44 19 40 27 40C27 25 38 18 50 21C57 22 62 27 64 33C77 26 91 35 90 48C98 52 99 63 91 69C87 73 80 72 75 72L25 71Z" fill="#f5f8f5" stroke-width="2.8"/>
+<path d="M18 52Q16 62 23 66M35 28Q45 22 53 29" fill="none" stroke="#c2ded5" stroke-width="1.4" opacity=".65"/>
+<path d="M31 39L47 38L48 52L31 53Z" fill="#c2ded5" stroke-width="2"/>
+<path d="M64 52L80 53L79 67L63 66Z" fill="#f4ddb3" stroke-width="2"/>
+<path d="M48 46L56 46L55 59L62 59M59 56L63 59L60 62" fill="none" stroke-width="1.9"/>
+</g></svg>

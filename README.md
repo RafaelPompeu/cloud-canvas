@@ -8,7 +8,7 @@
   </picture>
 </p>
 
-Editor visual de arquiteturas cloud e fluxos de dados, com **Flask, JavaScript nativo, SVG e SQLite**. Monte diagramas AWS, Google Cloud e de tecnologias como Oracle, MariaDB, Kafka e Airflow no navegador. Funciona localmente, sem provisionar infraestrutura.
+Editor visual de arquiteturas cloud e fluxos de dados, com **Flask, JavaScript nativo e SVG**. Monte diagramas AWS, Google Cloud e de tecnologias como Oracle, MariaDB, Kafka e Airflow no navegador. Funciona localmente, sem provisionar infraestrutura.
 
 ## Exemplo da aplicação
 
@@ -22,7 +22,7 @@ Editor visual de arquiteturas cloud e fluxos de dados, com **Flask, JavaScript n
 - Pontas de seta opcionais na origem e no destino e escolha dos lados de entrada e saída.
 - Texto livre e blocos de notas com várias linhas, alinhamento e edição direta por dois cliques.
 - Desfazer/refazer, salvamento local e exportação em JSON, SVG e PNG.
-- Exemplos de arquitetura multicloud e ingestão de dados.
+- Exemplo de arquitetura multicloud.
 
 ## Executar
 
@@ -54,12 +54,13 @@ Abra **http://127.0.0.1:5000**. Pressione **Ctrl+C** no terminal para encerrar. 
 
 ## Como usar
 
-1. Em **Novo**, escolha canvas em branco ou um exemplo.
+1. Ao abrir a aplicação, o canvas começa em branco. Em **Novo**, você também pode escolher um exemplo explicitamente.
 2. Busque componentes e clique para adicionar ou arraste para o canvas.
 3. Organize os recursos nos contêineres. **Alt + arraste** ou **Dentro de** troca o contêiner.
+   Clique nas barrinhas nas laterais do canvas para ocultar ou reabrir Componentes e Propriedades.
 4. Ative **Conectar (C)** e clique na origem e no destino. Selecione a linha para editar cor, traçado, estilo, pontas e lados.
 5. Procure **Texto** ou **Bloco de notas** para anotar. Dois cliques permitem escrever no elemento. **Enter** insere uma linha, clicar fora aplica e **Esc** cancela. **Ctrl+Enter** também aplica.
-6. Use **Salvar diagrama** e **Abrir** para recuperar projetos. A URL do diagrama salvo pode ser reutilizada enquanto o banco local estiver disponível.
+6. **Abrir** mostra o seletor de arquivos do computador: escolha um diagrama `.json` exportado pelo Cloud Canvas. **Salvar diagrama** e **Ctrl+S** baixam um arquivo JSON na máquina de quem usa o editor. Cada salvamento gera um download; a pasta e a confirmação dependem das configurações do navegador.
 7. Em **Exportar**, escolha JSON editável, SVG ou PNG. As imagens incluem o diagrama e seus logos, sem controles de edição.
 
 Textos e notas aceitam até 2.000 caracteres. Aumente o elemento para mostrar conteúdos longos. Segure **Shift** ao mover ou redimensionar para encaixar nas guias. **Agrupar** organiza filhos do contêiner selecionado quando há espaço.
@@ -82,7 +83,9 @@ O PNG amplia a resolução até 2×, limitado a 8.192 pixels por lado e 16 megap
 
 ## Dados locais
 
-Os diagramas ficam em `instance/diagrams.sqlite3`, criado automaticamente. Faça backup desse arquivo para preservar seus projetos. Banco, logs e ambiente virtual não são versionados.
+Os diagramas são guardados em arquivos `.json` no computador da pessoa. Use **Salvar diagrama** para baixar e **Abrir** para selecionar um arquivo. O navegador pode perguntar onde salvar ou usar a pasta de downloads. Confirme que o download terminou antes de fechar a página. O salvamento não envia o diagrama ao servidor. A abertura envia o JSON ao servidor apenas para validação, sem persistência.
+
+Bancos SQLite de versões anteriores são preservados e acessados somente para leitura por links antigos com `?diagram=...`. Abra esses diagramas e clique em **Salvar diagrama** para obter o JSON. A aplicação não cria bancos nem aceita novas gravações neles.
 
 O editor foi projetado para uso local individual: escuta em `127.0.0.1`, sem autenticação ou edição colaborativa. Publicar o código no GitHub não hospeda a aplicação.
 
@@ -104,15 +107,15 @@ Após o deploy, `/api/health` deve responder `{"status":"ok"}`. O comando usa a 
 
 O parâmetro `--forwarded-allow-ips='*'` permite que o Gunicorn reconheça o HTTPS informado pelo proxy do Render, mantendo a validação de origem ao salvar. Use esse comando somente atrás do proxy da plataforma; não exponha diretamente essa configuração de Gunicorn à internet.
 
-**Armazenamento:** no Render, Salvar diagrama grava no servidor. No plano gratuito, o SQLite é temporário e seus dados são perdidos em reinícios, novos deploys ou suspensão por inatividade. Use **Exportar > JSON** para guardar o arquivo no computador e a importação de JSON para restaurá-lo. Links de diagramas salvos deixam de funcionar quando o banco é recriado. O serviço gratuito suspende após 15 minutos sem tráfego e pode demorar a atender o próximo acesso. Consulte as [limitações oficiais](https://render.com/docs/free).
+**Armazenamento:** tanto localmente quanto no Render, **Salvar diagrama** baixa o JSON no computador da pessoa. Os arquivos salvos não dependem do armazenamento do servidor.
 
-**Acesso público:** o editor não tem autenticação nem isolamento entre usuários. Qualquer pessoa pode listar, consultar e alterar diagramas salvos pela API. Essa configuração serve para demonstrações com dados não confidenciais. Não envie o banco local `instance/diagrams.sqlite3` ao repositório ou ao Render. Uso privado com armazenamento permanente exige outra configuração.
+**Dados antigos:** não publique um banco SQLite anterior no Render; as rotas de compatibilidade permitem consultar seu conteúdo sem autenticação.
 
 ## Estrutura
 
 | Arquivo | Responsabilidade |
 | --- | --- |
-| app.py | API Flask, validação e SQLite |
+| app.py | API Flask, validação e leitura de bancos antigos |
 | templates/index.html | Estrutura da interface |
 | static/app.js | Interações, propriedades, edição e exportações |
 | static/graph.mjs | Modelo, geometria e hierarquia |
@@ -122,7 +125,7 @@ O parâmetro `--forwarded-allow-ips='*'` permite que o Gunicorn reconheça o HTT
 | static/catalog.mjs | Busca e filtros |
 | static/icons.mjs e static/icons/ | Carregamento, logos e fontes |
 | static/styles.css e static/sketch.css | Estilos base e tema |
-| static/examples/ | Exemplos adicionais |
+| static/example.json | Exemplo multicloud |
 | run.ps1 | Inicialização no Windows |
 | tests/ | Testes da API e persistência |
 | AGENTS.md | Orientações para manutenção |
@@ -137,4 +140,8 @@ Em Linux/macOS, use `.venv/bin/python`. Para mudanças visuais, verifique o flux
 
 ## Ícones e marcas
 
-As marcas pertencem aos respectivos titulares e não indicam afiliação ou patrocínio. As fontes estão em [static/icons/README.md](static/icons/README.md) e nos manifestos dessa pasta. Oracle e MariaDB usam arquivos da biblioteca Devicon, conforme o [registro de origem](static/icons/shared/oracle-mariadb-sources.json).
+As marcas pertencem aos respectivos titulares e não indicam afiliação ou patrocínio. As fontes estão em [static/icons/README.md](static/icons/README.md) e nos manifestos dessa pasta. Os desenhos de Oracle e MariaDB têm como referência os símbolos da biblioteca Devicon, conforme o [registro de origem](static/icons/shared/oracle-mariadb-sources.json).
+
+### Conectar componentes
+
+Passe o mouse sobre um recurso ou contêiner e arraste um dos pontos laterais até outro componente. A prévia mostra a curva e destaca o ponto de chegada. Ao soltar, a conexão conserva os lados escolhidos, inclusive ao mover os componentes. Soltar no vazio ou pressionar Esc cancela. A ferramenta Conectar (C) continua permitindo clicar na origem e no destino.

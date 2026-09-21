@@ -5,9 +5,6 @@ import json
 import math
 import os
 import sqlite3
-import uuid
-from contextlib import closing
-from datetime import datetime, timezone
 from pathlib import Path
 
 from flask import Flask, abort, g, jsonify, render_template, request
@@ -120,14 +117,9 @@ def create_app(config=None):
                       DATABASE=str(ROOT / "instance" / "diagrams.sqlite3"))
     if config:
         app.config.update(config)
-    Path(app.config["DATABASE"]).parent.mkdir(parents=True, exist_ok=True)
-    with closing(sqlite3.connect(app.config["DATABASE"])) as db:
-        db.execute("CREATE TABLE IF NOT EXISTS diagrams (id TEXT PRIMARY KEY, name TEXT NOT NULL, data TEXT NOT NULL, updated_at TEXT NOT NULL)")
-        db.commit()
-
     def database():
         if "db" not in g:
-            g.db = sqlite3.connect(app.config["DATABASE"], timeout=10)
+            g.db = sqlite3.connect(Path(app.config["DATABASE"]).resolve().as_uri() + "?mode=ro", uri=True, timeout=10)
             g.db.row_factory = sqlite3.Row
         return g.db
 
@@ -173,36 +165,19 @@ def create_app(config=None):
 
     @app.get("/api/diagrams")
     def list_diagrams():
+        if not Path(app.config["DATABASE"]).is_file():
+            return jsonify([])
         rows = database().execute("SELECT id, name, updated_at FROM diagrams ORDER BY updated_at DESC").fetchall()
         return jsonify([dict(row) for row in rows])
 
     @app.get("/api/diagrams/<diagram_id>")
     def get_diagram(diagram_id):
+        if not Path(app.config["DATABASE"]).is_file():
+            abort(404, "Diagrama antigo não encontrado. Abra um arquivo JSON.")
         row = database().execute("SELECT * FROM diagrams WHERE id = ?", (diagram_id,)).fetchone()
         if not row:
             abort(404, "Diagrama não encontrado.")
         return jsonify(id=row["id"], updated_at=row["updated_at"], diagram=validate_diagram(json.loads(row["data"])))
-
-    def save(diagram_id, create=False):
-        data = validate_diagram(request.get_json())
-        db = database()
-        updated_at = datetime.now(timezone.utc).isoformat()
-        if create:
-            db.execute("INSERT INTO diagrams VALUES (?, ?, ?, ?)", (diagram_id, data["name"], json.dumps(data, ensure_ascii=False), updated_at))
-        else:
-            result = db.execute("UPDATE diagrams SET name=?, data=?, updated_at=? WHERE id=?", (data["name"], json.dumps(data, ensure_ascii=False), updated_at, diagram_id))
-            if not result.rowcount:
-                abort(404, "Diagrama não encontrado.")
-        db.commit()
-        return jsonify(id=diagram_id, updated_at=updated_at), 201 if create else 200
-
-    @app.post("/api/diagrams")
-    def create_diagram():
-        return save(str(uuid.uuid4()), True)
-
-    @app.put("/api/diagrams/<diagram_id>")
-    def update_diagram(diagram_id):
-        return save(diagram_id)
 
     @app.post("/api/validate")
     def validate():

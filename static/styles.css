@@ -41,3 +41,8 @@ img.service-icon{object-fit:contain;flex-shrink:0}
 .canvas-toolbar .arrange-tool[hidden]{display:none}
 
 .node.selected .resize-handle{fill:white;stroke:#168574}
+
+.group:hover>.port,.connection-dragging .port,.connection-target .port{opacity:1}
+.connection-dragging{cursor:crosshair}
+.connection-target>.node-card,.connection-target>.group-outline{stroke:#168574!important;stroke-width:3}
+.port.port-target{fill:#168574;stroke:white;stroke-width:2;r:8}

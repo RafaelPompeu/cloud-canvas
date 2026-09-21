@@ -1,19 +1,11 @@
 # Identidade Cloud Canvas
 
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="cloud-canvas-logo-dark.svg">
-    <source media="(prefers-color-scheme: light)" srcset="cloud-canvas-logo.svg">
-    <img src="cloud-canvas-logo.svg" alt="Cloud Canvas" width="420">
-  </picture>
-</p>
+Marca original em SVG, desenhada para representar um rascunho de arquitetura: nuvem de contorno manual em grafite, dois componentes em verde e ocre suaves conectados por uma seta e lettering manual. A versão escura adapta o contraste ao cabeçalho.
 
-Marca adaptada em SVG a partir da referência enviada pelo proprietário: nuvem fechada verde-petróleo, dois blocos ligados e nome em negrito.
+- `cloud-canvas-logo.svg`: logo para fundo claro, em grafite e cores suaves.
+- `cloud-canvas-logo-dark.svg`: logo para fundo escuro, com contornos claros e cores suaves.
+- `cloud-canvas-icon.svg`: símbolo sobre fundo branco, reproduzido em `../favicon.svg`.
 
-- `cloud-canvas-logo.svg`: versão para fundo claro, com texto grafite.
-- `cloud-canvas-logo-dark.svg`: versão para o cabeçalho escuro, com texto branco para contraste.
-- `cloud-canvas-icon.svg`: símbolo sobre fundo branco, também usado no favicon.
+Todos os traços, incluindo as letras, são caminhos vetoriais próprios, sem fontes ou imagens externas. As pequenas irregularidades são intencionais. Preserve as proporções e o contraste das versões.
 
-A versão vetorial reproduz o conceito da referência; a tipografia usa Segoe UI Bold convertida em curvas. Preserve cores e proporções. Não há dependência de fontes externas.
-
-O PNG antigo é histórico. O GIF de demonstração foi gravado antes desta adaptação da logo enviada pelo proprietário.
+O GIF de demonstração no README principal mostra uma versão anterior da marca.

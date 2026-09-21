@@ -43,3 +43,12 @@ dialog{background:#ffffff;border:2px solid #292c32;border-radius:5px 9px 4px 7px
 .topbar .brand:focus-visible{outline:2px solid #93ddd2;outline-offset:4px;border-radius:4px}
 @media(max-width:1200px){.topbar .brand{flex-basis:190px}}
 @media(max-width:680px){.topbar .brand{flex-basis:155px;height:38px}}
+.canvas-panel{position:relative}
+.canvas-panel .panel-toggle{position:absolute;top:50%;bottom:auto;transform:translateY(-50%);z-index:5;width:24px;height:56px;padding:0;gap:0;border:1px solid #c5cbd2;background:#fff;font-size:0;box-shadow:0 2px 6px #292c3212;transition:background .15s,border-color .15s,box-shadow .15s}
+.canvas-panel .panel-toggle span{display:none}
+.canvas-panel .panel-toggle::before{font-family:Arial,sans-serif;font-size:24px;line-height:1;color:#626c79}
+.canvas-panel #toggle-library{left:-1px;border-radius:0 9px 9px 0;border-left:0}
+.canvas-panel #toggle-inspector{right:-1px;border-radius:9px 0 0 9px;border-right:0}
+.canvas-panel #toggle-library::before,.canvas-panel #toggle-inspector[aria-expanded="false"]::before{content:'‹'}
+.canvas-panel #toggle-inspector::before,.canvas-panel #toggle-library[aria-expanded="false"]::before{content:'›'}
+.canvas-panel .panel-toggle:hover,.canvas-panel .panel-toggle:focus-visible{background:#eef5f5;border-color:#91b6bb;box-shadow:0 2px 8px #386e7026}
