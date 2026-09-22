@@ -1,12 +1,26 @@
-<?xml version='1.0' encoding='utf-8'?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 362 90" role="img" aria-label="Cloud Canvas">
-<title>Cloud Canvas — arquitetura em rascunho</title>
-<g stroke="#3b4048" stroke-linecap="round" stroke-linejoin="round">
-<path d="M25 71C13 71 8 62 11 52C13 44 19 40 27 40C27 25 38 18 50 21C57 22 62 27 64 33C77 26 91 35 90 48C98 52 99 63 91 69C87 73 80 72 75 72L25 71Z" fill="#f5f8f5" stroke-width="2.8" />
-<path d="M18 52Q16 62 23 66M35 28Q45 22 53 29" fill="none" stroke="#c2ded5" stroke-width="1.4" opacity=".65" />
-<path d="M31 39L47 38L48 52L31 53Z" fill="#c2ded5" stroke-width="2" />
-<path d="M64 52L80 53L79 67L63 66Z" fill="#f4ddb3" stroke-width="2" />
-<path d="M48 46L56 46L55 59L62 59M59 56L63 59L60 62" fill="none" stroke-width="1.9" />
-</g><g transform="translate(109 29) scale(.9)" fill="none" stroke="#30383c" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path transform="translate(0 -0.5)" d="M24 5C12 -4 2 5 2 19C1 33 15 37 24 28" /><path transform="translate(28 0.7)" d="M6 0L4 28Q4 34 9 31" /><path transform="translate(41 0)" d="M17 12C5 7 0 19 4 28C9 37 22 29 20 19Q19 13 14 12" /><path transform="translate(65 -0.6)" d="M3 12L2 25Q2 36 13 29L19 13L17 31" /><path transform="translate(90 0.4)" d="M19 14C8 6 1 18 4 27Q8 36 17 28M21 0L17 31" /><path transform="translate(129 0.7)" d="M24 5C12 -4 2 5 2 19C1 33 15 37 24 28" /><path transform="translate(157 0)" d="M18 14C6 8 1 20 5 29Q10 36 18 23M20 12L17 31L23 29" /><path transform="translate(183 -0.6)" d="M3 13L2 31M3 22Q14 5 19 15L19 30" /><path transform="translate(209 0.4)" d="M2 12L9 31Q16 22 21 12" /><path transform="translate(233 -0.5)" d="M18 14C6 8 1 20 5 29Q10 36 18 23M20 12L17 31L23 29" /><path transform="translate(259 0.7)" d="M18 14Q5 7 3 17Q2 21 12 22Q23 28 12 32Q6 34 1 29" /></g>
-<path d="M113 72Q213 68 348 72M253 75L324 76" fill="none" stroke="#c2ded5" stroke-width="1.5" stroke-linecap="round" opacity=".65" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 96" role="img" aria-label="Cloud Canvas">
+<title>Cloud Canvas — desenhe sua arquitetura</title>
+<g stroke="#354840" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M27 72C13 73 8 64 12 54Q15 45 26 44C23 31 31 20 43 20Q57 19 63 33C75 26 87 36 85 48C96 54 92 71 79 71Q53 74 27 72Z" fill="#f3f7ef" stroke-width="2.7"/>
+  <path d="M29 36Q29 24 42 23M16 56Q12 65 22 69" fill="none" stroke="#afc1b6" stroke-width="1.1"/>
+  <path d="M29 40L44 39L45 53L29 54Z" fill="#b6d9c9" stroke-width="2.2"/>
+  <path d="M44 46Q51 45 54 46L54 61L63 60" fill="none" stroke-width="2"/>
+  <path d="M62 53L77 54L76 68L62 67Z" fill="#ead3a0" stroke-width="2.2"/>
+  <path d="M32 48L37 43M33 52L41 44M65 64L70 59" fill="none" stroke="#354840" stroke-width=".85" opacity=".28"/>
+</g>
+<path d="M269 75Q333 70 425 74" fill="none" stroke="#b6d9c9" stroke-width="6" stroke-linecap="round" opacity=".2"/>
+<g transform="translate(113 29) scale(.98)" fill="none" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round">
+<path transform="translate(0 0)" d="M26 7C20 0 8 2 4 13C-1 26 6 35 17 33Q23 32 27 27" stroke="#354840"/>
+<path transform="translate(32 -0.7)" d="M8 1Q5 17 5 29Q5 35 11 31" stroke="#354840"/>
+<path transform="translate(48 0.4)" d="M15 13C4 10 0 21 5 29C12 39 25 28 22 19Q20 12 15 13Z" stroke="#354840"/>
+<path transform="translate(77 -0.4)" d="M4 13Q2 22 3 28C5 36 15 30 20 14M20 14Q18 24 20 32" stroke="#354840"/>
+<path transform="translate(106 0.2)" d="M19 16C12 9 2 15 3 25Q5 37 17 28M23 1Q20 14 18 32" stroke="#354840"/>
+<path transform="translate(149 -0.2)" d="M26 7C20 0 8 2 4 13C-1 26 6 35 17 33Q23 32 27 27" stroke="#527f69"/>
+<path transform="translate(181 0.5)" d="M20 16C14 9 3 15 3 25Q4 35 14 29L20 17M21 13Q18 25 20 32L25 29" stroke="#527f69"/>
+<path transform="translate(210 -0.5)" d="M4 14L3 32M4 22Q12 10 19 14Q23 17 21 31" stroke="#527f69"/>
+<path transform="translate(238 0.1)" d="M3 13Q6 24 11 32Q19 22 23 13" stroke="#527f69"/>
+<path transform="translate(266 -0.3)" d="M20 16C14 9 3 15 3 25Q4 35 14 29L20 17M21 13Q18 25 20 32L25 29" stroke="#527f69"/>
+<path transform="translate(295 0.4)" d="M22 15Q14 9 7 15C0 22 11 22 16 24Q26 29 16 33Q8 36 3 30" stroke="#527f69"/>
+</g>
+<path d="M272 77Q345 74 418 76M371 80L404 79" fill="none" stroke="#527f69" stroke-width="1.35" stroke-linecap="round" opacity=".7"/>
 </svg>

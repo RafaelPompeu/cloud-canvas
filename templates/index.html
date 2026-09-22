@@ -13,9 +13,22 @@
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="/" aria-label="Cloud Canvas início"><img class="brand-logo" src="/static/brand/cloud-canvas-logo-dark.svg" alt="Cloud Canvas" width="362" height="90"></a>
-    <div class="document-name"><input id="diagram-name" aria-label="Nome do diagrama" maxlength="120" value="Arquitetura sem título"><span id="save-state">Diagrama não salvo</span></div>
-    <div class="header-actions"><button id="new-btn" class="quiet">Novo</button><button id="open-btn" class="quiet">Abrir</button><button id="export-btn" class="outlined">Exportar <span>↗</span></button><button id="save-btn" class="primary">Salvar diagrama</button></div>
+    <a class="brand" href="/" aria-label="Cloud Canvas início"><img class="brand-logo" src="/static/brand/cloud-canvas-logo-dark.svg" alt="Cloud Canvas" width="440" height="96"></a>
+    <div class="document-name">
+      <div class="document-title">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3L15 3L20 8L19 21L5 21ZM15 3L15 9L20 8M9 13L15 13M9 17L13 17"/></svg>
+        <input id="diagram-name" aria-label="Nome do diagrama" title="Clique para renomear o diagrama" maxlength="120" value="Arquitetura sem título">
+      </div>
+      <span id="save-state" role="status" aria-live="polite">Diagrama não salvo</span>
+    </div>
+    <div class="header-actions" role="group" aria-label="Ações do diagrama">
+      <div class="file-actions" role="group" aria-label="Arquivo">
+        <button id="new-btn" class="quiet" aria-label="Novo diagrama" title="Novo diagrama"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5L12 19M5 12L19 12"/></svg><span class="button-label">Novo</span></button>
+        <button id="open-btn" class="quiet" aria-label="Abrir diagrama" title="Abrir diagrama"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8L3 5L9 5L12 8L21 8L19 20L3 20ZM3 12L20 12"/></svg><span class="button-label">Abrir</span></button>
+      </div>
+      <button id="export-btn" class="outlined" aria-label="Exportar diagrama" title="Exportar JSON, SVG ou PNG"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15L12 3M7 8L12 3L17 8M5 13L4 21L20 21L19 13"/></svg><span>Exportar</span></button>
+      <button id="save-btn" class="primary" aria-label="Salvar diagrama" title="Salvar diagrama (Ctrl+S)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3L17 3L21 7L20 21L4 21ZM8 3L8 9L16 9L16 3M8 21L8 14L16 14L16 21"/></svg><span>Salvar</span></button>
+    </div>
   </header>
   <main class="workspace">
     <aside class="library panel" id="library">
