@@ -1,13 +1,17 @@
 <?xml version='1.0' encoding='utf-8'?>
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 512 512">
-  
-  <defs><filter id="pencil" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.0136719" numOctaves="1" seed="12" result="grain" /><feDisplacementMap in="SourceGraphic" in2="grain" scale="5.12" xChannelSelector="R" yChannelSelector="G" /></filter></defs><g filter="url(#pencil)"><g id="bounding_box">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="-23.04 -23.04 558.08 558.08">
+
+  <defs><pattern id="pencil-hatch" patternUnits="userSpaceOnUse" width="53.76" height="53.76"><path d="M-10.752 45.696Q24.192 23.1168 45.696 -8.064M40.32 61.824L61.824 40.32" fill="none" stroke="#3b4048" stroke-width="4.096" stroke-linecap="round" /></pattern><filter id="pencil" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.00683594" numOctaves="1" seed="12" result="grain" /><feDisplacementMap in="SourceGraphic" in2="grain" scale="17.92" xChannelSelector="R" yChannelSelector="G" /></filter></defs><g filter="url(#pencil)"><g id="bounding_box">
     <rect width="512" height="512" fill="none" />
   </g>
   <g id="art">
     <path d="M410,272H102c-8.837,0-16-7.163-16-16V53c0-17.121,13.879-31,31-31h278c17.121,0,31,13.879,31,31v203c0,8.837-7.163,16-16,16ZM118,240h276V54H118v186Z" fill="#3b4048" stroke="#3b4048" stroke-width="1.024" stroke-linejoin="round" stroke-linecap="round" />
     <path d="M395,490H117c-17.121,0-31-13.879-31-31v-203c0-8.837,7.163-16,16-16h308c8.837,0,16,7.163,16,16v203c0,17.121-13.879,31-31,31ZM118,458h276v-186H118v186Z" fill="#3b4048" stroke="#3b4048" stroke-width="1.024" stroke-linejoin="round" stroke-linecap="round" />
-    <path d="M426,240H86v32h154v74c0,8.837,7.163,16,16,16s16-7.163,16-16v-74h154v-32Z" fill="#d0e0fc" stroke="#3b4048" stroke-width="6.656" stroke-linejoin="round" stroke-linecap="round" />
-    <path d="M426,53c0-17.121-13.879-31-31-31H117c-17.121,0-31,13.879-31,31v1h154v74c0,8.837,7.163,16,16,16s16-7.163,16-16V54h154v-1Z" fill="#d0e0fc" stroke="#3b4048" stroke-width="6.656" stroke-linejoin="round" stroke-linecap="round" />
+    <path d="M426,240H86v32h154v74c0,8.837,7.163,16,16,16s16-7.163,16-16v-74h154v-32Z" fill="#b7d1fb" stroke="#3b4048" stroke-width="8.192" stroke-linejoin="round" stroke-linecap="round" />
+    <path d="M426,240H86v32h154v74c0,8.837,7.163,16,16,16s16-7.163,16-16v-74h154v-32Z" fill="url(#pencil-hatch)" stroke="none" stroke-width="8.192" stroke-linejoin="round" stroke-linecap="round" opacity=".22" />
+    <path d="M426,240H86v32h154v74c0,8.837,7.163,16,16,16s16-7.163,16-16v-74h154v-32Z" fill="none" stroke="#3b4048" stroke-width="4.608" stroke-linejoin="round" stroke-linecap="round" opacity=".32" transform=" translate(6.144 -4.608)" />
+    <path d="M426,53c0-17.121-13.879-31-31-31H117c-17.121,0-31,13.879-31,31v1h154v74c0,8.837,7.163,16,16,16s16-7.163,16-16V54h154v-1Z" fill="#b7d1fb" stroke="#3b4048" stroke-width="8.192" stroke-linejoin="round" stroke-linecap="round" />
+  <path d="M426,53c0-17.121-13.879-31-31-31H117c-17.121,0-31,13.879-31,31v1h154v74c0,8.837,7.163,16,16,16s16-7.163,16-16V54h154v-1Z" fill="url(#pencil-hatch)" stroke="none" stroke-width="8.192" stroke-linejoin="round" stroke-linecap="round" opacity=".22" />
+  <path d="M426,53c0-17.121-13.879-31-31-31H117c-17.121,0-31,13.879-31,31v1h154v74c0,8.837,7.163,16,16,16s16-7.163,16-16V54h154v-1Z" fill="none" stroke="#3b4048" stroke-width="4.608" stroke-linejoin="round" stroke-linecap="round" opacity=".32" transform=" translate(6.144 -4.608)" />
   </g>
 </g></svg>

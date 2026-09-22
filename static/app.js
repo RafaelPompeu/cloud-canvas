@@ -38,7 +38,30 @@ const sketchPaths = {
   text:'<path d="M5 10L5 5Q15 4 27 5L27 9M16 5Q15 17 16 28M10 28L22 27"/><path d="M8 7L24 6M18 10L17 24" opacity=".35"/>',
   note:'<path d="M6 4L22 3L28 10L27 28L5 29ZM22 3L21 11L28 10M10 15L22 14M10 20L22 19M10 25L17 24"/><path d="M8 31L25 30" opacity=".35"/>'
 };
-const iconPaths = item => `<g stroke="#3b4048" stroke-width="1.35">${sketchPaths[item.icon] || paths[item.icon] || paths.box}</g>`;
+const cloudSketchPaths = {
+  zone:'<path d="M5 4Q16 3 28 5L27 28Q16 27 4 28Z" stroke-dasharray="3 3"/><path d="M10 10L22 9L23 22L10 23Z"/>',
+  network:'<path d="M11 4Q16 2 22 4L21 10L11 11ZM3 22L12 21L12 28L3 29ZM21 22L29 21L30 28L21 29Z"/><path d="M16 11L16 17M7 22L7 18Q16 16 25 18L25 22"/>',
+  cloud:'<path d="M9 25C1 26 0 14 7 13C7 2 22 1 24 11C33 9 34 25 24 25Q16 26 9 25Z"/>'
+};
+const pencilAccents = {
+  box:'M5 9Q16 7 27 9M11 14L11 21M14 22L18 18M18 22L22 18',
+  users:'M12 6Q16 3 19 6M8 25Q9 20 14 20M10 27L13 24M15 28L18 25',
+  globe:'M6 10Q2 19 9 25M12 7Q9 16 13 23M20 9L23 12M21 13L25 16',
+  source:'M6 6L6 25M8 28L15 28M21 23L26 23',
+  api:'M9 7L2 16L7 22M23 9L28 14M18 9L14 25',
+  text:'M7 8L7 6L25 6M14 11L15 25M11 29L21 28',
+  note:'M7 6L6 27M8 28L14 22M13 28L18 23M24 12L25 26',
+  zone:'M11 12L11 21M14 22L18 18M18 22L21 19',
+  network:'M12 5L20 5M4 27L7 24M23 27L26 24M10 19L21 18',
+  cloud:'M9 11Q11 4 18 6M7 22L10 19M11 23L14 20M16 24L19 21'
+};
+const iconPaths = item => {
+  const cloud = item.provider === 'gcp' || item.provider === 'aws';
+  const pencil = item.provider === 'shared' || cloud;
+  const accents = pencil && pencilAccents[item.icon];
+  const drawing = (cloud && cloudSketchPaths[item.icon]) || sketchPaths[item.icon] || paths[item.icon] || paths.box;
+  return `<g stroke="#3b4048" stroke-width="${pencil ? '1.6' : '1.35'}">${drawing}${accents ? `<path d="${accents}" stroke-width=".65" opacity=".38"/>` : ''}</g>`;
+};
 let officialIcons=new Map();
 function icon(item, extra='') {
   const asset=officialIcons.get(item.iconAsset);

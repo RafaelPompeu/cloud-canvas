@@ -26,3 +26,9 @@ O catálogo usa `aws-sketch/`, `gcp-sketch/` e `shared-sketch/`. Todas as varian
 O mapa de cada variante para seu original está em `sketch-sources.json`. Para regenerar as 84 variantes, execute `.venv/Scripts/python.exe scripts/build_sketch_icons.py`. O gerador usa apenas a biblioteca padrão e SVGs locais. O MongoDB usa apenas a folha original, sem a palavra ao lado, para manter a leitura em tamanho pequeno.
 
 Biblioteca, canvas e exportações carregam os mesmos SVGs. Os ícones genéricos de Contêiner, Usuários, Internet, Fonte de dados, API, Texto e Notas continuam definidos em `static/app.js`.
+
+Em **Gerais**, as variantes usam contornos de lápis com um segundo traço leve, hachuras discretas e cores um pouco mais presentes. A irregularidade acompanha a menor dimensão do símbolo; uma margem protege as bordas. Oracle conserva o logotipo original com o espaço vazio vertical recortado. Os símbolos genéricos recebem pequenos traços de acabamento no mesmo estilo.
+
+Os ícones de **GCP** usam o mesmo acabamento, com contornos um pouco mais finos para preservar os detalhes dos serviços. Região, zona, subnet, projeto e nuvem também recebem traços à mão em `static/app.js`.
+
+Os ícones de **AWS** seguem o mesmo padrão, com hachuras nos fundos coloridos e símbolos internos em grafite, sem sobrepor traços aos detalhes pequenos. Zona e subnet usam os desenhos manuais compartilhados com GCP. O fluxo de manutenção está na skill do repositório, em `.agents/skills/cloud-canvas-sketch-icons/SKILL.md`.

@@ -35,6 +35,18 @@ class SketchIconTests(unittest.TestCase):
         lines = [node for node in root.iter() if node.get("fill") == "none" and node.get("stroke") == "#3b4048"]
         self.assertGreaterEqual(len(lines), 2)
 
+    def test_trino_face_and_helmet_remain_visible(self):
+        root = ET.parse(ROOT / "static/icons/shared-sketch/trino.svg").getroot()
+        visor = root.find(".//{http://www.w3.org/2000/svg}ellipse[@fill='#8accce']")
+        self.assertIsNotNone(visor)
+        self.assertEqual(float(visor.get("opacity")), .2)
+        self.assertEqual(visor.get("stroke"), "none")
+        paper = [node for node in root.iter() if node.get("fill") == "#fffdf8"]
+        self.assertEqual(len(paper), 2)
+        self.assertTrue(all(node.get("stroke") == "#3b4048" for node in paper))
+        face = [node for node in root.iter() if node.get("fill") == "#3b4048" and node.get("stroke") == "none"]
+        self.assertEqual(len(face), 3)  # Eyes and nose/mouth.
+
 
 if __name__ == "__main__":
     unittest.main()
