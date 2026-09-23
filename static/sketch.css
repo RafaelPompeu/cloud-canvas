@@ -123,12 +123,12 @@ body{--header-height:60px;display:flex;flex-direction:column}
   .file-actions button{width:35px;padding:0}
 }
 
-/* Desktop chrome: quiet frames, sage neutrals and legible supporting text. */
+/* Desktop chrome: quiet frames, sage neutrals and handwritten supporting text. */
 @media(min-width:941px){
   body{border-color:#c9d0c9}
   .workspace{--line:#e1e6e0}
   .library,.inspector,.canvas-topline,.statusbar,.zoom-controls,dialog{
-    font-family:"Segoe UI",Arial,sans-serif;color:#35423a;
+    font-family:"Segoe Print","Comic Sans MS",cursive;color:#35423a;
   }
   .panel-heading h1,.panel-heading h2,.section-line h3,.selection-overview strong,.dialog-heading h2{
     font-family:"Segoe Print","Comic Sans MS",cursive;
@@ -145,11 +145,11 @@ body{--header-height:60px;display:flex;flex-direction:column}
   .provider-tabs button{color:#56665a}
   .provider-tabs button:hover:not(:disabled){background:#e5ede0}
   .provider-tabs .active{background:#dfeadc;border-color:#9caf9b;color:#304b36;box-shadow:none}
-  .catalog-section h3{font-family:inherit;font-size:10px;font-weight:650;letter-spacing:.08em;color:#637462}
+  .catalog-section h3{font-family:inherit;font-size:11px;font-weight:600;letter-spacing:.04em;color:#637462}
   .catalog-item{border-color:#e0e6dc;box-shadow:none;padding:13px 6px 10px}
   .catalog-item:hover{border-color:#93aa92;background:#f3f7ef!important;box-shadow:0 2px 6px #354d3510}
   .catalog-item .service-name{font-size:12px;line-height:1.35;font-weight:500;color:#35423a}
-  .provider-mini{font-size:9px;font-weight:500;color:#657361}
+  .provider-mini{font-size:10px;font-weight:500;color:#657361}
   .canvas-panel{border:1px solid #aebdad;box-shadow:0 2px 6px #354d3510}
   .canvas-topline{border-bottom:1px solid var(--line)}
   .canvas-topline>div{font-family:inherit}
@@ -165,17 +165,17 @@ body{--header-height:60px;display:flex;flex-direction:column}
   .canvas-panel .panel-toggle:hover,.canvas-panel .panel-toggle:focus-visible{background:#f0f6eb;border-color:#96ad91;box-shadow:0 2px 6px #354d3518}
   .statusbar{border-top-color:var(--line);font-size:11px;color:#62705f;padding:0 12px}
   .statusbar button{font-size:11px}
-  .empty-state p{font-family:"Segoe UI",Arial,sans-serif;font-size:14px;color:#62705f}
+  .empty-state p{font-family:"Segoe Print","Comic Sans MS",cursive;font-size:14px;color:#62705f}
   .field{font-size:13px;color:#35423a;border-color:#ccd7c8}
   .field:focus{outline-color:#90ad8b}
   .field-label{font-size:12px;color:#52634f}
   .property-section p,.section-note{color:#62705f}
   .section-note{font-size:12px!important}
-  .selection-overview small{font-size:12px;color:#657361}
+  .selection-overview small{font-size:13px;color:#657361}
   .layer-item{font-size:12px;color:#52634f}
   .layer-item:hover:not(:disabled){background:#f0f5ec}
   .layer-item.selected{background:#e4efdf;color:#355438}
-  .inspector-footer{font-size:11px;color:#62705f}
+  .inspector-footer{font-size:12px;color:#62705f}
   .inspector-footer>span:last-child{background:#eaf0e5;color:#52634f;font-size:10px}
   .edge-option{border-color:#cbd6c7}
   dialog{border:1px solid #aebdad;box-shadow:0 12px 36px #283f3026}
@@ -185,4 +185,9 @@ body{--header-height:60px;display:flex;flex-direction:column}
   .dialog-copy,.dialog-option small,.shortcut{color:#62705f}
   .shortcut{border-color:#e1e6e0}
   .statusbar kbd,.shortcut kbd{background:#f3f6ef;border-color:#d5dfd1;color:#52634f}
+  .search input{font-size:13px}
+  .provider-tabs button{font-size:13px}
+  .canvas-topline,.statusbar,.statusbar button{font-size:12px}
+  .zoom-controls span:not(.divider){font-size:12px}
+  .dialog-option small{font-size:13px}
 }
