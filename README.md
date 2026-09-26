@@ -57,9 +57,10 @@ Abra **http://127.0.0.1:5000**. Pressione **Ctrl+C** no terminal para encerrar. 
 1. Ao abrir a aplicação, o canvas começa em branco. Em **Novo**, você também pode escolher um exemplo explicitamente.
 2. Busque componentes e clique para adicionar ou arraste para o canvas.
 3. Organize os recursos nos contêineres. **Alt + arraste** ou **Dentro de** troca o contêiner.
-   Clique nas barrinhas nas laterais do canvas para ocultar ou reabrir Componentes e Propriedades.
+   O painel de Propriedades começa recolhido para liberar espaço no canvas. Clique nas barrinhas laterais para ocultar ou reabrir Componentes e Propriedades.
 4. Ative **Conectar (C)** e clique na origem e no destino. Selecione a linha para editar cor, traçado, estilo, pontas e lados.
-5. Procure **Texto** ou **Bloco de notas** para anotar. Dois cliques permitem escrever no elemento. **Enter** insere uma linha, clicar fora aplica e **Esc** cancela. **Ctrl+Enter** também aplica.
+   Selecione uma seta curva ou ortogonal e arraste seu ponto de ajuste para mudar o trajeto. Arraste o rótulo ao longo da linha para reposicioná-lo. **Esc** cancela o arraste; desfazer/refazer e o arquivo JSON preservam esses ajustes. Nas Propriedades, **Restaurar trajeto e texto** retorna à posição automática.
+5. Use **Adicionar texto**, com ícone T, na barra do canvas ou procure **Texto** e **Bloco de notas** na biblioteca. O botão **Adicionar emoji** abre um seletor com 16 desenhos de traço à mão, também usados nos emojis de diagramas já salvos. A caixa de texto ou emoji acompanha as medidas do conteúdo, sem área vazia; arrastar o canto redimensiona o conteúdo proporcionalmente. Textos usam quebras de linha explícitas. Dois cliques permitem escrever no elemento. **Enter** insere uma linha, clicar fora aplica e **Esc** cancela. **Ctrl+Enter** também aplica.
 6. **Abrir** mostra o seletor de arquivos do computador: escolha um diagrama `.json` exportado pelo Cloud Canvas. **Salvar diagrama** e **Ctrl+S** baixam um arquivo JSON na máquina de quem usa o editor. Cada salvamento gera um download; a pasta e a confirmação dependem das configurações do navegador.
 7. Em **Exportar**, escolha JSON editável, SVG ou PNG. As imagens incluem o diagrama e seus logos, sem controles de edição.
 

@@ -46,3 +46,6 @@ img.service-icon{object-fit:contain;flex-shrink:0}
 .connection-dragging{cursor:crosshair}
 .connection-target>.node-card,.connection-target>.group-outline{stroke:#168574!important;stroke-width:3}
 .port.port-target{fill:#168574;stroke:white;stroke-width:2;r:8}
+
+.emoji-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.emoji-grid button{padding:12px;border:1px solid var(--line);border-radius:8px}.emoji-grid button:hover{background:var(--accent-soft)}.sketch-emoji{pointer-events:none}
+.edge-bend-handle{display:none;fill:white;stroke:#168574;stroke-width:2;vector-effect:non-scaling-stroke;cursor:move}.edge.selected .edge-bend-handle{display:block}.edge-bend-handle:focus{fill:#cdece4;outline:none}.edge-label{cursor:grab}.edge-label:active{cursor:grabbing}

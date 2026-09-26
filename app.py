@@ -60,8 +60,10 @@ def validate_diagram(data):
                       "detail": label(node.get("detail"), limit=2000 if kind in ("text", "note") else 180), "parent": parent,
                       "x": number(node.get("x"), -100000, 100000, "X"),
                       "y": number(node.get("y"), -100000, 100000, "Y"),
-                      "w": number(node.get("w", 300 if is_group else 148), 210 if is_group else 148, 10000, "Largura"),
-                      "h": number(node.get("h", 220 if is_group else 76), 150 if is_group else 76, 10000, "Altura")})
+                      "w": number(node.get("w", 300 if is_group else 148), 210 if is_group else 2 if kind == "text" else 148, 10000, "Largura"),
+                      "h": number(node.get("h", 220 if is_group else 76), 150 if is_group else 2 if kind == "text" else 76, 10000, "Altura")})
+        if kind == "text" and "fontSize" in node:
+            clean[-1]["fontSize"] = number(node["fontSize"], 1, 2000, "Tamanho do texto")
     by_id = {node["id"]: node for node in clean}
     for node in clean:
         seen = {node["id"]}
@@ -106,7 +108,10 @@ def validate_diagram(data):
         clean_edges.append({"id": eid, "source": source, "target": target,
                             "label": label(edge.get("label")), "style": style, "kind": kind, "dash": dash,
                             "sourcePort": source_port, "targetPort": target_port,
-                            "sourceArrow": source_arrow, "targetArrow": target_arrow})
+                            "sourceArrow": source_arrow, "targetArrow": target_arrow,
+                            "bendX": number(edge.get("bendX", 0), -10000, 10000, "Curvatura horizontal"),
+                            "bendY": number(edge.get("bendY", 0), -10000, 10000, "Curvatura vertical"),
+                            "labelPosition": None if edge.get("labelPosition") is None else number(edge["labelPosition"], 0, 1, "Posição do rótulo")})
     return {"version": 1, "name": label(data.get("name"), "Arquitetura sem título") or "Arquitetura sem título",
             "notes": label(data.get("notes"), limit=2000), "nodes": clean, "edges": clean_edges}
 

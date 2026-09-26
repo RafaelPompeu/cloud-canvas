@@ -11,8 +11,8 @@ export class Graph {
   load(diagram) {
     const {version,name,notes='',nodes,edges}=copy(diagram);
     this.data={version,name,notes,
-      nodes:nodes.map(({id,type,label,detail,parent,x,y,w,h,textAlign='left'})=>({id,type,label,detail,parent,x,y,w,h,textAlign})),
-      edges:edges.map(({id,source,target,label,style,kind='data',dash=kind==='trigger'?'dashed':'solid',sourcePort='auto',targetPort='auto',sourceArrow=false,targetArrow=true})=>({id,source,target,label,style,kind,dash,sourcePort,targetPort,sourceArrow,targetArrow}))};
+      nodes:nodes.map(({id,type,label,detail,parent,x,y,w,h,textAlign='left',fontSize})=>({id,type,label,detail,parent,x,y,w,h,textAlign,...(type==='text'&&Number.isFinite(fontSize)?{fontSize}:{})})),
+      edges:edges.map(({id,source,target,label,style,kind='data',dash=kind==='trigger'?'dashed':'solid',sourcePort='auto',targetPort='auto',sourceArrow=false,targetArrow=true,bendX=0,bendY=0,labelPosition=null})=>({id,source,target,label,style,kind,dash,sourcePort,targetPort,sourceArrow,targetArrow,bendX,bendY,labelPosition}))};
     this.nodes = this.data.nodes;
     this.edges = this.data.edges;
     this.reindex();
@@ -47,12 +47,21 @@ export class Graph {
   }
   move(node, x, y) { node.x=x; node.y=y; this.confine(node); }
   minimumSize(node) {
+    if(node.type==='text')return {w:2,h:2};
     if (!this.isGroup(node)) return {w:NODE_W,h:NODE_H};
     const children = this.children(node.id);
     return {w:Math.max(210, ...children.map(n => n.x+n.w+PAD)),h:Math.max(150,...children.map(n => n.y+n.h+PAD))};
   }
   resize(node, w, h) {
     const min = this.minimumSize(node), parent = this.byId.get(node.parent);
+    if(node.type==='text'&&Number.isFinite(node.fontSize)){
+      const sx=w/node.w,sy=h/node.h;
+      const desired=Math.abs(sx-1)>=Math.abs(sy-1)?sx:sy;
+      const maxW=parent?Math.min(10000,parent.w-PAD-node.x):10000;
+      const maxH=parent?Math.min(10000,parent.h-PAD-node.y):10000;
+      const scale=Math.max(1/node.fontSize,Math.min(desired,2000/node.fontSize,maxW/node.w,maxH/node.h));
+      node.fontSize*=scale;node.w*=scale;node.h*=scale;return;
+    }
     node.w = clamp(w, min.w, parent ? Math.min(10000,parent.w-PAD-node.x) : 10000);
     node.h = clamp(h, min.h, parent ? Math.min(10000,parent.h-PAD-node.y) : 10000);
   }
@@ -150,8 +159,10 @@ export class Graph {
   }
   bounds() {
     if(!this.nodes.length) return {x:0,y:0,w:1000,h:700};
-    const roots=this.nodes.filter(n=>!n.parent),x=Math.min(...roots.map(n=>n.x)),y=Math.min(...roots.map(n=>n.y));
-    return {x,y,w:Math.max(...roots.map(n=>n.x+n.w))-x,h:Math.max(...roots.map(n=>n.y+n.h))-y};
+    const roots=this.nodes.filter(n=>!n.parent);
+    const routePoints=this.edges.flatMap(edge=>edgeGeometry(this,edge)?.extent||[]);
+    const x=Math.min(...roots.map(n=>n.x),...routePoints.map(p=>p.x)),y=Math.min(...roots.map(n=>n.y),...routePoints.map(p=>p.y));
+    return {x,y,w:Math.max(...roots.map(n=>n.x+n.w),...routePoints.map(p=>p.x))-x,h:Math.max(...roots.map(n=>n.y+n.h),...routePoints.map(p=>p.y))-y};
   }
   serialize() { return copy(this.data); }
 }
@@ -164,7 +175,8 @@ export function edgeGeometry(graph,edge){
   const to=edge.targetPort&&edge.targetPort!=='auto'?edge.targetPort:horizontal?(dx>=0?'left':'right'):(dy>=0?'top':'bottom');
   const directions={left:{x:-1,y:0},right:{x:1,y:0},top:{x:0,y:-1},bottom:{x:0,y:1}};
   const u=directions[from],v=directions[to],start={x:p.x+u.x*a.w/2,y:p.y+u.y*a.h/2},end={x:q.x+v.x*b.w/2,y:q.y+v.y*b.h/2};
-  let d,segments=[];
+  const bendX=edge.bendX||0,bendY=edge.bendY||0;
+  let d,segments=[],handle=null;
   if(edge.style==='straight'){
     d='M '+start.x+' '+start.y+' L '+end.x+' '+end.y;segments=[[start,end]];
   }else if(edge.style==='orthogonal'){
@@ -173,17 +185,22 @@ export function edgeGeometry(graph,edge){
       let mx=(start.x+end.x)/2;
       const incoming=graph.edges.filter(e=>e.target===edge.target&&e.targetPort===edge.targetPort);
       if(incoming.length>1&&Math.abs(end.x-start.x)>32)mx=clamp(mx+(incoming.findIndex(e=>e.id===edge.id)-(incoming.length-1)/2)*14,Math.min(start.x,end.x)+8,Math.max(start.x,end.x)-8);
+      mx+=bendX;handle={x:mx,y:(start.y+end.y)/2+bendY,axis:'both',factor:1};
       points=[start,{x:mx,y:start.y},{x:mx,y:end.y},end];
-    }else if(u.y&&v.y){const my=(start.y+end.y)/2;points=[start,{x:start.x,y:my},{x:end.x,y:my},end];}
-    else if(u.x){points=[start,{x:end.x,y:start.y},end];}
-    else{points=[start,{x:start.x,y:end.y},end];}
+      if(bendY)points=[start,{x:mx,y:start.y},{x:mx,y:handle.y},{x:end.x+v.x*30,y:handle.y},{x:end.x+v.x*30,y:end.y},end];
+    }else if(u.y&&v.y){const my=(start.y+end.y)/2+bendY;handle={x:(start.x+end.x)/2+bendX,y:my,axis:'both',factor:1};points=[start,{x:start.x,y:my},{x:end.x,y:my},end];
+      if(bendX)points=[start,{x:start.x,y:my},{x:handle.x,y:my},{x:handle.x,y:end.y+v.y*30},{x:end.x,y:end.y+v.y*30},end];
+    }
+    else if(u.x){const mx=end.x+bendX,my=start.y+bendY;handle={x:mx,y:my,axis:'both',factor:1};points=[start,{x:mx,y:start.y},{x:mx,y:my},{x:end.x,y:my},end];}
+    else{const mx=start.x+bendX,my=end.y+bendY;handle={x:mx,y:my,axis:'both',factor:1};points=[start,{x:start.x,y:my},{x:mx,y:my},{x:mx,y:end.y},end];}
     d=points.map((point,i)=>(i?'L ':'M ')+point.x+' '+point.y).join(' ');
     segments=points.slice(1).map((point,i)=>[points[i],point]);
   }else{
     const distance=clamp(Math.hypot(end.x-start.x,end.y-start.y)*.45,30,240);
-    const c1={x:start.x+u.x*distance,y:start.y+u.y*distance},c2={x:end.x+v.x*distance,y:end.y+v.y*distance};
+    const c1={x:start.x+u.x*distance+bendX,y:start.y+u.y*distance+bendY},c2={x:end.x+v.x*distance+bendX,y:end.y+v.y*distance+bendY};
     d='M '+start.x+' '+start.y+' C '+c1.x+' '+c1.y+' '+c2.x+' '+c2.y+' '+end.x+' '+end.y;
-    return {d,start,end,x:(start.x+3*c1.x+3*c2.x+end.x)/8,y:(start.y+3*c1.y+3*c2.y+end.y)/8,labelAnchor:'middle',labelWidth:160};
+    const x=(start.x+3*c1.x+3*c2.x+end.x)/8,y=(start.y+3*c1.y+3*c2.y+end.y)/8;
+    return {d,start,end,x,y,extent:[start,c1,c2,end],handle:{x,y,axis:'both',factor:.75},labelAnchor:'middle',labelWidth:160};
   }
   // Measure uninterrupted lines for labels without changing the rendered path.
   const labelSegments=[];
@@ -198,5 +215,5 @@ export function edgeGeometry(graph,edge){
   }
   const segment=labelSegments.sort((x,y)=>Math.hypot(y[1].x-y[0].x,y[1].y-y[0].y)-Math.hypot(x[1].x-x[0].x,x[1].y-x[0].y))[0]||[start,end];
   const vertical=Math.abs(segment[1].y-segment[0].y)>Math.abs(segment[1].x-segment[0].x);
-  return {d,start,end,x:(segment[0].x+segment[1].x)/2+(vertical?12:0),y:(segment[0].y+segment[1].y)/2,labelAnchor:vertical?'start':'middle',labelWidth:vertical?125:clamp(Math.abs(segment[1].x-segment[0].x)-8,46,210)};
+  return {d,start,end,handle,extent:segments.flat(),x:(segment[0].x+segment[1].x)/2+(vertical?12:0),y:(segment[0].y+segment[1].y)/2,labelAnchor:vertical?'start':'middle',labelWidth:vertical?125:clamp(Math.abs(segment[1].x-segment[0].x)-8,46,210)};
 }

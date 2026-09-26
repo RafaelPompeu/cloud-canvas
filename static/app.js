@@ -3,6 +3,7 @@ import {loadOfficialIcons} from './icons.mjs';
 import {filterCatalog} from './catalog.mjs';
 import {alignmentGuides, snapPosition, snapSize, sizeGuides} from './alignment.mjs';
 import {selectionRoots, moveSelection, nodesInBox} from './selection.mjs';
+import {emojiDrawings, emojiDrawing, annotationFontSize as scaledAnnotationFontSize} from './annotations.mjs';
 
 const $ = id => document.getElementById(id);
 const NS = 'http://www.w3.org/2000/svg';
@@ -137,6 +138,46 @@ function renderCatalog(){
   }
   $('catalog').innerHTML=categories.map(category=>`<section class="catalog-section"><h3>${esc(category)}</h3><div class="catalog-grid">${items.filter(i=>i.category===category).map(item=>`<button class="catalog-item" draggable="true" data-type="${item.type}" title="Adicionar ${esc(item.name)} (${(item.provider==='shared'?'GERAIS':item.provider.toUpperCase())})" aria-label="Adicionar ${esc(item.name)} ${(item.provider==='shared'?'GERAIS':item.provider.toUpperCase())}"><span class="provider-mini">${item.provider==='shared'?'':(item.provider==='shared'?'GERAIS':item.provider.toUpperCase())}</span>${icon(item)}<span class="service-name">${esc(item.name)}</span></button>`).join('')}</div></section>`).join('')||'<p class="no-results">Nenhum serviço encontrado.</p>';
 }
+function renderFittedText(node,g){
+  const drawing=emojiDrawing(node.detail);
+  node.fontSize??=drawing?64:scaledAnnotationFontSize(node,graph.catalog.get(node.type));
+  const parent=graph.byId.get(node.parent);
+  const maxW=parent?Math.max(2,Math.min(10000,parent.w-32)):10000;
+  const maxH=parent?Math.max(2,Math.min(10000,parent.h-64)):10000;
+  const content=svgEl('g');g.append(content);$('nodes').append(g);
+  let inkBounds=null;
+  if(drawing){
+    // Measure the paths, rather than their square viewBox.
+    const path=svgEl('path',{d:drawing[2],fill:'none',stroke:'#3b4048','stroke-width':1.45,'stroke-linecap':'round','stroke-linejoin':'round'});
+    const scaled=svgEl('g',{transform:`scale(${node.fontSize/32})`});scaled.append(path);content.append(scaled);
+  }else{
+    const anchor=node.textAlign==='center'?'middle':node.textAlign==='right'?'end':'start';
+    const body=svgEl('text',{class:'annotation-body','text-anchor':anchor,'xml:space':'preserve'});
+    body.style.fontSize=node.fontSize+'px';body.style.whiteSpace='pre';
+    const lines=String(node.detail||' ').split(/\r?\n/).map(line=>line||' ');
+    svgLines(body,lines,0,0,node.fontSize*1.25);content.append(body);
+    const context=document.createElement('canvas').getContext('2d');
+    if(context){
+      const style=getComputedStyle(body);
+      context.font=`${style.fontStyle} ${style.fontWeight} ${node.fontSize}px ${style.fontFamily}`;
+      const boxes=lines.map((line,i)=>{
+        const m=context.measureText(line),offset=anchor==='middle'?-m.width/2:anchor==='end'?-m.width:0;
+        return {left:offset-m.actualBoundingBoxLeft,right:offset+m.actualBoundingBoxRight,top:i*node.fontSize*1.25-m.actualBoundingBoxAscent,bottom:i*node.fontSize*1.25+m.actualBoundingBoxDescent};
+      });
+      const x=Math.min(...boxes.map(b=>b.left)),y=Math.min(...boxes.map(b=>b.top));
+      inkBounds={x,y,width:Math.max(...boxes.map(b=>b.right))-x,height:Math.max(...boxes.map(b=>b.bottom))-y};
+    }
+  }
+  const bounds=inkBounds||content.getBBox();
+  const inset=drawing?node.fontSize*1.45/64:1;
+  const width=Math.max(2,bounds.width+inset*2),height=Math.max(2,bounds.height+inset*2);
+  const scale=Math.min(1,maxW/width,maxH/height);
+  node.fontSize*=scale;node.w=width*scale;node.h=height*scale;
+  content.setAttribute('transform',`scale(${scale}) translate(${inset-bounds.x} ${inset-bounds.y})`);
+  const card=svgEl('rect',{class:'node-card',width:node.w,height:node.h,rx:1});g.insertBefore(card,content);
+  g.append(svgEl('rect',{class:'resize-handle',x:node.w-5,y:node.h-5,width:9,height:9,rx:2,'data-resize':node.id}));
+  graph.confine(node);
+}
 function rebuildGraph(){
   guideLayer.replaceChildren();
   if(connectionStart&&!graph.byId.has(connectionStart)){connectionStart=null;$('draft-edge').setAttribute('d','');}
@@ -158,17 +199,20 @@ function rebuildGraph(){
       g.append(svgEl('rect',{class:'resize-handle',x:node.w-9,y:node.h-9,width:9,height:9,rx:2,'data-resize':node.id}));
       for(const [side,cx,cy]of [['left',0,node.h/2],['right',node.w,node.h/2],['top',node.w/2,0],['bottom',node.w/2,node.h]])g.append(svgEl('circle',{class:'port',cx,cy,r:6,'data-port':node.id,'data-side':side}));
       $('groups').append(g);
-    }else if(['text','note'].includes(node.type)){
+    }else if(node.type==='text'){
+      g.classList.add('annotation','annotation-text');renderFittedText(node,g);
+    }else if(node.type==='note'){
       const note=node.type==='note';
       const align=node.textAlign||'left',textX=align==='center'?node.w/2:align==='right'?node.w-14:14,anchor=align==='center'?'middle':align==='right'?'end':'start';
       g.classList.add('annotation',note?'annotation-note':'annotation-text');
       g.append(svgEl('rect',{class:'node-card',width:node.w,height:node.h,rx:4}));
       if(note)g.append(svgEl('text',{x:textX,y:25,class:'annotation-title','text-anchor':anchor},short(node.label,Math.floor((node.w-28)/8))));
-      const limit=Math.max(8,Math.floor((node.w-28)/8)),maxLines=Math.max(1,Math.floor((node.h-(note?48:20))/20));
+      const fontSize=annotationFontSize(node),lineHeight=fontSize*20/14;
+      const limit=Math.max(1,Math.floor((node.w-28)/(fontSize*8/14))),maxLines=Math.max(1,Math.floor((node.h-(note?48:20))/lineHeight));
       const lines=String(node.detail||'').split(/\r?\n/).flatMap(line=>line?wrapText(line,limit,200):['']);
       const visible=lines.slice(0,maxLines);
       if(lines.length>maxLines)visible[maxLines-1]=short(visible[maxLines-1],Math.max(1,limit-3))+'...';
-      const body=svgEl('text',{class:'annotation-body','text-anchor':anchor});svgLines(body,visible,textX,note?50:26,20);g.append(body);
+      const body=svgEl('text',{class:'annotation-body','text-anchor':anchor});body.style.fontSize=fontSize+'px';svgLines(body,visible,textX,note?36+fontSize:12+fontSize,lineHeight);g.append(body);
       g.append(svgEl('rect',{class:'resize-handle',x:node.w-9,y:node.h-9,width:9,height:9,rx:2,'data-resize':node.id}));
       $('nodes').append(g);
     }else{
@@ -185,7 +229,7 @@ function rebuildGraph(){
     }
     nodeElements.set(node.id,g);
   }
-  for(const edge of graph.edges){const g=svgEl('g',{'data-edge':edge.id,'data-dash':edge.dash,class:`edge ${['trigger','green','orange'].includes(edge.kind)?edge.kind:'data'}`});g.append(svgEl('path',{class:'edge-hit'}),svgEl('path',{class:'edge-path','marker-end':'url(#arrow)'}),svgEl('text',{class:'edge-label'}));$('edges').append(g);edgeElements.set(edge.id,g);}
+  for(const edge of graph.edges){const g=svgEl('g',{'data-edge':edge.id,'data-dash':edge.dash,class:`edge ${['trigger','green','orange'].includes(edge.kind)?edge.kind:'data'}`});g.append(svgEl('path',{class:'edge-hit'}),svgEl('path',{class:'edge-path','marker-end':'url(#arrow)'}),svgEl('text',{class:'edge-label'}),svgEl('circle',{class:'edge-bend-handle',r:7,'data-edge-edit':'bend',tabindex:0,role:'button','aria-label':'Ajustar trajeto da seta'}));g.append(g.querySelector('.edge-label'));$('edges').append(g);edgeElements.set(edge.id,g);}
   $('empty-state').hidden=graph.nodes.length>0;
   const groups=graph.nodes.filter(n=>graph.isGroup(n)).length;
   $('graph-stats').textContent=`${graph.nodes.length-groups} recursos · ${groups} contêineres · ${graph.edges.length} conexões`;
@@ -194,7 +238,19 @@ function rebuildGraph(){
 function renderPositions(){
   if(!graph)return;
   for(const n of graph.nodes){const g=nodeElements.get(n.id),p=graph.world(n);g?.setAttribute('transform',`translate(${p.x} ${p.y})`);}
-  for(const e of graph.edges){const el=edgeElements.get(e.id),geom=edgeGeometry(graph,e);if(!el||!geom)continue;el.children[0].setAttribute('d',geom.d);el.children[1].setAttribute('d',geom.d);const lines=wrapText(e.label,Math.max(8,Math.floor(geom.labelWidth/4.8)),3);svgLines(el.children[2],lines,geom.x,geom.y-9-(lines.length-1)*11,11);el.children[2].style.textAnchor=geom.labelAnchor;}
+  for(const e of graph.edges){
+    const el=edgeElements.get(e.id),geom=edgeGeometry(graph,e);if(!el||!geom)continue;
+    el.children[0].setAttribute('d',geom.d);el.children[1].setAttribute('d',geom.d);
+    let x=geom.x,y=geom.y,anchor=geom.labelAnchor;
+    if(Number.isFinite(e.labelPosition)){
+      const path=el.children[1],position=path.getPointAtLength(path.getTotalLength()*e.labelPosition);
+      x=position.x;y=position.y;anchor='middle';
+    }
+    const lines=wrapText(e.label,Math.max(8,Math.floor(geom.labelWidth/4.8)),3);
+    svgLines(el.querySelector('.edge-label'),lines,x,y-9-(lines.length-1)*11,11);el.querySelector('.edge-label').style.textAnchor=anchor;
+    const handle=el.querySelector('.edge-bend-handle');handle.style.display=geom.handle?'':'none';
+    if(geom.handle){handle.setAttribute('cx',geom.handle.x);handle.setAttribute('cy',geom.handle.y);handle.setAttribute('r',7/view.z);}
+  }
   renderSelectionClasses();
 }
 function applyArrowheads(path,edge,selected=false){
@@ -221,7 +277,7 @@ function renderSelection(){
   if(node){
     const item=graph.catalog.get(node.type),group=graph.isGroup(node);
     const eligible=graph.nodes.filter(n=>graph.isGroup(n)&&graph.canParent(node,n));
-    $('selection-panel').innerHTML=`<div class="selection-overview">${icon(item)}<div><strong>${esc(item.name)}</strong><small>${item.provider==='shared'?'Componente genérico':item.provider==='aws'?'Amazon Web Services':'Google Cloud'}</small></div></div>${field('Nome','prop-label',node.label,'text','maxlength="120"')}${['text','note'].includes(node.type)?'<label class="field-label" for="prop-detail">Texto</label><textarea class="field notes-field" id="prop-detail" maxlength="2000" rows="8">'+esc(node.detail)+'</textarea>':field('Descrição','prop-detail',node.detail,'text','maxlength="180"')}<label class="field-label" for="prop-parent">Dentro de</label><select class="field" id="prop-parent"><option value="">Canvas · sem contêiner</option>${eligible.map(n=>`<option value="${esc(n.id)}" ${node.parent===n.id?'selected':''}>${esc(n.label)}</option>`).join('')}</select><div class="field-row">${field('Largura','prop-width',Math.round(node.w),'number',`min="${group?210:148}" max="10000"`)}${field('Altura','prop-height',Math.round(node.h),'number',`min="${group?150:76}" max="10000"`)}</div><p class="section-note">${group?'Arraste o cabeçalho para mover todo o grupo.':'Alt + arraste para trocar de contêiner.'} Use o canto inferior direito para redimensionar. Segure Shift ao arrastar para encaixar em centros, bordas e espaços iguais, ou ao redimensionar para igualar medidas.</p>`;
+    $('selection-panel').innerHTML=`<div class="selection-overview">${icon(item)}<div><strong>${esc(item.name)}</strong><small>${item.provider==='shared'?'Componente genérico':item.provider==='aws'?'Amazon Web Services':'Google Cloud'}</small></div></div>${field(node.type==='text'?'Nome na lista de camadas':'Nome','prop-label',node.label,'text','maxlength="120"')}${['text','note'].includes(node.type)?'<label class="field-label" for="prop-detail">Texto</label><textarea class="field notes-field" id="prop-detail" maxlength="2000" rows="8">'+esc(node.detail)+'</textarea>':field('Descrição','prop-detail',node.detail,'text','maxlength="180"')}<label class="field-label" for="prop-parent">Dentro de</label><select class="field" id="prop-parent"><option value="">Canvas · sem contêiner</option>${eligible.map(n=>`<option value="${esc(n.id)}" ${node.parent===n.id?'selected':''}>${esc(n.label)}</option>`).join('')}</select><div class="field-row">${field('Largura','prop-width',Math.round(node.w),'number',`min="${group?210:node.type==='text'?2:148}" max="10000"`)}${field('Altura','prop-height',Math.round(node.h),'number',`min="${group?150:node.type==='text'?2:76}" max="10000"`)}</div><p class="section-note">${group?'Arraste o cabeçalho para mover todo o grupo.':'Alt + arraste para trocar de contêiner.'} Use o canto inferior direito para redimensionar. Segure Shift ao arrastar para encaixar em centros, bordas e espaços iguais, ou ao redimensionar para igualar medidas.</p>`;
     if(['text','note'].includes(node.type)){
       const controls=document.createElement('div');controls.innerHTML='<span class="field-label">Alinhamento</span><div class="edge-options" role="group" aria-label="Alinhamento">'+[['left','Esquerda','M4 5h24M4 12h16M4 19h24'],['center','Centralizar','M4 5h24M8 12h16M4 19h24'],['right','Direita','M4 5h24M12 12h16M4 19h24']].map(([value,name,path])=>'<button type="button" class="edge-option" data-align="'+value+'" title="'+name+'" aria-label="'+name+'" aria-pressed="'+((node.textAlign||'left')===value)+'"><svg viewBox="0 0 32 24" aria-hidden="true"><path d="'+path+'"/></svg></button>').join('')+'</div>';
       $('prop-detail').after(controls);
@@ -241,6 +297,14 @@ function renderSelection(){
     const portOptions='<option value="auto">Autom&#225;tico</option><option value="top">Topo</option><option value="right">Direita</option><option value="bottom">Base</option><option value="left">Esquerda</option>';
     for(const [id,key] of [['prop-source-port','sourcePort'],['prop-target-port','targetPort']]){$(id).innerHTML=portOptions;$(id).value=edge[key];$(id).onchange=e=>change(()=>edge[key]=e.target.value);}
     $('prop-edge-label').onchange=e=>change(()=>edge.label=e.target.value);
+    const routing=document.createElement('div');
+    routing.innerHTML='<p class="section-note">Arraste o ponto da seta para ajustar o trajeto. Arraste o rótulo para movê-lo ao longo da linha.</p>'+field('Desvio horizontal','prop-bend-x',edge.bendX||0,'number','min="-10000" max="10000"')+field('Desvio vertical','prop-bend-y',edge.bendY||0,'number','min="-10000" max="10000"')+field('Posição do texto (%)','prop-label-position',Math.round((edge.labelPosition??.5)*100),'number','min="0" max="100"')+'<button type="button" class="outlined full" id="reset-edge-route">Restaurar trajeto e texto</button>';
+    $('selection-panel').append(routing);
+    for(const [id,key] of [['prop-bend-x','bendX'],['prop-bend-y','bendY'],['prop-label-position','labelPosition']])$(id).onchange=e=>change(()=>{
+      const value=Number(e.target.value);if(!Number.isFinite(value))throw new Error('Valor inválido.');
+      edge[key]=key==='labelPosition'?clamp(value/100,0,1):clamp(value,-10000,10000);
+    });
+    $('reset-edge-route').onclick=()=>change(()=>{edge.bendX=0;edge.bendY=0;edge.labelPosition=null;});
   }else{
     $('selection-panel').innerHTML=`<div class="selection-overview"><span class="selection-symbol">◇</span><div><strong>Seu workspace</strong><small>AWS + Google Cloud</small></div></div><p>Selecione um componente ou conexão para editar suas propriedades.</p><div class="selection-tips"><p><strong>1.</strong> Adicione regiões e zonas.<br><strong>2.</strong> Arraste recursos para dentro.<br><strong>3.</strong> Conecte os componentes.</p></div><label class="field-label" for="prop-notes">Notas da arquitetura</label><textarea class="field notes-field" id="prop-notes" maxlength="2000" rows="7">${esc(graph.data.notes)}</textarea>`;
     $('prop-notes').onchange=e=>change(()=>graph.data.notes=e.target.value);
@@ -252,14 +316,32 @@ function transform(){ $('viewport').setAttribute('transform',`translate(${view.x
 function point(event){const r=canvas.getBoundingClientRect();return{x:(event.clientX-r.left-view.x)/view.z,y:(event.clientY-r.top-view.y)/view.z};}
 function fit(){const r=canvas.getBoundingClientRect(),b=graph.bounds();if(!r.width||!r.height)return;view.z=clamp(Math.min((r.width-100)/b.w,(r.height-170)/b.h),.15,1.35);view.x=(r.width-b.w*view.z)/2-b.x*view.z;view.y=(r.height-b.h*view.z)/2-b.y*view.z+15;transform();}
 function zoom(factor,clientX,clientY){const r=canvas.getBoundingClientRect(),x=(clientX??r.left+r.width/2)-r.left,y=(clientY??r.top+r.height/2)-r.top;const z=clamp(view.z*factor,.15,2.5);view.x=x-(x-view.x)*z/view.z;view.y=y-(y-view.y)*z/view.z;view.z=z;transform();}
-function addComponent(type,position=null){
+function annotationFontSize(node){
+  return node.fontSize??scaledAnnotationFontSize(node,graph.catalog.get(node.type));
+}
+function sketchEmoji(drawing,size){
+  const svg=svgEl('svg',{width:size,height:size,viewBox:'0 0 32 32',fill:'none',stroke:'#3b4048','stroke-width':1.45,'stroke-linecap':'round','stroke-linejoin':'round',class:'sketch-emoji','aria-label':drawing[1]});
+  svg.append(svgEl('path',{d:drawing[2]}));return svg;
+}
+function emojiPicker(){
+  dialog('Adicionar emoji','<div class="emoji-grid"></div>');
+  for(const drawing of emojiDrawings){
+    const button=document.createElement('button');button.type='button';button.dataset.emoji=drawing[0];button.title=drawing[1];button.setAttribute('aria-label',drawing[1]);button.append(sketchEmoji(drawing,40));$('dialog-body').querySelector('.emoji-grid').append(button);
+  }
+  for(const button of $('dialog-body').querySelectorAll('[data-emoji]'))button.onclick=()=>{
+    $('dialog').close();setTool('select');addComponent('text',null,{label:button.title,detail:button.dataset.emoji,textAlign:'center'});
+  };
+}
+function addComponent(type,position=null,values={}){
   const item=graph.catalog.get(type),r=canvas.getBoundingClientRect();
   const p=position||{x:(r.width/2-view.x)/view.z,y:(r.height/2-view.y)/view.z};
   let parent=position?graph.containing(p.x,p.y,item.group?210:148,item.group?150:76):graph.byId.get(selected);
   if(parent&&!graph.isGroup(parent))parent=graph.byId.get(parent.parent);
-  change(()=>{const node=graph.add(type,p.x-(item.group?190:74),p.y-(item.group?145:38),parent?.id);if(!position)graph.placeNew(node);selected=node.id;selectedIds=new Set([node.id]);});
+  const plainText=type==='text'&&!Object.keys(values).length;
+  let newId=null;
+  change(()=>{const node=graph.add(type,p.x-(item.group?190:74),p.y-(item.group?145:38),parent?.id);Object.assign(node,values);if(plainText)node.fontSize=28;if(!position)graph.placeNew(node);selected=node.id;selectedIds=new Set([node.id]);newId=node.id;});
   canvas.focus({preventScroll:true});
-
+  if(plainText&&newId)requestAnimationFrame(()=>{if(selected===newId&&graph.byId.has(newId))editNodeText(newId,true);});
 }
 function connectTo(id){if(!connectionStart){connectionStart=id;selected=id;selectedIds=new Set([id]);renderSelectionClasses();$('mode-hint').textContent='Agora clique no destino · Esc para cancelar';return;}
   const from=connectionStart;change(()=>{selected=graph.connect(from,id).id;selectedIds.clear();});connectionStart=null;$('draft-edge').setAttribute('d','');$('mode-hint').textContent='Conexão criada. Clique na próxima origem ou pressione V.';}
@@ -302,6 +384,14 @@ canvas.addEventListener('pointerdown',event=>{
   }
   if(node&&tool==='connect'){connectTo(node.id);event.preventDefault();return;}
   if(tool==='connect'){connectionStart=null;$('draft-edge').setAttribute('d','');renderSelectionClasses();return;}
+  if(edgeId&&(event.target.closest('.edge-label')||event.target.hasAttribute('data-edge-edit'))){
+    event.preventDefault();select(edgeId);
+    const edge=graph.edges.find(e=>e.id===edgeId),geom=edgeGeometry(graph,edge);
+    const label=!!event.target.closest('.edge-label');
+    drag={kind:'edge-edit',id:edgeId,label,start:p,snapshot:graph.serialize(),moved:false,
+      bendX:edge.bendX||0,bendY:edge.bendY||0,handle:geom.handle};
+    canvas.setPointerCapture(event.pointerId);return;
+  }
   if(node){
     event.preventDefault();
     const kind=event.target.hasAttribute('data-resize')?'resize':'node';
@@ -324,12 +414,35 @@ canvas.addEventListener('pointermove',event=>{
   if(!drag)return;
   if(drag.kind==='marquee'){const box={x:Math.min(p.x,drag.start.x),y:Math.min(p.y,drag.start.y),w:Math.abs(p.x-drag.start.x),h:Math.abs(p.y-drag.start.y)};for(const[k,v]of Object.entries({x:box.x,y:box.y,width:box.w,height:box.h,display:'block'}))marquee.setAttribute(k,v);selectMany([...drag.base,...nodesInBox(graph,box)]);return;}
   if(drag.kind==='pan'){view.x=drag.x+event.clientX-drag.startX;view.y=drag.y+event.clientY-drag.startY;transform();return;}
+  if(drag.kind==='edge-edit'){
+    if(Math.hypot(p.x-drag.start.x,p.y-drag.start.y)*view.z<=2&&!drag.moved)return;
+    drag.moved=true;
+    const edge=graph.edges.find(e=>e.id===drag.id);if(!edge)return;
+    if(drag.label){
+      const path=edgeElements.get(edge.id).children[1],length=path.getTotalLength();
+      let best=0,distance=Infinity;
+      // Project onto the actual SVG route, including every orthogonal segment.
+      for(let i=0;i<=200;i++){
+        const t=i/200,q=path.getPointAtLength(length*t),d=(q.x-p.x)**2+(q.y-p.y)**2;
+        if(d<distance){distance=d;best=t;}
+      }
+      edge.labelPosition=best;
+    }else if(drag.handle){
+      if(drag.handle.axis!=='y')edge.bendX=clamp(drag.bendX+(p.x-drag.start.x)/drag.handle.factor,-10000,10000);
+      if(drag.handle.axis!=='x')edge.bendY=clamp(drag.bendY+(p.y-drag.start.y)/drag.handle.factor,-10000,10000);
+    }
+    renderPositions();return;
+  }
   const n=graph.byId.get(drag.id);if(!n)return;
   if(Math.hypot(p.x-drag.start.x,p.y-drag.start.y)*view.z>2)drag.moved=true;
   if(!drag.moved)return;
   if(drag.kind==='resize'){
+    if(n.type==='text'){
+      const original=drag.snapshot.nodes.find(node=>node.id===n.id);
+      n.w=drag.w;n.h=drag.h;n.fontSize=original.fontSize;
+    }
     graph.resize(n,drag.w+p.x-drag.start.x,drag.h+p.y-drag.start.y);
-    if(event.shiftKey){
+    if(event.shiftKey&&n.type!=='text'){
       const min=graph.minimumSize(n),parent=graph.byId.get(n.parent);
       const size=snapSize(graph.world(n),guidePeers(n),8/view.z,{minW:min.w,minH:min.h,maxW:parent?parent.w-16-n.x:10000,maxH:parent?parent.h-16-n.y:10000});
       graph.resize(n,size.w,size.h);
@@ -349,6 +462,12 @@ function endDrag(cancel=false){
   guideLayer.replaceChildren();
   if(!drag)return;const d=drag;drag=null;
 
+  if(d.kind==='edge-edit'){
+    if(cancel)graph.load(d.snapshot);
+    else if(d.moved){history.push(d.snapshot);if(history.length>60)history.shift();future=[];markDirty();}
+    rebuildGraph();return;
+  }
+
   if(d.kind==='connection'){
     clearConnectionPreview();
     if(!cancel&&d.target)change(()=>{const edge=graph.connect(d.id,d.target);edge.sourcePort=d.sourcePort;edge.targetPort=d.targetPort;selected=edge.id;selectedIds.clear();});
@@ -366,6 +485,18 @@ function endDrag(cancel=false){
   rebuildGraph();
 }
 canvas.addEventListener('pointerup',event=>{if(drag?.kind==='connection')previewConnection(event);endDrag();});canvas.addEventListener('pointercancel',()=>endDrag(true));canvas.addEventListener('lostpointercapture',()=>{if(drag)endDrag(true);});
+canvas.addEventListener('keydown',event=>{
+  if(!event.target.hasAttribute('data-edge-edit')||!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key))return;
+  event.preventDefault();event.stopPropagation();
+  const id=event.target.closest('[data-edge]').dataset.edge,edge=graph.edges.find(e=>e.id===id),handle=edgeGeometry(graph,edge).handle;
+  if(!handle)return;
+  const step=(event.shiftKey?10:2)/handle.factor;
+  change(()=>{
+    if(handle.axis!=='y'&&['ArrowLeft','ArrowRight'].includes(event.key))edge.bendX=clamp((edge.bendX||0)+(event.key==='ArrowLeft'?-step:step),-10000,10000);
+    if(handle.axis!=='x'&&['ArrowUp','ArrowDown'].includes(event.key))edge.bendY=clamp((edge.bendY||0)+(event.key==='ArrowUp'?-step:step),-10000,10000);
+  });
+  edgeElements.get(id).querySelector('.edge-bend-handle').focus();
+});
 canvas.addEventListener('dblclick',event=>{
   const id=event.target.closest('[data-node]')?.dataset.node;
   if(id&&!$('dialog').open)editNodeText(id);
@@ -385,15 +516,15 @@ function finishInlineEdit(commit=true){
 document.addEventListener('pointerdown',event=>{
   if(inlineEdit&&!inlineEdit.host.contains(event.target))finishInlineEdit();
 },true);
-function editNodeText(id){
+function editNodeText(id,selectBody=false){
   if(inlineEdit?.id===id){inlineEdit.body.focus();return;}
   finishInlineEdit();
   const node=graph.byId.get(id);
   if(!node)return;
-  select(id,true);
+  select(id,node.type!=='text');
   if(!['text','note'].includes(node.type)){$('prop-label')?.focus();$('prop-label')?.select();return;}
   const note=node.type==='note',g=nodeElements.get(id);
-  const host=svgEl('foreignObject',{x:0,y:0,width:node.w,height:node.h,class:'inline-annotation-editor'});
+  const host=svgEl('foreignObject',{x:0,y:0,width:note?Math.max(node.w,160):Math.max(node.w+48,320),height:Math.max(node.h,note?60:120),class:'inline-annotation-editor'});
   const box=document.createElementNS('http://www.w3.org/1999/xhtml','div');
   box.className='inline-annotation-fields'+(note?' is-note':'');
   box.style.textAlign=node.textAlign||'left';
@@ -405,6 +536,8 @@ function editNodeText(id){
   const body=document.createElement('textarea');body.value=node.detail;body.maxLength=2000;
   body.setAttribute('aria-label',note?'Texto da nota':'Editar texto');
   body.setAttribute('placeholder','Digite seu texto');
+  if(!note)body.wrap='off';
+  body.style.fontSize=annotationFontSize(node)+'px';body.style.lineHeight=annotationFontSize(node)*20/14+'px';
   box.append(body);host.append(box);g.append(host);
   inlineEdit={id,host,title,body,originalLabel:node.label,originalDetail:node.detail};
   for(const type of ['pointerdown','pointerup','click','dblclick','wheel'])host.addEventListener(type,event=>event.stopPropagation());
@@ -418,6 +551,7 @@ function editNodeText(id){
     if(!box.contains(event.relatedTarget))finishInlineEdit();
   });
   body.focus();
+  if(selectBody)body.select();
 }
 canvas.addEventListener('wheel',event=>{event.preventDefault();zoom(Math.exp(-event.deltaY*.0015),event.clientX,event.clientY);},{passive:false});
 canvas.addEventListener('dragover',event=>{if(event.dataTransfer.types.includes('application/cloud-component')){event.preventDefault();event.dataTransfer.dropEffect='copy';}});
@@ -440,7 +574,7 @@ function download(content,type,extension){const url=URL.createObjectURL(new Blob
 function buildExportSvg(){
   const b=graph.bounds(),clone=canvas.cloneNode(true);clone.removeAttribute('id');clone.removeAttribute('tabindex');clone.removeAttribute('class');clone.setAttribute('xmlns',NS);clone.setAttribute('viewBox',`${b.x-40} ${b.y-40} ${b.w+80} ${b.h+80}`);clone.setAttribute('width',b.w+80);clone.setAttribute('height',b.h+80);
   clone.querySelector('#grid-bg')?.remove();clone.querySelector('#draft-edge')?.remove();clone.querySelector('#alignment-guides')?.remove();clone.querySelector('#selection-box')?.remove();clone.querySelector('#viewport').removeAttribute('transform');
-  for(const el of clone.querySelectorAll('.port,.resize-handle,.edge-hit,.group-header-hit'))el.remove();
+  for(const el of clone.querySelectorAll('.port,.resize-handle,.edge-hit,.edge-bend-handle,.group-header-hit'))el.remove();
   for(const el of clone.querySelectorAll('.selected'))el.classList.remove('selected');
   for(const el of clone.querySelectorAll('[tabindex]'))el.removeAttribute('tabindex');
   for(const el of clone.querySelectorAll('.edge-path')){const edge=graph.edges.find(e=>e.id===el.parentElement.dataset.edge);applyArrowheads(el,edge);}
@@ -489,6 +623,8 @@ function exportDialog(){dialog('Exportar arquitetura',`<button class="dialog-opt
 function help(){dialog('Atalhos e navegação',`<div class="shortcut"><span>Selecionar uma área</span><kbd>Clique + arraste no vazio</kbd></div><div class="shortcut"><span>Adicionar / remover da seleção</span><kbd>Shift + clique</kbd></div><div class="shortcut"><span>Encaixar nas guias</span><kbd>Shift + arraste</kbd></div><div class="shortcut"><span>Selecionar todos</span><kbd>Ctrl + A</kbd></div><div class="shortcut"><span>Selecionar / mover / conectar</span><kbd>V / H / C</kbd></div><div class="shortcut"><span>Salvar</span><kbd>Ctrl + S</kbd></div><div class="shortcut"><span>Desfazer / refazer</span><kbd>Ctrl + Z / Ctrl + Shift + Z</kbd></div><div class="shortcut"><span>Enquadrar diagrama</span><kbd>F</kbd></div><div class="shortcut"><span>Excluir seleção</span><kbd>Delete</kbd></div><div class="shortcut"><span>Cancelar conexão ou arraste</span><kbd>Esc</kbd></div><div class="shortcut"><span>Mover canvas</span><kbd>Espaço + arraste</kbd></div><div class="shortcut"><span>Trocar contêiner</span><kbd>Alt + arraste</kbd></div><div class="shortcut"><span>Mover seleção</span><kbd>Setas / Shift + setas</kbd></div><p class="dialog-copy">Use a lista de camadas para selecionar pelo teclado. Clique em “Dentro de” para alterar o contêiner. Arraste os componentes para posicioná-los; as conexões acompanham o movimento.</p>`);}
 
 function bind(){
+  $('text-tool').onclick=()=>{setTool('select');addComponent('text');};
+  $('emoji-tool').onclick=emojiPicker;
   $('catalog').addEventListener('click',e=>{const btn=e.target.closest('[data-type]');if(btn)addComponent(btn.dataset.type);});
   $('catalog').addEventListener('dragstart',e=>{const btn=e.target.closest('[data-type]');if(btn){e.dataTransfer.setData('application/cloud-component',btn.dataset.type);e.dataTransfer.effectAllowed='copy';}});
   $('search').oninput=renderCatalog;document.querySelectorAll('[data-provider]').forEach(btn=>btn.onclick=()=>{provider=btn.dataset.provider;document.querySelectorAll('[data-provider]').forEach(b=>b.classList.toggle('active',b===btn));renderCatalog();});
@@ -525,8 +661,10 @@ function bind(){
   window.addEventListener('resize',()=>{transform();syncPanelButtons();});
 }
 async function start(){try{
+  document.querySelector('.workspace').classList.add('hide-inspector');
   catalog=await api('/static/catalog.json');
   officialIcons=await loadOfficialIcons(catalog);
+  await document.fonts.ready;
   const requestedId=new URLSearchParams(location.search).get('diagram');
   const result=requestedId?await api('/api/diagrams/'+encodeURIComponent(requestedId)):null;
   const sample=result?result.diagram:{version:1,name:'Arquitetura sem título',notes:'',nodes:[],edges:[]};
